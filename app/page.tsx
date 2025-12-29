@@ -16,6 +16,7 @@ import gallery007 from "@/app/assets/gallery/007.svg";
 import gallery008 from "@/app/assets/gallery/008.svg";
 import gallery009 from "@/app/assets/gallery/009.svg";
 import gallery010 from "@/app/assets/gallery/010.svg";
+import outlineFlower from "@/app/assets/outline-flower.svg";
 
 export default function Home() {
   return (
@@ -66,14 +67,7 @@ export default function Home() {
           />
           
           {/* Row 3 */}
-          <TextBlock className="flex items-center justify-center">
-            <div className="border-2 border-dashed border-foreground/40 rounded-full p-8 text-center">
-              <p className="text-sm text-foreground/60">
-                Empty slot for my Bachelor thesis<br />
-                (Coming spring 2026)
-              </p>
-            </div>
-          </TextBlock>
+          <ImageBlock src={outlineFlower} alt="Empty slot for Bachelor thesis - Coming spring 2026" />
           
           <ImageBlock src={gallery004} alt="Digital artwork" />
           
