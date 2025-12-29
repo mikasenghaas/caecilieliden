@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import FlowerLink from "@/app/components/flower-link";
+import CustomCursor from "@/app/components/custom-cursor";
 import { getGalleryItem, getGallerySlugs } from "@/lib/gallery";
 
 interface GalleryPageProps {
@@ -26,6 +27,7 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
   return (
     <>
       <style>{`html, body { background-color: #1B1B1B !important; }`}</style>
+      <CustomCursor />
       <div className="min-h-screen bg-foreground text-background">
         <FlowerLink theme="dark" />
 

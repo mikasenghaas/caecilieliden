@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import FlowerLink from "@/app/components/flower-link";
+import CustomCursor from "@/app/components/custom-cursor";
 import { getProjectBySlug, getProjectSlugs } from "@/lib/mdx";
 import fs from "fs";
 import path from "path";
@@ -89,6 +90,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   return (
     <>
       <style>{`html, body { background-color: #1B1B1B !important; }`}</style>
+      <CustomCursor />
       <div className="min-h-screen bg-foreground text-background">
         <FlowerLink theme="dark" />
 

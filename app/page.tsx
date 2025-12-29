@@ -4,6 +4,7 @@ import TextBlock from "@/app/components/text-block";
 import ImageBlock from "@/app/components/image-block";
 import ProjectLink from "@/app/components/project-link";
 import Footer from "@/app/components/footer";
+import CustomCursor from "@/app/components/custom-cursor";
 
 // Gallery images - now from public/gallery directories
 import outlineFlower from "@/app/assets/outline-flower.svg";
@@ -11,6 +12,7 @@ import outlineFlower from "@/app/assets/outline-flower.svg";
 export default function Home() {
   return (
     <div className="min-h-screen">
+      <CustomCursor />
       <FlowerLink />
       
       <main className="max-w-6xl mx-auto px-6 md:px-12">
