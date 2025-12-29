@@ -8,8 +8,8 @@ export default function FlowerLink() {
       <Image
         src={flowerSvg}
         alt="Home"
-        width={40}
-        height={42}
+        width={55}
+        height={58}
         priority
       />
     </Link>
