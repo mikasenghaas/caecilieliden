@@ -1,7 +1,6 @@
 import { notFound } from "next/navigation";
 import FlowerLink from "@/app/components/flower-link";
 import { getGalleryItem, getGallerySlugs } from "@/lib/gallery";
-import Footer from "@/app/components/footer";
 
 interface GalleryPageProps {
   params: Promise<{ slug: string }>;
@@ -25,8 +24,10 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
   const { metadata, images } = item;
 
   return (
-    <div className="min-h-screen bg-foreground text-background">
-      <FlowerLink theme="dark" />
+    <>
+      <style>{`html, body { background-color: #1B1B1B !important; }`}</style>
+      <div className="min-h-screen bg-foreground text-background">
+        <FlowerLink theme="dark" />
 
       <main className="min-h-screen flex items-center justify-center px-6 py-12">
         {/* Mobile layout */}
@@ -80,7 +81,8 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
           </div>
         </div>
       </main>
-    </div>
+      </div>
+    </>
   );
 }
 

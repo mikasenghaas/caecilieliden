@@ -87,10 +87,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
   const { frontmatter, content } = project;
 
   return (
-    <div className="min-h-screen bg-foreground text-background">
-      <FlowerLink theme="dark" />
+    <>
+      <style>{`html, body { background-color: #1B1B1B !important; }`}</style>
+      <div className="min-h-screen bg-foreground text-background">
+        <FlowerLink theme="dark" />
 
-      <main className="max-w-2xl mx-auto px-6 md:px-12 py-16 lg:py-24">
+        <main className="max-w-2xl mx-auto px-6 md:px-12 py-16 lg:py-24">
         {/* Header */}
         <header className="mb-12">
           <h1 className="font-display text-3xl md:text-4xl uppercase tracking-wide mb-1">
@@ -135,8 +137,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
             ))}
           </section>
         )}
-      </main>
-    </div>
+        </main>
+      </div>
+    </>
   );
 }
 
