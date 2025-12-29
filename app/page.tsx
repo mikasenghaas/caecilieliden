@@ -21,19 +21,19 @@ export default function Home() {
           {/* Column 1 */}
           <TextBlock>
             <p className="mb-4">
-              I am a bachelor student in Digital Design & Interactive Technologies at 
+              I am a bachelor student in <b>Digital Design & Interactive Technologies</b> at 
               the IT-University of Copenhagen (until summer 2026).
             </p>
             <p className="mb-4">
               What began as a personal interest in creating art and graphics has, through 
               my studies, developed into an aspiration of designing meaningful digital solutions. 
               I love creating with others and with people different to myself. I am particularly 
-              interested in prototyping through creative and playful processes, turning ideas into 
+              interested in prototyping through <b>creative and playful processes</b>, turning ideas into 
               tangible experiences using both software and hardware.
             </p>
             <p>
-              In the future, I hope to contribute to the development of more user centered, 
-              mindful, and playful technology.
+              I aspire to contribute to the development of more <b>user centered, 
+              mindful, and playful technology</b>.
             </p>
           </TextBlock>
           
@@ -51,7 +51,7 @@ export default function Home() {
           {/* Column 2 */}
           <TextBlock>
             <p>
-              This is my project parking spot. Here you can see a mix of my digital design 
+              This is my <b>project parking spot</b>. Here you can see a mix of my digital design 
               projects and personal art pieces.
             </p>
           </TextBlock>

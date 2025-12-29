@@ -16,7 +16,3 @@ body {
   color: #1B1B1B;
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
 }
-
-p {
-  font-weight: 500;
-}
