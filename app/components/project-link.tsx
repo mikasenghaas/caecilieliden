@@ -12,18 +12,16 @@ export default function ProjectLink({ href, title, className = "" }: ProjectLink
   return (
     <Link
       href={href}
-      className={`relative flex items-center justify-center aspect-square hover:opacity-80 transition-opacity ${className}`}
+      className={`relative flex items-center justify-center hover:opacity-80 transition-opacity ${className}`}
     >
       <Image
         src={bigFlowerSvg}
         alt=""
-        fill
-        className="object-contain"
+        className="w-full h-auto"
       />
-      <span className="absolute inset-0 flex items-center justify-center text-white text-center text-sm font-medium px-8 leading-tight">
+      <span className="absolute inset-0 flex items-center justify-center text-white text-center text-sm font-medium px-12 leading-tight">
         {title}
       </span>
     </Link>
   );
 }
-

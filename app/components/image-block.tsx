@@ -8,14 +8,12 @@ interface ImageBlockProps {
 
 export default function ImageBlock({ src, alt, className = "" }: ImageBlockProps) {
   return (
-    <div className={`relative w-full aspect-square overflow-hidden ${className}`}>
+    <div className={`relative w-full ${className}`}>
       <Image
         src={src}
         alt={alt}
-        fill
-        className="object-cover"
+        className="w-full h-auto"
       />
     </div>
   );
 }
-

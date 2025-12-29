@@ -19,14 +19,14 @@ import gallery010 from "@/app/assets/gallery/010.svg";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen">
       <FlowerLink />
       
       <main className="max-w-6xl mx-auto px-6 md:px-12">
         <Header />
         
         {/* Portfolio Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 pb-12 items-start">
           {/* Row 1 */}
           <TextBlock>
             <p className="mb-4">
