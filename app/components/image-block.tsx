@@ -8,7 +8,7 @@ interface ImageBlockProps {
 
 export default function ImageBlock({ src, alt, className = "" }: ImageBlockProps) {
   return (
-    <div className={`relative w-full break-inside-avoid mb-4 sm:mb-5 lg:mb-6 ${className}`}>
+    <div className={`relative w-full break-inside-avoid mb-4 sm:mb-5 lg:mb-6 cursor-pointer transition-transform duration-200 ease-out hover:scale-[1.02] ${className}`}>
       <Image
         src={src}
         alt={alt}
