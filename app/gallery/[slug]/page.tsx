@@ -1,5 +1,4 @@
 import { notFound } from "next/navigation";
-import Image from "next/image";
 import FlowerLink from "@/app/components/flower-link";
 import { getGalleryItem, getGallerySlugs } from "@/lib/gallery";
 
@@ -28,27 +27,51 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
     <div className="min-h-screen bg-foreground text-background">
       <FlowerLink theme="dark" />
 
-      <main className="max-w-4xl mx-auto px-6 md:px-12 py-16 lg:py-24">
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-16">
-          {/* Left side - Metadata */}
-          <aside className="lg:w-48 flex-shrink-0">
-            <h1 className="font-display text-lg uppercase tracking-wide mb-1">
+      <main className="min-h-screen flex items-center justify-center px-6 py-12">
+        {/* Mobile layout */}
+        <div className="lg:hidden flex flex-col items-center w-full">
+          <div className="mb-4 text-center">
+            <h1 className="font-display text-sm uppercase tracking-wide mb-1">
               {metadata.title}
             </h1>
-            <p className="text-sm text-background/60">
+            <p className="text-xs text-background/60">
+              {metadata.year}
+            </p>
+          </div>
+          <div className="flex flex-col space-y-6 max-w-3xl w-full">
+            {images.map((imagePath, index) => (
+              <div key={index} className="relative w-full">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={imagePath}
+                  alt={`${metadata.title} - Image ${index + 1}`}
+                  className="w-full h-auto"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Desktop layout: image centered, metadata to the left */}
+        <div className="hidden lg:block relative w-full max-w-3xl">
+          {/* Metadata - positioned absolutely to the left of the image */}
+          <aside className="absolute right-full top-0 mr-8 text-right w-40">
+            <h1 className="font-display text-sm uppercase tracking-wide mb-1">
+              {metadata.title}
+            </h1>
+            <p className="text-xs text-background/60">
               {metadata.year}
             </p>
           </aside>
 
-          {/* Right side - Images */}
-          <div className="flex-1 space-y-6">
+          {/* Images - centered */}
+          <div className="flex flex-col space-y-6">
             {images.map((imagePath, index) => (
               <div key={index} className="relative w-full">
-                <Image
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={imagePath}
                   alt={`${metadata.title} - Image ${index + 1}`}
-                  width={800}
-                  height={800}
                   className="w-full h-auto"
                 />
               </div>
