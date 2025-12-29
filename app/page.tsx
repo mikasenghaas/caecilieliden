@@ -39,14 +39,14 @@ export default function Home() {
           
           <ImageBlock src={outlineFlower} alt="Empty slot for Bachelor thesis - Coming spring 2026" />
           
-          <ImageBlock src="/gallery/006/006-1.svg" alt="Painting" href="/gallery/006" />
+          <ImageBlock src="/gallery/red-waves/red-waves-1.svg" alt="Red Waves" href="/gallery/red-waves" />
           
           <ProjectLink 
             href="/projects/never-late-bed" 
             title="Melting Icebergs: A Creative Data Visualization" 
           />
           
-          <ImageBlock src="/gallery/007/007-1.svg" alt="Swan illustration" href="/gallery/007" />
+          <ImageBlock src="/gallery/chicken/chicken-1.svg" alt="Chicken" href="/gallery/chicken" />
 
           {/* Column 2 */}
           <TextBlock>
@@ -56,32 +56,32 @@ export default function Home() {
             </p>
           </TextBlock>
           
-          <ImageBlock src="/gallery/002/002-1.svg" alt="Tulips illustration" href="/gallery/002" />
+          <ImageBlock src="/gallery/tulips/tulips-1.svg" alt="Tulips" href="/gallery/tulips" />
           
-          <ImageBlock src="/gallery/003/003-1.svg" alt="Art piece" href="/gallery/003" />
+          <ImageBlock src="/gallery/self-portrait/self-portrait-1.svg" alt="Self Portrait" href="/gallery/self-portrait" />
           
-          <ImageBlock src="/gallery/004/004-1.svg" alt="Digital artwork" href="/gallery/004" />
+          <ImageBlock src="/gallery/mosaic-of-life/mosaic-of-life-1.svg" alt="Mosaic of Life" href="/gallery/mosaic-of-life" />
           
-          <ImageBlock src="/gallery/008/008-1.svg" alt="Character illustration" href="/gallery/008" />
+          <ImageBlock src="/gallery/cherry-girl/cherry-girl-1.svg" alt="Cherry Girl" href="/gallery/cherry-girl" />
           
-          <ImageBlock src="/gallery/009/009-1.svg" alt="Photography" href="/gallery/009" />
+          <ImageBlock src="/gallery/me/me-1.svg" alt="Me" href="/gallery/me" />
 
           {/* Column 3 */}
-          <ImageBlock src="/gallery/001/001-1.svg" alt="Portrait" href="/gallery/001" />
+          <ImageBlock src="/gallery/mika/mika-1.svg" alt="Mika" href="/gallery/mika" />
           
           <ProjectLink 
             href="/projects/never-late-bed" 
             title="Co-Designing an App with a Live-Action Roleplay Community" 
           />
           
-          <ImageBlock src="/gallery/005/005-1.svg" alt="Abstract art" href="/gallery/005" />
+          <ImageBlock src="/gallery/dream-landscape/dream-landscape-1.svg" alt="Dream Landscape" href="/gallery/dream-landscape" />
           
           <ProjectLink 
             href="/projects/never-late-bed" 
             title="An Arduino project: The Never-Late Bed" 
           />
           
-          <ImageBlock src="/gallery/010/010-1.svg" alt="Illustration" href="/gallery/010" />
+          <ImageBlock src="/gallery/fruits/fruits-1.svg" alt="Fruits" href="/gallery/fruits" />
         </div>
         
         <Footer 
