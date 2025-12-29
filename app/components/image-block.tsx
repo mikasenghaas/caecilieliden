@@ -8,7 +8,7 @@ interface ImageBlockProps {
 
 export default function ImageBlock({ src, alt, className = "" }: ImageBlockProps) {
   return (
-    <div className={`relative w-full break-inside-avoid mb-4 md:mb-6 ${className}`}>
+    <div className={`relative w-full break-inside-avoid mb-4 sm:mb-5 lg:mb-6 ${className}`}>
       <Image
         src={src}
         alt={alt}

@@ -12,7 +12,7 @@ export default function ProjectLink({ href, title, className = "" }: ProjectLink
   return (
     <Link
       href={href}
-      className={`relative flex items-center justify-center hover:opacity-80 transition-opacity break-inside-avoid mb-4 md:mb-6 ${className}`}
+      className={`relative flex items-center justify-center hover:opacity-80 transition-opacity break-inside-avoid mb-4 sm:mb-5 lg:mb-6 ${className}`}
     >
       <Image
         src={bigFlowerSvg}

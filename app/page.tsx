@@ -27,7 +27,7 @@ export default function Home() {
         <Header />
         
         {/* Portfolio Grid - Masonry layout with CSS columns */}
-        <div className="columns-1 md:columns-3 gap-4 md:gap-6 pb-12">
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 sm:gap-5 lg:gap-6 pb-12">
           {/* Column 1 */}
           <TextBlock>
             <p className="mb-4">
