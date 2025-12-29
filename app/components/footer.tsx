@@ -76,7 +76,7 @@ export default function Footer({
           <PinterestIcon />
         </Link>
       </div>
-      <p className="text-sm">
+      <p className="text-sm font-normal">
         © {currentYear} Caecilie Lidèn Bode
       </p>
     </footer>
