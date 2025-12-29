@@ -28,7 +28,7 @@ export default function Home() {
         
         {/* Portfolio Grid - Masonry layout with CSS columns */}
         <div className="columns-1 md:columns-3 gap-4 md:gap-6 pb-12">
-          {/* Row 1 */}
+          {/* Column 1 */}
           <TextBlock>
             <p className="mb-4">
               I am a bachelor student in Digital Design & Interactive Technologies at 
@@ -47,6 +47,18 @@ export default function Home() {
             </p>
           </TextBlock>
           
+          <ImageBlock src={outlineFlower} alt="Empty slot for Bachelor thesis - Coming spring 2026" />
+          
+          <ImageBlock src={gallery006} alt="Painting" />
+          
+          <ProjectLink 
+            href="#" 
+            title="Melting Icebergs: A Creative Data Visualization" 
+          />
+          
+          <ImageBlock src={gallery007} alt="Swan illustration" />
+
+          {/* Column 2 */}
           <TextBlock>
             <p>
               This is my project parking spot. Here you can see a mix of my digital design 
@@ -54,46 +66,31 @@ export default function Home() {
             </p>
           </TextBlock>
           
-          <ImageBlock src={gallery001} alt="Portrait" />
-          
-          {/* Row 2 */}
           <ImageBlock src={gallery002} alt="Tulips illustration" />
           
           <ImageBlock src={gallery003} alt="Art piece" />
+          
+          <ImageBlock src={gallery004} alt="Digital artwork" />
+          
+          <ImageBlock src={gallery008} alt="Character illustration" />
+          
+          <ImageBlock src={gallery009} alt="Photography" />
+
+          {/* Column 3 */}
+          <ImageBlock src={gallery001} alt="Portrait" />
           
           <ProjectLink 
             href="#" 
             title="Co-Designing an App with a Live-Action Roleplay Community" 
           />
           
-          {/* Row 3 */}
-          <ImageBlock src={outlineFlower} alt="Empty slot for Bachelor thesis - Coming spring 2026" />
-          
-          <ImageBlock src={gallery004} alt="Digital artwork" />
-          
           <ImageBlock src={gallery005} alt="Abstract art" />
           
-          {/* Row 4 */}
-          <ImageBlock src={gallery006} alt="Painting" />
-          
-          <ImageBlock src={gallery007} alt="Landscape" />
-          
-          <ProjectLink 
-            href="#" 
-            title="Melting Icebergs: A Creative Data Visualization" 
-          />
-          
-          {/* Row 5 */}
           <ProjectLink 
             href="#" 
             title="An Arduino project: The Never-Late Bed" 
           />
           
-          <ImageBlock src={gallery008} alt="Character illustration" />
-          
-          <ImageBlock src={gallery009} alt="Photography" />
-          
-          {/* Row 6 */}
           <ImageBlock src={gallery010} alt="Illustration" />
         </div>
         
