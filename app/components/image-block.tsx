@@ -1,19 +1,38 @@
 import Image, { StaticImageData } from "next/image";
+import Link from "next/link";
 
 interface ImageBlockProps {
   src: StaticImageData | string;
   alt: string;
+  href?: string;
   className?: string;
 }
 
-export default function ImageBlock({ src, alt, className = "" }: ImageBlockProps) {
-  return (
+export default function ImageBlock({ src, alt, href, className = "" }: ImageBlockProps) {
+  const isStaticImage = typeof src !== "string";
+  
+  const imageElement = (
     <div className={`relative w-full break-inside-avoid mb-4 sm:mb-5 lg:mb-6 cursor-pointer transition-transform duration-200 ease-out hover:scale-[1.02] ${className}`}>
-      <Image
-        src={src}
-        alt={alt}
-        className="w-full h-auto"
-      />
+      {isStaticImage ? (
+        <Image
+          src={src}
+          alt={alt}
+          className="w-full h-auto"
+        />
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={src}
+          alt={alt}
+          className="w-full h-auto"
+        />
+      )}
     </div>
   );
+
+  if (href) {
+    return <Link href={href}>{imageElement}</Link>;
+  }
+
+  return imageElement;
 }

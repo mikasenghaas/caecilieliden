@@ -5,17 +5,7 @@ import ImageBlock from "@/app/components/image-block";
 import ProjectLink from "@/app/components/project-link";
 import Footer from "@/app/components/footer";
 
-// Gallery images
-import gallery001 from "@/app/assets/gallery/001.svg";
-import gallery002 from "@/app/assets/gallery/002.svg";
-import gallery003 from "@/app/assets/gallery/003.svg";
-import gallery004 from "@/app/assets/gallery/004.svg";
-import gallery005 from "@/app/assets/gallery/005.svg";
-import gallery006 from "@/app/assets/gallery/006.svg";
-import gallery007 from "@/app/assets/gallery/007.svg";
-import gallery008 from "@/app/assets/gallery/008.svg";
-import gallery009 from "@/app/assets/gallery/009.svg";
-import gallery010 from "@/app/assets/gallery/010.svg";
+// Gallery images - now from public/gallery directories
 import outlineFlower from "@/app/assets/outline-flower.svg";
 
 export default function Home() {
@@ -49,14 +39,14 @@ export default function Home() {
           
           <ImageBlock src={outlineFlower} alt="Empty slot for Bachelor thesis - Coming spring 2026" />
           
-          <ImageBlock src={gallery006} alt="Painting" />
+          <ImageBlock src="/gallery/006/006-1.svg" alt="Painting" href="/gallery/006" />
           
           <ProjectLink 
-            href="#" 
+            href="/projects/never-late-bed" 
             title="Melting Icebergs: A Creative Data Visualization" 
           />
           
-          <ImageBlock src={gallery007} alt="Swan illustration" />
+          <ImageBlock src="/gallery/007/007-1.svg" alt="Swan illustration" href="/gallery/007" />
 
           {/* Column 2 */}
           <TextBlock>
@@ -66,32 +56,32 @@ export default function Home() {
             </p>
           </TextBlock>
           
-          <ImageBlock src={gallery002} alt="Tulips illustration" />
+          <ImageBlock src="/gallery/002/002-1.svg" alt="Tulips illustration" href="/gallery/002" />
           
-          <ImageBlock src={gallery003} alt="Art piece" />
+          <ImageBlock src="/gallery/003/003-1.svg" alt="Art piece" href="/gallery/003" />
           
-          <ImageBlock src={gallery004} alt="Digital artwork" />
+          <ImageBlock src="/gallery/004/004-1.svg" alt="Digital artwork" href="/gallery/004" />
           
-          <ImageBlock src={gallery008} alt="Character illustration" />
+          <ImageBlock src="/gallery/008/008-1.svg" alt="Character illustration" href="/gallery/008" />
           
-          <ImageBlock src={gallery009} alt="Photography" />
+          <ImageBlock src="/gallery/009/009-1.svg" alt="Photography" href="/gallery/009" />
 
           {/* Column 3 */}
-          <ImageBlock src={gallery001} alt="Portrait" />
+          <ImageBlock src="/gallery/001/001-1.svg" alt="Portrait" href="/gallery/001" />
           
           <ProjectLink 
-            href="#" 
+            href="/projects/never-late-bed" 
             title="Co-Designing an App with a Live-Action Roleplay Community" 
           />
           
-          <ImageBlock src={gallery005} alt="Abstract art" />
+          <ImageBlock src="/gallery/005/005-1.svg" alt="Abstract art" href="/gallery/005" />
           
           <ProjectLink 
-            href="#" 
+            href="/projects/never-late-bed" 
             title="An Arduino project: The Never-Late Bed" 
           />
           
-          <ImageBlock src={gallery010} alt="Illustration" />
+          <ImageBlock src="/gallery/010/010-1.svg" alt="Illustration" href="/gallery/010" />
         </div>
         
         <Footer 
