@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import FlowerLink from "@/app/components/flower-link";
 import { getGalleryItem, getGallerySlugs } from "@/lib/gallery";
+import Footer from "@/app/components/footer";
 
 interface GalleryPageProps {
   params: Promise<{ slug: string }>;
@@ -29,7 +30,7 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
 
       <main className="min-h-screen flex items-center justify-center px-6 py-12">
         {/* Mobile layout */}
-        <div className="lg:hidden flex flex-col items-center w-full">
+        <div className="lg:hidden flex flex-col items-center w-full mt-16 mb-8">
           <div className="mb-4 text-center">
             <h1 className="font-display text-sm uppercase tracking-wide mb-1">
               {metadata.title}
@@ -53,7 +54,7 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
         </div>
 
         {/* Desktop layout: image centered, metadata to the left */}
-        <div className="hidden lg:block relative w-full max-w-3xl">
+        <div className="hidden lg:block relative w-full max-w-lg mt-28 mb-14">
           {/* Metadata - positioned absolutely to the left of the image */}
           <aside className="absolute right-full top-0 mr-8 text-right w-40">
             <h1 className="font-display text-sm uppercase tracking-wide mb-1">
