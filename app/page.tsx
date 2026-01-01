@@ -86,11 +86,7 @@ export default function Home() {
           <ImageBlock src="/gallery/fruits/fruits-1.svg" alt="Fruits" href="/gallery/fruits" />
         </div>
         
-        <Footer 
-          email="hello@caecilieliden.com"
-          linkedinUrl="https://linkedin.com"
-          pinterestUrl="https://pinterest.com"
-        />
+        <Footer />
       </main>
     </div>
   );
