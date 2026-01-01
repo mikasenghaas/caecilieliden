@@ -19,7 +19,7 @@ export default function ProjectLink({ href, title, className = "" }: ProjectLink
         alt=""
         className="w-full h-auto"
       />
-      <span className="absolute inset-0 flex items-center justify-center text-white text-center text-sm font-medium px-12 leading-tight">
+      <span className="absolute inset-0 flex items-center justify-center text-white text-center font-medium px-20 leading-tight max-w-[90%] mx-auto">
         {title}
       </span>
     </Link>
