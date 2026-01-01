@@ -11,7 +11,7 @@ export default function FlowerLink({ theme = "light" }: FlowerLinkProps) {
   const flowerIcon = theme === "dark" ? flowerLightSvg : flowerSvg;
   
   return (
-    <Link href="/" className="hidden lg:block fixed top-4 left-4 z-50 hover:opacity-80 transition-opacity">
+    <Link href="/" className="hidden lg:block fixed top-4 left-4 z-50 transition-transform duration-300 hover:rotate-12">
       <Image
         src={flowerIcon}
         alt="Home"
