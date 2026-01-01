@@ -18,6 +18,11 @@
     font-family: var(--font-sans), Arial, Helvetica, sans-serif;
   }
 
+  ::selection {
+    background-color: #848a5f92;
+    color: #F2F5D3;
+  }
+
   /* Hide default cursor - custom cursor is rendered via JS component */
   html, body, * {
     cursor: none !important;
