@@ -2,10 +2,8 @@ import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import FlowerLink from "@/app/components/flower-link";
 import CustomCursor from "@/app/components/custom-cursor";
+import MdxImage from "@/app/components/mdx-image";
 import { getProjectBySlug, getProjectSlugs } from "@/lib/mdx";
-import fs from "fs";
-import path from "path";
-import Image from "next/image";
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -15,35 +13,6 @@ interface ProjectPageProps {
 export async function generateStaticParams() {
   const slugs = getProjectSlugs();
   return slugs.map((slug) => ({ slug }));
-}
-
-// Get project assets from the public/projects/<slug> directory
-function getProjectAssets(slug: string): { src: string; caption: string }[] {
-  const assetsDir = path.join(process.cwd(), "public/projects", slug);
-  
-  if (!fs.existsSync(assetsDir)) {
-    return [];
-  }
-
-  const files = fs.readdirSync(assetsDir);
-  const assets: { src: string; caption: string }[] = [];
-
-  for (const file of files) {
-    if (/\.(jpg|jpeg|png|gif|svg|webp)$/i.test(file)) {
-      // Check for a caption file (stored alongside the image)
-      const captionFile = path.join(assetsDir, `${path.parse(file).name}.txt`);
-      let caption = "";
-      if (fs.existsSync(captionFile)) {
-        caption = fs.readFileSync(captionFile, "utf8").trim();
-      }
-      assets.push({
-        src: `/projects/${slug}/${file}`,
-        caption,
-      });
-    }
-  }
-
-  return assets.sort((a, b) => a.src.localeCompare(b.src));
 }
 
 // MDX components with custom styling for dark theme
@@ -72,6 +41,7 @@ const mdxComponents = {
   li: (props: React.HTMLAttributes<HTMLLIElement>) => (
     <li className="leading-relaxed" {...props} />
   ),
+  Image: MdxImage,
 };
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
@@ -84,7 +54,6 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     notFound();
   }
 
-  const assets = getProjectAssets(slug);
   const { frontmatter, content } = project;
 
   return (
@@ -115,33 +84,8 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <article className="prose-invert">
           <MDXRemote source={content} components={mdxComponents} />
         </article>
-
-        {/* Assets */}
-        {assets.length > 0 && (
-          <section className="mt-16 space-y-8">
-            {assets.map((asset, index) => (
-              <figure key={index} className="space-y-3">
-                <div className="relative w-full">
-                  <Image
-                    src={asset.src}
-                    alt={asset.caption || `Project image ${index + 1}`}
-                    width={800}
-                    height={600}
-                    className="w-full h-auto"
-                  />
-                </div>
-                {asset.caption && (
-                  <figcaption className="text-center text-sm text-background/60 italic">
-                    {asset.caption}
-                  </figcaption>
-                )}
-              </figure>
-            ))}
-          </section>
-        )}
         </main>
       </div>
     </>
   );
 }
-
