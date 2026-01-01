@@ -69,13 +69,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           <h1 className="font-display text-3xl md:text-4xl uppercase tracking-wide mb-1">
             {frontmatter.title}
           </h1>
-          {frontmatter.subtitle && (
-            <h2 className="font-display text-xl md:text-2xl uppercase tracking-wide text-background/80 mb-4">
-              {frontmatter.subtitle}
-            </h2>
-          )}
           <div className="text-sm text-background/60 space-y-1">
-            {frontmatter.type && <p className="italic">{frontmatter.type}</p>}
             {frontmatter.year && <p>{frontmatter.year}</p>}
           </div>
         </header>
