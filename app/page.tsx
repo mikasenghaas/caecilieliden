@@ -44,7 +44,7 @@ export default function Home() {
           <ImageBlock src="/gallery/red-waves/red-waves-1.svg" alt="Red Waves" href="/gallery/red-waves" />
           
           <ProjectLink 
-            href="/projects/never-late-bed" 
+            href="/projects/melting-icebergs" 
             title="Melting Icebergs: A Creative Data Visualization" 
           />
           
@@ -72,7 +72,7 @@ export default function Home() {
           <ImageBlock src="/gallery/mika/mika-1.svg" alt="Mika" href="/gallery/mika" />
           
           <ProjectLink 
-            href="/projects/never-late-bed" 
+            href="/projects/codesign-project" 
             title="Co-Designing an App with a Live-Action Roleplay Community" 
           />
           
