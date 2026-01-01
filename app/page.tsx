@@ -66,7 +66,7 @@ export default function Home() {
           
           <ImageBlock src="/gallery/cherry-girl/cherry-girl-1.svg" alt="Cherry Girl" href="/gallery/cherry-girl" />
           
-          <ImageBlock src="/gallery/me/me-1.svg" alt="Me" href="/gallery/me" />
+          <ImageBlock src="/gallery/portrait-of-my-sister/portrait-of-my-sister-1.svg" alt="Portrait of my Sister" href="/gallery/portrait-of-my-sister" />
 
           {/* Column 3 */}
           <ImageBlock src="/gallery/mika/mika-1.svg" alt="Mika" href="/gallery/mika" />
