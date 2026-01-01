@@ -51,7 +51,7 @@ export default function Home() {
           <ImageBlock src="/gallery/chicken/chicken-1.svg" alt="Chicken" href="/gallery/chicken" />
 
           {/* Column 2 */}
-          <TextBlock>
+          <TextBlock className="break-before-column">
             <p>
               This is my <b>project parking spot</b>. Here you can see a mix of my digital design 
               projects and personal art pieces.
