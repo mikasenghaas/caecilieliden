@@ -35,9 +35,29 @@ export function getGalleryItem(slug: string): GalleryItem | null {
   );
 
   // Get all image files in the directory
+  // Prefer PNG/JPG over SVG (extracted raster images are smaller than embedded SVGs)
   const files = fs.readdirSync(itemDir);
-  const images = files
-    .filter((file) => /\.(jpg|jpeg|png|gif|svg|webp)$/i.test(file))
+  const imageFiles = files.filter((file) => /\.(jpg|jpeg|png|gif|svg|webp)$/i.test(file));
+  
+  // Build a map to prefer raster formats over SVG when both exist
+  const imageMap = new Map<string, string>();
+  for (const file of imageFiles) {
+    const baseName = file.replace(/\.(jpg|jpeg|png|gif|svg|webp)$/i, '');
+    const ext = file.split('.').pop()?.toLowerCase();
+    const existing = imageMap.get(baseName);
+    
+    // Prefer PNG/JPG over SVG (our SVGs contain embedded rasters with base64 overhead)
+    if (!existing) {
+      imageMap.set(baseName, file);
+    } else if (ext === 'png' || ext === 'jpg' || ext === 'jpeg') {
+      // PNG/JPG wins over SVG (extracted images are smaller and identical quality)
+      if (existing.endsWith('.svg')) {
+        imageMap.set(baseName, file);
+      }
+    }
+  }
+  
+  const images = Array.from(imageMap.values())
     .sort()
     .map((file) => `/gallery/${slug}/${file}`); // Return URL paths for public directory
 

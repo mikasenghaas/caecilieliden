@@ -6,9 +6,10 @@ interface ImageBlockProps {
   alt: string;
   href?: string;
   className?: string;
+  priority?: boolean;
 }
 
-export default function ImageBlock({ src, alt, href, className = "" }: ImageBlockProps) {
+export default function ImageBlock({ src, alt, href, className = "", priority = false }: ImageBlockProps) {
   const isStaticImage = typeof src !== "string";
   const hoverStyles = href ? "cursor-pointer transition-transform duration-200 ease-out hover:scale-[1.02]" : "";
   
@@ -19,13 +20,17 @@ export default function ImageBlock({ src, alt, href, className = "" }: ImageBloc
           src={src}
           alt={alt}
           className="w-full h-auto"
+          priority={priority}
         />
       ) : (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
+        <Image
           src={src}
           alt={alt}
+          width={800}
+          height={600}
           className="w-full h-auto"
+          loading={priority ? "eager" : "lazy"}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
       )}
     </div>

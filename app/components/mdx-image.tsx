@@ -4,9 +4,10 @@ interface MdxImageProps {
   src: string;
   alt?: string;
   caption?: string;
+  priority?: boolean;
 }
 
-export default function MdxImage({ src, alt, caption }: MdxImageProps) {
+export default function MdxImage({ src, alt, caption, priority = false }: MdxImageProps) {
   return (
     <figure className="my-8 space-y-3">
       <div className="relative w-full">
@@ -16,6 +17,8 @@ export default function MdxImage({ src, alt, caption }: MdxImageProps) {
           width={800}
           height={600}
           className="w-full h-auto"
+          loading={priority ? "eager" : "lazy"}
+          sizes="(max-width: 768px) 100vw, 800px"
         />
       </div>
       {caption && (
