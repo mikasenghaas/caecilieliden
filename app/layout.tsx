@@ -16,6 +16,18 @@ const madimiOne = Madimi_One({
 export const metadata: Metadata = {
   title: "Caecilie Lidèn Bode",
   description: "Design portfolio of Caecilie Lidèn Bode - Digital Design & Interactive Technologies",
+  openGraph: {
+    title: "Caecilie Lidèn Bode",
+    description: "Design portfolio of Caecilie Lidèn Bode - Digital Design & Interactive Technologies",
+    url: "https://caecilieliden.com",
+    type: "website",
+    images: [],
+  },
+  twitter: {
+    card: "summary",
+    title: "Caecilie Lidèn Bode",
+    description: "Design portfolio of Caecilie Lidèn Bode - Digital Design & Interactive Technologies",
+  },
 };
 
 export default function RootLayout({
