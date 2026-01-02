@@ -5,7 +5,7 @@ interface TextBlockProps {
 
 export default function TextBlock({ children, className = "" }: TextBlockProps) {
   return (
-    <div className={`p-4 text-sm leading-relaxed break-inside-avoid mb-4 sm:mb-5 lg:mb-6 ${className}`}>
+    <div className={`p-2 sm:p-4 text-xs sm:text-sm leading-relaxed break-inside-avoid mb-1.5 sm:mb-5 lg:mb-6 ${className}`}>
       {children}
     </div>
   );
