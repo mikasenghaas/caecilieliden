@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import FlowerLink from "@/app/components/flower-link";
 import CustomCursor from "@/app/components/custom-cursor";
 import { getGalleryItem, getGallerySlugs } from "@/lib/gallery";
@@ -45,11 +46,15 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
           <div className="flex flex-col space-y-6 max-w-3xl w-full">
             {images.map((imagePath, index) => (
               <div key={index} className="relative w-full">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={imagePath}
                   alt={`${metadata.title} - Image ${index + 1}`}
+                  width={800}
+                  height={600}
                   className="w-full h-auto"
+                  loading={index === 0 ? "eager" : "lazy"}
+                  priority={index === 0}
+                  sizes="(max-width: 768px) 100vw, 800px"
                 />
               </div>
             ))}
@@ -72,11 +77,15 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
           <div className="flex flex-col space-y-6">
             {images.map((imagePath, index) => (
               <div key={index} className="relative w-full">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src={imagePath}
                   alt={`${metadata.title} - Image ${index + 1}`}
+                  width={800}
+                  height={600}
                   className="w-full h-auto"
+                  loading={index === 0 ? "eager" : "lazy"}
+                  priority={index === 0}
+                  sizes="(max-width: 1024px) 100vw, 512px"
                 />
               </div>
             ))}
