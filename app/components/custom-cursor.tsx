@@ -5,8 +5,22 @@ import { useEffect, useState } from "react";
 export default function CustomCursor() {
   const [position, setPosition] = useState({ x: -100, y: -100 });
   const [isVisible, setIsVisible] = useState(false);
+  const [hasPointer, setHasPointer] = useState(false);
+
+  // Check if device has a fine pointer (mouse)
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(pointer: fine) and (hover: hover)");
+    setHasPointer(mediaQuery.matches);
+
+    const handleChange = (e: MediaQueryListEvent) => setHasPointer(e.matches);
+    mediaQuery.addEventListener("change", handleChange);
+    
+    return () => mediaQuery.removeEventListener("change", handleChange);
+  }, []);
 
   useEffect(() => {
+    if (!hasPointer) return;
+
     const updatePosition = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
     };
@@ -26,15 +40,10 @@ export default function CustomCursor() {
       document.removeEventListener("mouseenter", handleMouseEnter);
       document.removeEventListener("mouseleave", handleMouseLeave);
     };
-  }, []);
+  }, [hasPointer]);
 
-  // Hide on touch devices
-  useEffect(() => {
-    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
-    if (isTouchDevice) {
-      setIsVisible(false);
-    }
-  }, []);
+  // Don't render on touch-only devices
+  if (!hasPointer) return null;
 
   return (
     <div

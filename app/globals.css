@@ -23,15 +23,11 @@
     color: #F2F5D3;
   }
 
-  /* Hide default cursor - custom cursor is rendered via JS component */
-  html, body, * {
-    cursor: none !important;
-  }
 }
 
-/* Show default cursor on touch devices */
-@media (hover: none) and (pointer: coarse) {
+/* Hide default cursor only on devices with a mouse */
+@media (pointer: fine) and (hover: hover) {
   html, body, * {
-    cursor: auto !important;
+    cursor: none !important;
   }
 }
