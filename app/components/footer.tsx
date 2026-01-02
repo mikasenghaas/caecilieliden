@@ -9,7 +9,6 @@ export default function Footer() {
       <div className="flex items-center gap-6">
         <Link
           href="mailto:caeciliebode@gmail.com"
-          className="hover:opacity-70 transition-opacity"
           aria-label="Email"
         >
           <Image src="/email.svg" alt="Email" width={32} height={32} />
@@ -18,7 +17,6 @@ export default function Footer() {
           href="https://www.linkedin.com/in/c%C3%A6cilie-lid%C3%A9n-bode-8745a025a/"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:opacity-70 transition-opacity"
           aria-label="LinkedIn"
         >
           <Image src="/linkedin.svg" alt="LinkedIn" width={32} height={32} />
@@ -27,7 +25,6 @@ export default function Footer() {
           href="https://pin.it/7Jg9C1reP"
           target="_blank"
           rel="noopener noreferrer"
-          className="hover:opacity-70 transition-opacity"
           aria-label="Pinterest"
         >
           <Image src="/pinterest.svg" alt="Pinterest" width={32} height={32} />
