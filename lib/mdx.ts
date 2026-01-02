@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import matter from "gray-matter";
 
-const projectsDirectory = path.join(process.cwd(), "content/projects");
+const projectsDirectory = path.join(process.cwd(), "app/content/projects");
 
 export interface ProjectFrontmatter {
   title: string;

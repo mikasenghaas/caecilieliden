@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 
 export default function CustomCursor() {
-  const [position, setPosition] = useState({ x: -100, y: -100 });
-  const [isVisible, setIsVisible] = useState(false);
+  const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
+  const [isInViewport, setIsInViewport] = useState(true);
   const [hasPointer, setHasPointer] = useState(false);
 
   // Check if device has a fine pointer (mouse)
@@ -21,37 +21,35 @@ export default function CustomCursor() {
   useEffect(() => {
     if (!hasPointer) return;
 
-    const updatePosition = (e: MouseEvent) => {
+    const updatePosition = (e: MouseEvent | PointerEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
     };
 
-    const handleMouseEnter = () => setIsVisible(true);
-    const handleMouseLeave = () => setIsVisible(false);
+    const handleMouseLeave = () => setIsInViewport(false);
+    const handleMouseEnter = () => setIsInViewport(true);
 
-    document.addEventListener("mousemove", updatePosition);
-    document.addEventListener("mouseenter", handleMouseEnter);
+    // Use pointermove for better initial capture
+    document.addEventListener("pointermove", updatePosition);
     document.addEventListener("mouseleave", handleMouseLeave);
-
-    // Check if mouse is already in viewport
-    setIsVisible(true);
+    document.addEventListener("mouseenter", handleMouseEnter);
 
     return () => {
-      document.removeEventListener("mousemove", updatePosition);
-      document.removeEventListener("mouseenter", handleMouseEnter);
+      document.removeEventListener("pointermove", updatePosition);
       document.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("mouseenter", handleMouseEnter);
     };
   }, [hasPointer]);
 
-  // Don't render on touch-only devices
-  if (!hasPointer) return null;
+  // Don't render on touch-only devices or if we don't have a position yet
+  if (!hasPointer || !position) return null;
 
   return (
     <div
-      className="pointer-events-none fixed z-[9999] transition-opacity duration-150"
+      className="pointer-events-none fixed z-9999"
       style={{
         left: position.x,
         top: position.y,
-        opacity: isVisible ? 1 : 0,
+        opacity: isInViewport ? 1 : 0,
       }}
     >
       <svg
