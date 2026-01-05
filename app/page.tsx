@@ -8,6 +8,8 @@ import CustomCursor from "@/app/components/custom-cursor";
 
 // Gallery images - now from public/gallery directories
 import outlineFlower from "@/app/assets/outline-flower.svg";
+import flowerArduino from "@/app/assets/flower-arduino.svg";
+import flowerCodesign from "@/app/assets/flower-codesign-project.svg";
 
 export default function Home() {
   return (
@@ -46,6 +48,8 @@ export default function Home() {
           <ProjectLink
             href="/projects/never-late-bed"
             title="An Arduino project: The Never-Late Bed"
+            flower={flowerArduino}
+            textClassName="-translate-x-4"
           />
 
           <ImageBlock src="/gallery/chicken/chicken-1.png" alt="Chicken" href="/gallery/chicken" />
@@ -74,6 +78,7 @@ export default function Home() {
           <ProjectLink
             href="/projects/codesign-project"
             title="Co-Designing an App with a Live-Action Roleplay Community"
+            flower={flowerCodesign}
           />
 
           <ImageBlock src="/gallery/fruits/fruits-1.png" alt="Fruits" href="/gallery/fruits" />
