@@ -40,50 +40,44 @@ export default function Home() {
           </TextBlock>
           
           <ImageBlock src={outlineFlower} alt="Empty slot for Bachelor thesis - Coming spring 2026" />
-          
+
           <ImageBlock src="/gallery/red-waves/red-waves-1.png" alt="Red Waves" href="/gallery/red-waves" />
-          
-          <ProjectLink 
-            href="/projects/melting-icebergs" 
-            title="Melting Icebergs: A Creative Data Visualization" 
+
+          <ProjectLink
+            href="/projects/never-late-bed"
+            title="An Arduino project: The Never-Late Bed"
           />
-          
+
           <ImageBlock src="/gallery/chicken/chicken-1.png" alt="Chicken" href="/gallery/chicken" />
 
           {/* Column 2 (3-col layout) */}
           <TextBlock className="lg:break-before-column">
             <p>
-              This is my <b>project parking spot</b>. Here you can see a mix of my digital design 
+              This is my <b>project parking spot</b>. Here you can see a mix of my digital design
               projects and personal art pieces.
             </p>
           </TextBlock>
-          
+
           <ImageBlock src="/gallery/tulips/tulips-1.png" alt="Tulips" href="/gallery/tulips" />
-          
+
           <ImageBlock src="/gallery/mosaic-of-life/mosaic-of-life-1.png" alt="Mosaic of Life" href="/gallery/mosaic-of-life" />
 
-          {/* Column 2 (2-col layout) */}
           <ImageBlock src="/gallery/dream-landscape/dream-landscape-1.png" alt="Dream Landscape" href="/gallery/dream-landscape" className="break-before-column lg:break-before-auto" />
-          
+
           <ImageBlock src="/gallery/cherry-girl/cherry-girl-1.png" alt="Cherry Girl" href="/gallery/cherry-girl" />
-          
+
           <ImageBlock src="/gallery/portrait-of-my-sister/portrait-of-my-sister-1.png" alt="Portrait of my Sister" href="/gallery/portrait-of-my-sister" />
 
           {/* Column 3 (3-col layout) */}
           <ImageBlock src="/gallery/self-portrait/self-portrait-1.png" alt="Self Portrait" href="/gallery/self-portrait" className="lg:break-before-column" />
-          
-          <ProjectLink 
-            href="/projects/codesign-project" 
-            title="Co-Designing an App with a Live-Action Roleplay Community" 
+
+          <ProjectLink
+            href="/projects/codesign-project"
+            title="Co-Designing an App with a Live-Action Roleplay Community"
           />
-          
+
           <ImageBlock src="/gallery/fruits/fruits-1.png" alt="Fruits" href="/gallery/fruits" />
-          
-          <ProjectLink 
-            href="/projects/never-late-bed" 
-            title="An Arduino project: The Never-Late Bed" 
-          />
-          
+
           <ImageBlock src="/gallery/mika/mika-1.png" alt="Mika" href="/gallery/mika" />
         </div>
         
