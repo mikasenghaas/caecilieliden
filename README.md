@@ -4,7 +4,7 @@
 
 Before you start, make sure you have these installed on your computer:
 
-1. **Node.js** - Download from [nodejs.org](https://nodejs.org) (choose the LTS version)
+1. **Bun** - Download from [Bun](https://bun.sh/) (choose the LTS version)
 2. **Git** - Download from [git-scm.com](https://git-scm.com)
 3. **A code editor** - I recommend [VS Code](https://code.visualstudio.com)
 
@@ -23,7 +23,7 @@ On Mac, open the **Terminal** app (you can find it in Applications > Utilities, 
 Clone the repository to your into your `Documents` folder.
 
 ```bash
-git clone https://github.com/mikasenghaas/caecilieliden.git ~/Documents/Website
+git clone git@github.com:mikasenghaas/caecilieliden.git ~/Documents/Website
 ```
 
 ### 3. Navigate to your project folder
@@ -43,13 +43,13 @@ git pull
 ### 5. Install dependencies (only needed once, or after updates)
 
 ```bash
-npm install
+bun i
 ```
 
 ### 6. Start the development server
 
 ```bash
-npm run dev
+bun dev
 ```
 
 Now open your browser and go to [http://localhost:3000](http://localhost:3000) to see your website!
