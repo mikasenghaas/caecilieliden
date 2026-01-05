@@ -105,6 +105,8 @@ public/gallery/
 - Change the title/year: Edit the `metadata.json` file
 - Change images: Replace the image files (keep the same names)
 
+- To see image: rm -rf .next + bun dev
+
 ### Editing Projects
 
 Projects are stored in `app/content/projects/` as `.mdx` files (Markdown with extras).
