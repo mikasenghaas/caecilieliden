@@ -61,7 +61,9 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <style>{`html, body { background-color: #1B1B1B !important; }`}</style>
       <CustomCursor />
       <div className="min-h-screen bg-foreground text-background">
-        <FlowerLink theme="dark" />
+        <div className="px-4 pt-4 md:px-12 lg:p-0">
+          <FlowerLink theme="dark" />
+        </div>
 
         <main className="max-w-2xl mx-auto px-6 md:px-12 py-16 lg:py-24">
         {/* Header */}

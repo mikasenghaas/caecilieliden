@@ -15,7 +15,7 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <CustomCursor />
-      <main className="max-w-6xl mx-auto p-2 sm:px-6 md:px-12">
+      <main className="max-w-6xl mx-auto px-4 pt-4 md:px-12">
         <FlowerLink />
         <Header />
         

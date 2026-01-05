@@ -30,7 +30,9 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
       <style>{`html, body { background-color: #1B1B1B !important; }`}</style>
       <CustomCursor />
       <div className="min-h-screen bg-foreground text-background">
-        <FlowerLink theme="dark" />
+        <div className="px-4 pt-4 md:px-12 lg:p-0">
+          <FlowerLink theme="dark" />
+        </div>
 
       <main className="min-h-screen flex items-center justify-center px-6 py-12">
         {/* Mobile layout */}
