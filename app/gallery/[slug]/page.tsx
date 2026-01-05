@@ -34,8 +34,8 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
 
       <main className="min-h-screen flex items-center justify-center px-6 py-12">
         {/* Mobile layout */}
-        <div className="lg:hidden flex flex-col items-center w-full mt-16 mb-8">
-          <div className="mb-4 text-center">
+        <div className="lg:hidden flex flex-col items-start w-full mt-16 mb-8">
+          <div className="mb-4 text-start">
             <h1 className="font-display text-sm uppercase tracking-wide mb-1">
               {metadata.title}
             </h1>
