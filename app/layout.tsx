@@ -21,12 +21,20 @@ export const metadata: Metadata = {
     description: "Design portfolio of Caecilie Lidèn Bode - Digital Design & Interactive Technologies",
     url: "https://caecilieliden.com",
     type: "website",
-    images: [],
+    images: [
+      {
+        url: "https://caecilieliden.com/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Caecilie Lidèn Bode - Design Portfolio",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Caecilie Lidèn Bode",
     description: "Design portfolio of Caecilie Lidèn Bode - Digital Design & Interactive Technologies",
+    images: ["https://caecilieliden.com/og-image.png"],
   },
 };
 
