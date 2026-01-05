@@ -9,6 +9,7 @@ export default function Header() {
         alt="Caecilie Lidèn Bode"
         className="w-full sm:max-w-md md:max-w-lg"
         priority
+        unoptimized
       />
     </header>
   );

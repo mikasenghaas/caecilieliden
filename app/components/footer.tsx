@@ -14,7 +14,7 @@ export default function Footer() {
           href="mailto:caeciliebode@gmail.com"
           aria-label="Email"
         >
-          <Image src={emailSvg} alt="Email" width={32} height={32} />
+          <Image src={emailSvg} alt="Email" width={32} height={32} unoptimized />
         </Link>
         <Link
           href="https://www.linkedin.com/in/c%C3%A6cilie-lid%C3%A9n-bode-8745a025a/"
@@ -22,7 +22,7 @@ export default function Footer() {
           rel="noopener noreferrer"
           aria-label="LinkedIn"
         >
-          <Image src={linkedinSvg} alt="LinkedIn" width={32} height={32} />
+          <Image src={linkedinSvg} alt="LinkedIn" width={32} height={32} unoptimized />
         </Link>
         <Link
           href="https://pin.it/7Jg9C1reP"
@@ -30,7 +30,7 @@ export default function Footer() {
           rel="noopener noreferrer"
           aria-label="Pinterest"
         >
-          <Image src={pinterestSvg} alt="Pinterest" width={32} height={32} />
+          <Image src={pinterestSvg} alt="Pinterest" width={32} height={32} unoptimized />
         </Link>
       </div>
       <p className="text-sm">
