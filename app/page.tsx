@@ -47,9 +47,7 @@ export default function Home() {
 
           <ProjectLink
             href="/projects/never-late-bed"
-            title="An Arduino project: The Never-Late Bed"
             flower={flowerArduino}
-            textClassName="-translate-x-4"
           />
 
           <ImageBlock src="/gallery/chicken/chicken-1.png" alt="Chicken" href="/gallery/chicken" />
@@ -77,7 +75,6 @@ export default function Home() {
 
           <ProjectLink
             href="/projects/codesign-project"
-            title="Co-Designing an App with a Live-Action Roleplay Community"
             flower={flowerCodesign}
           />
 
