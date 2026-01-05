@@ -15,9 +15,8 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       <CustomCursor />
-      <FlowerLink />
-      
-      <main className="max-w-6xl mx-auto px-2 sm:px-6 md:px-12">
+      <main className="max-w-6xl mx-auto p-2 sm:px-6 md:px-12">
+        <FlowerLink />
         <Header />
         
         {/* 2-Column Layout (below lg) */}

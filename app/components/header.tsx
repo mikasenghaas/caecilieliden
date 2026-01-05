@@ -7,7 +7,7 @@ export default function Header() {
       <Image
         src={caecilieSvg}
         alt="Caecilie Lidèn Bode"
-        className="w-full px-2 sm:px-0 sm:max-w-md md:max-w-lg"
+        className="w-full sm:max-w-md md:max-w-lg"
         priority
       />
     </header>

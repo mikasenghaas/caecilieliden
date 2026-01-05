@@ -16,19 +16,19 @@ export default function FlowerLink({ theme = "light" }: FlowerLinkProps) {
   const flowerIcon = theme === "dark" ? flowerLightSvg : flowerSvg;
   
   return (
-    <Link 
-      href="/" 
-      className={`hidden lg:block fixed top-4 left-4 z-50 transition-transform duration-300 ${
-        isHome 
-          ? "rotate-0 hover:rotate-12" 
-          : "rotate-12 hover:rotate-0"
+    <Link
+      href="/"
+      className={`block w-fit relative lg:fixed mb-4 lg:m-0 lg:top-4 lg:left-4 z-50 lg:transition-transform lg:duration-300 ${
+        isHome
+          ? "lg:rotate-0 lg:hover:rotate-12"
+          : "lg:rotate-12 lg:hover:rotate-0"
       }`}
     >
       <Image
         src={flowerIcon}
         alt="Home"
         width={55}
-        height={58}
+        height={55}
         priority
       />
     </Link>
