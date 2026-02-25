@@ -3,6 +3,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import FlowerLink from "@/app/components/flower-link";
 import CustomCursor from "@/app/components/custom-cursor";
 import MdxImage from "@/app/components/mdx-image";
+import YouTubeEmbed from "@/app/components/youtube-embed";
 import { getProjectBySlug, getProjectSlugs } from "@/lib/mdx";
 
 interface ProjectPageProps {
@@ -42,6 +43,7 @@ const mdxComponents = {
     <li className="leading-relaxed" {...props} />
   ),
   Image: MdxImage,
+  YouTube: YouTubeEmbed,
 };
 
 export default async function ProjectPage({ params }: ProjectPageProps) {
