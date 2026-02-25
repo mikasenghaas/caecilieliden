@@ -18,7 +18,7 @@ export default function Home() {
       <main className="max-w-6xl mx-auto px-4 pt-4 md:px-12">
         <FlowerLink />
         <Header />
-        
+
         {/* 2-Column Layout (below lg) */}
         <div className="columns-2 gap-1.5 sm:gap-5 pb-12 lg:hidden">
           <TextBlock>
@@ -35,7 +35,7 @@ export default function Home() {
             </p>
             <p>
               I aspire to contribute to the development of more <b>user centered,
-              mindful, and playful technology</b>.
+                mindful, and playful technology</b>.
             </p>
           </TextBlock>
 
@@ -77,6 +77,8 @@ export default function Home() {
           <ImageBlock src="/gallery/mika/mika-1.png" alt="Mika" href="/gallery/mika" />
 
           <ImageBlock src="/gallery/portrait-of-my-sister/portrait-of-my-sister-1.png" alt="Portrait of my Sister" href="/gallery/portrait-of-my-sister" />
+
+          <ImageBlock src="/gallery/blurry-flowers/blurry-flowers-1.png" alt="Blurry Flowers" href="/gallery/blurry-flowers" />
         </div>
 
         {/* 3-Column Layout (lg and above) */}
@@ -96,18 +98,13 @@ export default function Home() {
             </p>
             <p>
               I aspire to contribute to the development of more <b>user centered,
-              mindful, and playful technology</b>.
+                mindful, and playful technology</b>.
             </p>
           </TextBlock>
 
           <ImageBlock src={outlineFlower} alt="Empty slot for Bachelor thesis - Coming spring 2026" />
 
-          <ImageBlock src="/gallery/red-waves/red-waves-1.png" alt="Red Waves" href="/gallery/red-waves" />
-
-          <ProjectLink
-            href="/projects/never-late-bed"
-            flower={flowerArduino}
-          />
+          <ImageBlock src="/gallery/dream-landscape/dream-landscape-1.png" alt="Dream Landscape" href="/gallery/dream-landscape" />
 
           <ImageBlock src="/gallery/chicken/chicken-1.png" alt="Chicken" href="/gallery/chicken" />
 
@@ -121,9 +118,15 @@ export default function Home() {
 
           <ImageBlock src="/gallery/tulips/tulips-1.png" alt="Tulips" href="/gallery/tulips" />
 
+          <ImageBlock src="/gallery/red-waves/red-waves-1.png" alt="Red Waves" href="/gallery/red-waves" />
+
           <ImageBlock src="/gallery/mosaic-of-life/mosaic-of-life-1.png" alt="Mosaic of Life" href="/gallery/mosaic-of-life" />
 
-          <ImageBlock src="/gallery/dream-landscape/dream-landscape-1.png" alt="Dream Landscape" href="/gallery/dream-landscape" />
+          <ProjectLink
+            href="/projects/never-late-bed"
+            flower={flowerArduino}
+          />
+
 
           <ImageBlock src="/gallery/cherry-girl/cherry-girl-1.png" alt="Cherry Girl" href="/gallery/cherry-girl" />
 
@@ -140,8 +143,10 @@ export default function Home() {
           <ImageBlock src="/gallery/fruits/fruits-1.png" alt="Fruits" href="/gallery/fruits" />
 
           <ImageBlock src="/gallery/mika/mika-1.png" alt="Mika" href="/gallery/mika" />
+
+          <ImageBlock src="/gallery/blurry-flowers/blurry-flowers-1.png" alt="Blurry Flowers" href="/gallery/blurry-flowers" />
         </div>
-        
+
         <Footer />
       </main>
     </div>
