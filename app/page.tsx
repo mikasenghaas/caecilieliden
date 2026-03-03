@@ -9,7 +9,7 @@ import CustomCursor from "@/app/components/custom-cursor";
 // Gallery images - now from public/gallery directories
 import outlineFlower from "@/app/assets/outline-flower.svg";
 import flowerArduino from "@/app/assets/flower-arduino.svg";
-import flowerCodesign from "@/app/assets/flower-codesign-project.svg";
+import flowerCodesign from "@/app/assets/flower-codesign-project.png";
 
 export default function Home() {
   return (
