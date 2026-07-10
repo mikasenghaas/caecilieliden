@@ -14,11 +14,11 @@ export default function Home() {
     <FilterProvider>
       <div className="relative z-0 min-h-screen bg-white">
         <div
-          className="pointer-events-none absolute inset-0 -z-10 bg-[url('/stardustgraphics.svg')] bg-top bg-no-repeat bg-cover opacity-90"
+          className="pointer-events-none fixed inset-0 -z-10 bg-[url('/stardustgraphics.svg')] bg-top bg-no-repeat bg-cover opacity-90"
         />
         <CustomCursor />
         <header className="max-w-6xl mx-auto px-4 md:px-12 pt-4 pb-4 sm:pb-6">
-          <div className="flex flex-wrap items-end gap-4 min-h-[55px]">
+          <div className="flex flex-col xl:flex-row xl:flex-wrap items-start xl:items-end gap-4 xl:min-h-[55px]">
             <FlowerLink />
             <FilterNav />
           </div>
@@ -71,12 +71,12 @@ export default function Home() {
                 <ImageBlock src="/gallery/chicken/chicken-1.png" alt="Chicken" href="/gallery/chicken" />
               </FilterableItem>
 
-              <FilterableItem category="project">
-                <ProjectLink
-                  href="/projects/never-late-bed"
-                  title="The Never-Late Bed"
-                  year="2024"
-                />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/portrait-of-my-sister/portrait-of-my-sister-1.png" alt="Portrait of my Sister" href="/gallery/portrait-of-my-sister" />
+              </FilterableItem>
+
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/blurry-flowers/blurry-flowers-1.png" alt="Blurry Flowers" href="/gallery/blurry-flowers" />
               </FilterableItem>
             </div>
 
@@ -99,6 +99,14 @@ export default function Home() {
 
               <ProjectSwapSlot slot="B" />
 
+              <FilterableItem category="project">
+                <ProjectLink
+                  href="/projects/never-late-bed"
+                  title="The Never-Late Bed"
+                  year="2024"
+                />
+              </FilterableItem>
+
               <FilterableItem category="artwork">
                 <ImageBlock src="/gallery/dream-landscape/dream-landscape-1.png" alt="Dream Landscape" href="/gallery/dream-landscape" />
               </FilterableItem>
@@ -109,14 +117,6 @@ export default function Home() {
 
               <FilterableItem category="artwork">
                 <ImageBlock src="/gallery/mika/mika-1.png" alt="Mika" href="/gallery/mika" />
-              </FilterableItem>
-
-              <FilterableItem category="artwork">
-                <ImageBlock src="/gallery/portrait-of-my-sister/portrait-of-my-sister-1.png" alt="Portrait of my Sister" href="/gallery/portrait-of-my-sister" />
-              </FilterableItem>
-
-              <FilterableItem category="artwork">
-                <ImageBlock src="/gallery/blurry-flowers/blurry-flowers-1.png" alt="Blurry Flowers" href="/gallery/blurry-flowers" />
               </FilterableItem>
             </div>
           </div>

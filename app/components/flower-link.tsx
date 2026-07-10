@@ -17,16 +17,16 @@ export default function FlowerLink({ theme = "light", fixed = true }: FlowerLink
   const flowerIcon = theme === "dark" ? flowerLightSvg : flowerSvg;
 
   const positionClasses = fixed
-    ? "relative lg:fixed mb-4 lg:m-0 lg:top-4 lg:left-4"
+    ? "relative xl:fixed mb-4 xl:m-0 xl:top-4 xl:left-4"
     : "relative";
 
   return (
     <Link
       href="/"
-      className={`block w-fit shrink-0 ${positionClasses} z-50 lg:transition-transform lg:duration-300 ${
+      className={`block w-fit shrink-0 ${positionClasses} z-50 xl:transition-transform xl:duration-300 ${
         isHome
-          ? "lg:rotate-0 lg:hover:rotate-12"
-          : "lg:rotate-12 lg:hover:rotate-0"
+          ? "xl:rotate-0 xl:hover:rotate-12"
+          : "xl:rotate-12 xl:hover:rotate-0"
       }`}
     >
       <Image
