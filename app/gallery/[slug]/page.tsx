@@ -27,21 +27,21 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
 
   return (
     <>
-      <style>{`html, body { background-color: #1B1B1B !important; }`}</style>
+      <style>{`html, body { background-color: #FFFFFF !important; }`}</style>
       <CustomCursor />
-      <div className="min-h-screen bg-foreground text-background">
+      <div className="min-h-screen bg-white text-foreground">
         <div className="px-4 pt-4 md:px-12 lg:p-0">
-          <FlowerLink theme="dark" />
+          <FlowerLink />
         </div>
 
       <main className="min-h-screen flex items-center justify-center px-6 py-12">
         {/* Mobile layout */}
         <div className="lg:hidden flex flex-col items-start w-full mt-16 mb-8">
           <div className="mb-4 text-start">
-            <h1 className="font-display text-sm uppercase tracking-wide mb-1">
+            <h1 className="text-xs sm:text-sm leading-relaxed mb-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               {metadata.title}
             </h1>
-            <p className="text-xs text-background/60">
+            <p className="text-xs sm:text-sm text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               {metadata.year}
             </p>
           </div>
@@ -67,10 +67,10 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
         <div className="hidden lg:block relative w-full max-w-lg mt-28 mb-14">
           {/* Metadata - positioned absolutely to the left of the image */}
           <aside className="absolute right-full top-0 mr-8 text-right w-40">
-            <h1 className="font-display text-sm uppercase tracking-wide mb-1">
+            <h1 className="text-xs sm:text-sm leading-relaxed mb-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               {metadata.title}
             </h1>
-            <p className="text-xs text-background/60">
+            <p className="text-xs sm:text-sm text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               {metadata.year}
             </p>
           </aside>

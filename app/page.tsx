@@ -1,154 +1,229 @@
 import FlowerLink from "@/app/components/flower-link";
-import Header from "@/app/components/header";
+import FilterNav from "@/app/components/filter-nav";
 import TextBlock from "@/app/components/text-block";
 import ImageBlock from "@/app/components/image-block";
 import ProjectLink from "@/app/components/project-link";
+import ProjectSwapSlot from "@/app/components/project-swap-slot";
 import Footer from "@/app/components/footer";
 import CustomCursor from "@/app/components/custom-cursor";
-
-// Gallery images - now from public/gallery directories
-import outlineFlower from "@/app/assets/outline-flower.svg";
-import flowerArduino from "@/app/assets/flower-arduino.svg";
-import flowerCodesign from "@/app/assets/flower-codesign-project.png";
+import FilterableItem from "@/app/components/filterable-item";
+import { FilterProvider } from "@/app/context/filter-context";
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
-      <CustomCursor />
-      <main className="max-w-6xl mx-auto px-4 pt-4 md:px-12">
-        <FlowerLink />
-        <Header />
+    <FilterProvider>
+      <div className="relative z-0 min-h-screen bg-white">
+        <div
+          className="pointer-events-none absolute inset-0 -z-10 bg-[url('/stardustgraphics.svg')] bg-top bg-no-repeat bg-[length:100%_auto]"
+        />
+        <CustomCursor />
+        <header className="max-w-6xl mx-auto px-4 md:px-12 pt-4 pb-4 sm:pb-6">
+          <div className="flex flex-wrap items-end gap-4 h-[55px]">
+            <FlowerLink />
+            <FilterNav />
+          </div>
+        </header>
+        <main className="max-w-6xl mx-auto px-4 md:px-12">
+          {/* 2-Column Layout (below lg) */}
+          <div className="flex gap-1.5 sm:gap-5 pb-12 lg:hidden">
+            {/* Column 1 */}
+            <div className="flex-1 flex flex-col">
+              <TextBlock>
+                <p className="mb-4">
+                  Welcome to my page!
+                </p>
+                <p className="mb-4">
+                  My name is <span className="font-bold text-[#ED2E85]">Cæcilie Lidén Bode</span> and
+                  I am a Copenhagen based digital designer working with digital material and
+                  interactive technologies.
+                </p>
+                <p>
+                  Currently I am interested in concepts of <span className="font-bold text-[#ED2E85]">creativity</span>,{" "}
+                  <span className="font-bold text-[#ED2E85]">play</span>, and{" "}
+                  <span className="font-bold text-[#ED2E85]">co-design</span>, and am in a process of
+                  exploring materials and learning new tools.
+                </p>
+              </TextBlock>
 
-        {/* 2-Column Layout (below lg) */}
-        <div className="columns-2 gap-1.5 sm:gap-5 pb-12 lg:hidden">
-          <TextBlock>
-            <p className="mb-4">
-              I am a bachelor student in <b>Digital Design & Interactive Technologies</b> at
-              the IT-University of Copenhagen (until summer 2026).
-            </p>
-            <p className="mb-4">
-              What began as a personal interest in creating art and graphics has, through
-              my studies, developed into an aspiration of designing meaningful digital solutions.
-              I love creating with others and with people different to myself. I am particularly
-              interested in prototyping through <b>creative and playful processes</b>, turning ideas into
-              tangible experiences using both software and hardware.
-            </p>
-            <p>
-              I aspire to contribute to the development of more <b>user centered,
-                mindful, and playful technology</b>.
-            </p>
-          </TextBlock>
+              <FilterableItem category="project">
+                <ProjectLink
+                  href="/projects/co-design-ai-acute-health"
+                  title="Co-Design of AI Solution for Acute Health Situations (My Bachelor Thesis Project)"
+                  year="2026"
+                />
+              </FilterableItem>
 
-          <ImageBlock src={outlineFlower} alt="Empty slot for Bachelor thesis - Coming spring 2026" />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/red-waves/red-waves-1.png" alt="Red Waves" href="/gallery/red-waves" />
+              </FilterableItem>
 
-          <ImageBlock src="/gallery/red-waves/red-waves-1.png" alt="Red Waves" href="/gallery/red-waves" />
+              <ProjectSwapSlot slot="A" />
 
-          <ProjectLink
-            href="/projects/never-late-bed"
-            flower={flowerArduino}
-          />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/mosaic-of-life/mosaic-of-life-1.png" alt="Mosaic of Life" href="/gallery/mosaic-of-life" />
+              </FilterableItem>
 
-          <ImageBlock src="/gallery/mosaic-of-life/mosaic-of-life-1.png" alt="Mosaic of Life" href="/gallery/mosaic-of-life" />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/fruits/fruits-1.png" alt="Fruits" href="/gallery/fruits" />
+              </FilterableItem>
 
-          <ImageBlock src="/gallery/fruits/fruits-1.png" alt="Fruits" href="/gallery/fruits" />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/chicken/chicken-1.png" alt="Chicken" href="/gallery/chicken" />
+              </FilterableItem>
 
-          <ImageBlock src="/gallery/chicken/chicken-1.png" alt="Chicken" href="/gallery/chicken" />
+              <FilterableItem category="project">
+                <ProjectLink
+                  href="/projects/never-late-bed"
+                  title="The Never-Late Bed"
+                  year="2024"
+                />
+              </FilterableItem>
+            </div>
 
-          <TextBlock className="break-before-column">
-            <p>
-              This is my <b>project parking spot</b>. Here you can see a mix of my digital design
-              projects and personal art pieces.
-            </p>
-          </TextBlock>
+            {/* Column 2 */}
+            <div className="flex-1 flex flex-col">
+              <TextBlock>
+                <p>
+                  This is my <span className="font-bold text-[#ED2E85]">project parking</span> spot. Here you can see a mix of my digital design
+                  projects and personal art pieces.
+                </p>
+              </TextBlock>
 
-          <ImageBlock src="/gallery/tulips/tulips-1.png" alt="Tulips" href="/gallery/tulips" />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/tulips/tulips-1.png" alt="Tulips" href="/gallery/tulips" />
+              </FilterableItem>
 
-          <ImageBlock src="/gallery/self-portrait/self-portrait-1.png" alt="Self Portrait" href="/gallery/self-portrait" />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/self-portrait/self-portrait-1.png" alt="Self Portrait" href="/gallery/self-portrait" />
+              </FilterableItem>
 
-          <ProjectLink
-            href="/projects/codesign-project"
-            flower={flowerCodesign}
-          />
+              <ProjectSwapSlot slot="B" />
 
-          <ImageBlock src="/gallery/dream-landscape/dream-landscape-1.png" alt="Dream Landscape" href="/gallery/dream-landscape" />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/dream-landscape/dream-landscape-1.png" alt="Dream Landscape" href="/gallery/dream-landscape" />
+              </FilterableItem>
 
-          <ImageBlock src="/gallery/cherry-girl/cherry-girl-1.png" alt="Cherry Girl" href="/gallery/cherry-girl" />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/cherry-girl/cherry-girl-1.png" alt="Cherry Girl" href="/gallery/cherry-girl" />
+              </FilterableItem>
 
-          <ImageBlock src="/gallery/mika/mika-1.png" alt="Mika" href="/gallery/mika" />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/mika/mika-1.png" alt="Mika" href="/gallery/mika" />
+              </FilterableItem>
 
-          <ImageBlock src="/gallery/portrait-of-my-sister/portrait-of-my-sister-1.png" alt="Portrait of my Sister" href="/gallery/portrait-of-my-sister" />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/portrait-of-my-sister/portrait-of-my-sister-1.png" alt="Portrait of my Sister" href="/gallery/portrait-of-my-sister" />
+              </FilterableItem>
 
-          <ImageBlock src="/gallery/blurry-flowers/blurry-flowers-1.png" alt="Blurry Flowers" href="/gallery/blurry-flowers" />
-        </div>
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/blurry-flowers/blurry-flowers-1.png" alt="Blurry Flowers" href="/gallery/blurry-flowers" />
+              </FilterableItem>
+            </div>
+          </div>
 
-        {/* 3-Column Layout (lg and above) */}
-        <div className="hidden lg:block lg:columns-3 gap-6 pb-12">
-          {/* Column 1 */}
-          <TextBlock>
-            <p className="mb-4">
-              I am a bachelor student in <b>Digital Design & Interactive Technologies</b> at
-              the IT-University of Copenhagen (until summer 2026).
-            </p>
-            <p className="mb-4">
-              What began as a personal interest in creating art and graphics has, through
-              my studies, developed into an aspiration of designing meaningful digital solutions.
-              I love creating with others and with people different to myself. I am particularly
-              interested in prototyping through <b>creative and playful processes</b>, turning ideas into
-              tangible experiences using both software and hardware.
-            </p>
-            <p>
-              I aspire to contribute to the development of more <b>user centered,
-                mindful, and playful technology</b>.
-            </p>
-          </TextBlock>
+          {/* 3-Column Layout (lg and above) */}
+          <div className="hidden lg:flex gap-6 pb-12">
+            {/* Column 1 */}
+            <div className="flex-1 flex flex-col">
+              <TextBlock>
+                <p className="mb-4">
+                  Welcome to my page!
+                </p>
+                <p className="mb-4">
+                  My name is <span className="font-bold text-[#ED2E85]">Cæcilie Lidén Bode</span> and
+                  I am a Copenhagen based digital designer working with digital material and
+                  interactive technologies.
+                </p>
+                <p>
+                  Currently I am interested in concepts of <span className="font-bold text-[#ED2E85]">creativity</span>,{" "}
+                  <span className="font-bold text-[#ED2E85]">play</span>, and{" "}
+                  <span className="font-bold text-[#ED2E85]">co-design</span>, and am in a process of
+                  exploring materials and learning new tools.
+                </p>
+              </TextBlock>
 
-          <ImageBlock src={outlineFlower} alt="Empty slot for Bachelor thesis - Coming spring 2026" />
+              <FilterableItem category="project">
+                <ProjectLink
+                  href="/projects/co-design-ai-acute-health"
+                  title="Co-Design of AI Solution for Acute Health Situations (My Bachelor Thesis Project)"
+                  year="2026"
+                />
+              </FilterableItem>
 
-          <ImageBlock src="/gallery/dream-landscape/dream-landscape-1.png" alt="Dream Landscape" href="/gallery/dream-landscape" />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/dream-landscape/dream-landscape-1.png" alt="Dream Landscape" href="/gallery/dream-landscape" />
+              </FilterableItem>
 
-          <ImageBlock src="/gallery/chicken/chicken-1.png" alt="Chicken" href="/gallery/chicken" />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/chicken/chicken-1.png" alt="Chicken" href="/gallery/chicken" />
+              </FilterableItem>
 
-          {/* Column 2 */}
-          <TextBlock className="break-before-column">
-            <p>
-              This is my <b>project parking spot</b>. Here you can see a mix of my digital design
-              projects and personal art pieces.
-            </p>
-          </TextBlock>
+              <FilterableItem category="project">
+                <ProjectLink
+                  href="/projects/never-late-bed"
+                  title="The Never-Late Bed"
+                  year="2024"
+                />
+              </FilterableItem>
+            </div>
 
-          <ImageBlock src="/gallery/tulips/tulips-1.png" alt="Tulips" href="/gallery/tulips" />
+            {/* Column 2 */}
+            <div className="flex-1 flex flex-col">
+              <TextBlock>
+                <p>
+                  This is my <span className="font-bold text-[#ED2E85]">project parking</span> spot. Here you can see a mix of my digital design
+                  projects and personal art pieces.
+                </p>
+              </TextBlock>
 
-          <ImageBlock src="/gallery/red-waves/red-waves-1.png" alt="Red Waves" href="/gallery/red-waves" />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/tulips/tulips-1.png" alt="Tulips" href="/gallery/tulips" />
+              </FilterableItem>
 
-          <ImageBlock src="/gallery/mosaic-of-life/mosaic-of-life-1.png" alt="Mosaic of Life" href="/gallery/mosaic-of-life" />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/red-waves/red-waves-1.png" alt="Red Waves" href="/gallery/red-waves" />
+              </FilterableItem>
 
-          <ProjectLink
-            href="/projects/never-late-bed"
-            flower={flowerArduino}
-          />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/mosaic-of-life/mosaic-of-life-1.png" alt="Mosaic of Life" href="/gallery/mosaic-of-life" />
+              </FilterableItem>
 
+              <ProjectSwapSlot slot="A" />
 
-          <ImageBlock src="/gallery/cherry-girl/cherry-girl-1.png" alt="Cherry Girl" href="/gallery/cherry-girl" />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/cherry-girl/cherry-girl-1.png" alt="Cherry Girl" href="/gallery/cherry-girl" />
+              </FilterableItem>
 
-          <ImageBlock src="/gallery/portrait-of-my-sister/portrait-of-my-sister-1.png" alt="Portrait of my Sister" href="/gallery/portrait-of-my-sister" />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/portrait-of-my-sister/portrait-of-my-sister-1.png" alt="Portrait of my Sister" href="/gallery/portrait-of-my-sister" />
+              </FilterableItem>
+            </div>
 
-          {/* Column 3 */}
-          <ImageBlock src="/gallery/self-portrait/self-portrait-1.png" alt="Self Portrait" href="/gallery/self-portrait" className="break-before-column" />
+            {/* Column 3 */}
+            <div className="flex-1 flex flex-col">
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/self-portrait/self-portrait-1.png" alt="Self Portrait" href="/gallery/self-portrait" />
+              </FilterableItem>
 
-          <ProjectLink
-            href="/projects/codesign-project"
-            flower={flowerCodesign}
-          />
+              <ProjectSwapSlot slot="B" />
 
-          <ImageBlock src="/gallery/fruits/fruits-1.png" alt="Fruits" href="/gallery/fruits" />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/fruits/fruits-1.png" alt="Fruits" href="/gallery/fruits" />
+              </FilterableItem>
 
-          <ImageBlock src="/gallery/mika/mika-1.png" alt="Mika" href="/gallery/mika" />
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/mika/mika-1.png" alt="Mika" href="/gallery/mika" />
+              </FilterableItem>
 
-          <ImageBlock src="/gallery/blurry-flowers/blurry-flowers-1.png" alt="Blurry Flowers" href="/gallery/blurry-flowers" />
-        </div>
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/blurry-flowers/blurry-flowers-1.png" alt="Blurry Flowers" href="/gallery/blurry-flowers" />
+              </FilterableItem>
+            </div>
+          </div>
 
-        <Footer />
-      </main>
-    </div>
+          <Footer />
+        </main>
+      </div>
+    </FilterProvider>
   );
 }

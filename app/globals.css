@@ -13,14 +13,14 @@
   }
 
   body {
-    background-color: #F2F5D3;
+    background-color: #FFFFFF;
     color: #1B1B1B;
     font-family: var(--font-sans), Arial, Helvetica, sans-serif;
   }
 
   ::selection {
-    background-color: #848a5f92;
-    color: #F2F5D3;
+    background-color: #FFDEF4;
+    color: #ED2E85;
   }
 
 }
