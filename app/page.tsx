@@ -14,11 +14,11 @@ export default function Home() {
     <FilterProvider>
       <div className="relative z-0 min-h-screen bg-white">
         <div
-          className="pointer-events-none absolute inset-0 -z-10 bg-[url('/stardustgraphics.svg')] bg-top bg-no-repeat bg-[length:100%_auto]"
+          className="pointer-events-none absolute inset-0 -z-10 bg-[url('/stardustgraphics.svg')] bg-top bg-no-repeat bg-cover opacity-90"
         />
         <CustomCursor />
         <header className="max-w-6xl mx-auto px-4 md:px-12 pt-4 pb-4 sm:pb-6">
-          <div className="flex flex-wrap items-end gap-4 h-[55px]">
+          <div className="flex flex-wrap items-end gap-4 min-h-[55px]">
             <FlowerLink />
             <FilterNav />
           </div>
