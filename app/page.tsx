@@ -74,10 +74,6 @@ export default function Home() {
               <FilterableItem category="artwork">
                 <ImageBlock src="/gallery/portrait-of-my-sister/portrait-of-my-sister-1.png" alt="Portrait of my Sister" href="/gallery/portrait-of-my-sister" />
               </FilterableItem>
-
-              <FilterableItem category="artwork">
-                <ImageBlock src="/gallery/blurry-flowers/blurry-flowers-1.png" alt="Blurry Flowers" href="/gallery/blurry-flowers" />
-              </FilterableItem>
             </div>
 
             {/* Column 2 */}
@@ -117,6 +113,10 @@ export default function Home() {
 
               <FilterableItem category="artwork">
                 <ImageBlock src="/gallery/mika/mika-1.png" alt="Mika" href="/gallery/mika" />
+              </FilterableItem>
+
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/blurry-flowers/blurry-flowers-1.png" alt="Blurry Flowers" href="/gallery/blurry-flowers" />
               </FilterableItem>
             </div>
           </div>
