@@ -6,32 +6,18 @@ interface ProjectLinkProps {
   title: string;
   year: string;
   image?: StaticImageData | string;
-  hoverImage?: StaticImageData | string;
   className?: string;
 }
 
-export default function ProjectLink({ href, title, year, image, hoverImage, className = "" }: ProjectLinkProps) {
+export default function ProjectLink({ href, title, year, image, className = "" }: ProjectLinkProps) {
   return (
     <Link
       href={href}
-      className={`group block transition-transform duration-200 ease-out hover:scale-[1.02] break-inside-avoid mb-1.5 sm:mb-5 lg:mb-6 ${className}`}
+      className={`block transition-transform duration-200 ease-out hover:scale-[1.02] break-inside-avoid mb-1.5 sm:mb-5 lg:mb-6 ${className}`}
     >
       {image ? (
         <div className="relative w-full aspect-[305/200] overflow-hidden">
-          <Image
-            src={image}
-            alt={title}
-            fill
-            className={`object-cover ${hoverImage ? "transition-opacity duration-200 ease-out group-hover:opacity-0" : ""}`}
-          />
-          {hoverImage && (
-            <Image
-              src={hoverImage}
-              alt={title}
-              fill
-              className="object-cover absolute inset-0 opacity-0 transition-opacity duration-200 ease-out group-hover:opacity-100"
-            />
-          )}
+          <Image src={image} alt={title} fill className="object-cover" />
         </div>
       ) : (
         <div className="w-full aspect-[305/200] bg-gray-300" />

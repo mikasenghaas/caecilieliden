@@ -1,5 +1,4 @@
-import neverLateBedImage from "@/app/assets/neverlatebed-front.png";
-import neverLateBedImageHover from "@/app/assets/neverlatebed-front-hover.png";
+import neverLateBedImage from "@/app/assets/neverlatebed-front-hover.png";
 import FlowerLink from "@/app/components/flower-link";
 import FilterNav from "@/app/components/filter-nav";
 import TextBlock from "@/app/components/text-block";
@@ -107,7 +106,6 @@ export default function Home() {
                   title="The Never-Late Bed"
                   year="2024"
                   image={neverLateBedImage}
-                  hoverImage={neverLateBedImageHover}
                 />
               </FilterableItem>
 
@@ -172,7 +170,6 @@ export default function Home() {
                   title="The Never-Late Bed"
                   year="2024"
                   image={neverLateBedImage}
-                  hoverImage={neverLateBedImageHover}
                 />
               </FilterableItem>
 
