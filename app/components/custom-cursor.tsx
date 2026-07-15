@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 export default function CustomCursor() {
   const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
   const [isInViewport, setIsInViewport] = useState(true);
+  const [isOverIframe, setIsOverIframe] = useState(false);
   const [hasPointer, setHasPointer] = useState(false);
 
   // Check if device has a fine pointer (mouse)
@@ -33,15 +34,33 @@ export default function CustomCursor() {
     document.addEventListener("mouseleave", handleMouseLeave);
     document.addEventListener("mouseenter", handleMouseEnter);
 
+    // iframes (e.g. YouTube embeds) are separate documents, so pointermove
+    // stops firing once the cursor enters one, causing it to freeze/"park"
+    // at the iframe's edge. mouseenter/mouseleave on the iframe element
+    // itself still fire though, since that's tracked by the parent page -
+    // use those to hide our cursor and let the iframe's own cursor show.
+    const iframes = Array.from(document.querySelectorAll("iframe"));
+    const handleIframeEnter = () => setIsOverIframe(true);
+    const handleIframeLeave = () => setIsOverIframe(false);
+    iframes.forEach((iframe) => {
+      iframe.addEventListener("mouseenter", handleIframeEnter);
+      iframe.addEventListener("mouseleave", handleIframeLeave);
+    });
+
     return () => {
       document.removeEventListener("pointermove", updatePosition);
       document.removeEventListener("mouseleave", handleMouseLeave);
       document.removeEventListener("mouseenter", handleMouseEnter);
+      iframes.forEach((iframe) => {
+        iframe.removeEventListener("mouseenter", handleIframeEnter);
+        iframe.removeEventListener("mouseleave", handleIframeLeave);
+      });
     };
   }, [hasPointer]);
 
-  // Don't render on touch-only devices or if we don't have a position yet
-  if (!hasPointer || !position) return null;
+  // Don't render on touch-only devices, if we don't have a position yet,
+  // or while hovering an iframe (video embeds get their own cursor)
+  if (!hasPointer || !position || isOverIframe) return null;
 
   return (
     <div

@@ -1,3 +1,5 @@
+import neverLateBedImage from "@/app/assets/neverlatebed-front.png";
+import neverLateBedImageHover from "@/app/assets/neverlatebed-front-hover.png";
 import FlowerLink from "@/app/components/flower-link";
 import FilterNav from "@/app/components/filter-nav";
 import TextBlock from "@/app/components/text-block";
@@ -34,13 +36,13 @@ export default function Home() {
                 </p>
                 <p className="mb-4">
                   My name is <span className="font-bold text-[#ED2E85]">Cæcilie Lidén Bode</span> and
-                  I am a Copenhagen based digital designer working with digital material and
-                  interactive technologies.
+                  I am a Copenhagen based digital designer. I design{" "}
+                  <span className="font-bold text-[#ED2E85]">interactions between people and technology</span>.
                 </p>
                 <p>
                   Currently I am interested in concepts of <span className="font-bold text-[#ED2E85]">creativity</span>,{" "}
                   <span className="font-bold text-[#ED2E85]">play</span>, and{" "}
-                  <span className="font-bold text-[#ED2E85]">co-design</span>, and am in a process of
+                  <span className="font-bold text-[#ED2E85]">co-design,</span> and am in a process of
                   exploring materials and learning new tools.
                 </p>
               </TextBlock>
@@ -74,6 +76,10 @@ export default function Home() {
               <FilterableItem category="artwork">
                 <ImageBlock src="/gallery/portrait-of-my-sister/portrait-of-my-sister-1.png" alt="Portrait of my Sister" href="/gallery/portrait-of-my-sister" />
               </FilterableItem>
+
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/graphics-for-portfolio-website/graphics-for-portfolio-1.png" alt="Graphics for Portfolio" href="/gallery/graphics-for-portfolio-website" />
+              </FilterableItem>
             </div>
 
             {/* Column 2 */}
@@ -100,6 +106,8 @@ export default function Home() {
                   href="/projects/never-late-bed"
                   title="The Never-Late Bed"
                   year="2024"
+                  image={neverLateBedImage}
+                  hoverImage={neverLateBedImageHover}
                 />
               </FilterableItem>
 
@@ -131,13 +139,13 @@ export default function Home() {
                 </p>
                 <p className="mb-4">
                   My name is <span className="font-bold text-[#ED2E85]">Cæcilie Lidén Bode</span> and
-                  I am a Copenhagen based digital designer working with digital material and
-                  interactive technologies.
+                  I am a Copenhagen based digital designer. I design{" "}
+                  <span className="font-bold text-[#ED2E85]">interactions between people and technology</span>.
                 </p>
                 <p>
                   Currently I am interested in concepts of <span className="font-bold text-[#ED2E85]">creativity</span>,{" "}
                   <span className="font-bold text-[#ED2E85]">play</span>, and{" "}
-                  <span className="font-bold text-[#ED2E85]">co-design</span>, and am in a process of
+                  <span className="font-bold text-[#ED2E85]">co-design,</span> and am in a process of
                   exploring materials and learning new tools.
                 </p>
               </TextBlock>
@@ -163,7 +171,13 @@ export default function Home() {
                   href="/projects/never-late-bed"
                   title="The Never-Late Bed"
                   year="2024"
+                  image={neverLateBedImage}
+                  hoverImage={neverLateBedImageHover}
                 />
+              </FilterableItem>
+
+              <FilterableItem category="artwork">
+                <ImageBlock src="/gallery/graphics-for-portfolio-website/graphics-for-portfolio-1.png" alt="Graphics for Portfolio" href="/gallery/graphics-for-portfolio-website" />
               </FilterableItem>
             </div>
 
