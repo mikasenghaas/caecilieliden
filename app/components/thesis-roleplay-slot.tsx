@@ -22,7 +22,7 @@ export default function ThesisRoleplaySlot({ position }: { position: Position })
   const thesis = (
     <ProjectLink
       href="/projects/co-design-ai-acute-health"
-      title="Co-Design of AI Solution for Acute Health Situations (My Bachelor Thesis Project)"
+      title="Co-Design of AI Solution for Acute Health Situations (Bachelor Thesis Project)"
       year="2026"
       image={thesisImage}
     />

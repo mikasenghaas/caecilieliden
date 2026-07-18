@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image, { StaticImageData } from "next/image";
-import meImage from "@/app/assets/me.png";
 import { useFilter } from "@/app/context/filter-context";
+import TextBlock from "@/app/components/text-block";
 
 type SatelliteNode =
   | { kind: "text"; text: string; parentId?: number }
@@ -12,15 +12,11 @@ type SatelliteNode =
 const SATELLITE_NODES: SatelliteNode[] = [
   { kind: "text", text: "I am from Copenhagen." },
   { kind: "text", text: "BSc in Digital Design and Interactive Technologies from the IT-University of Copenhagen." },
-  {
-    kind: "text",
-    text: "I can now study, analyze and design digital technologies based on the relationship between people, society, and digital technologies.",
-    parentId: 2,
-  },
-  { kind: "text", text: "My goal in life is to spend as much time as possible being creative and playing." },
+  { kind: "text", text: "I thrive when I am being creative and when I play." },
   { kind: "text", text: "I love drawing, painting, and journalling." },
-  { kind: "text", text: "I enjoy bouldering, swimming, running." },
+  { kind: "text", text: "I enjoy bouldering, swimming, and running." },
   { kind: "text", text: "Currently trying to learn touchdesigner." },
+  { kind: "text", text: "I've run Copenhagen Marathon twice!" },
 ];
 
 const SATELLITE_COUNT = SATELLITE_NODES.length;
@@ -43,12 +39,30 @@ const RETURN_SPRING_STRENGTH = 0.05;
 const RETURN_DAMPING = 0.8;
 const RETURN_DONE_DISTANCE = 0.75;
 
+// A small continuous, per-node oscillating force so nodes never fully settle
+// into a static layout — they keep gently drifting, with the spring/repulsion
+// forces above keeping that drift loose and slow rather than letting nodes
+// wander off or collide. Frequencies are irrational multiples of each other
+// (and offset per node id) so nodes drift in and out of sync rather than
+// pulsing in unison.
+const WANDER_STRENGTH = 0.18;
+const WANDER_FREQUENCY_X = 0.010;
+const WANDER_FREQUENCY_Y = 0.0085;
+
 const DOT_SIZE = 8;
 const LABEL_GAP = 4;
 const COLLISION_PADDING = 14;
 const COLLISION_ITERATIONS = 12;
 const EDGE_MARGIN = 16;
-const CENTER_Y_FRACTION = 0.4;
+// The center is now just an invisible anchor point the free-floating nodes
+// gently gather around (no image/dot is rendered for it), so it sits in the
+// middle of the container rather than being offset for content below it.
+const CENTER_Y_FRACTION = 0.5;
+
+// Below this width, the draggable radial mind-map (designed for wider
+// screens) doesn't have enough room to lay itself out and reads poorly.
+// Phones get a simple static layout instead (see the early return below).
+const MOBILE_BREAKPOINT_QUERY = "(max-width: 639px)";
 
 interface SimNode {
   id: number;
@@ -79,8 +93,30 @@ export default function AboutMeMindMap() {
   const returningRef = useRef(false);
   const frameRef = useRef<number | null>(null);
   const requestReturnRef = useRef<() => void>(() => {});
+  const wanderTimeRef = useRef(0);
+
+  // This component only ever mounts client-side (after the "About Me" filter
+  // is selected), so window is always available here.
+  const [isMobile, setIsMobile] = useState(() => window.matchMedia(MOBILE_BREAKPOINT_QUERY).matches);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia(MOBILE_BREAKPOINT_QUERY);
+    const update = () => setIsMobile(mediaQuery.matches);
+    mediaQuery.addEventListener("change", update);
+    return () => mediaQuery.removeEventListener("change", update);
+  }, []);
+
+  // Mobile-only: refs for measuring dot positions (so the connecting lines
+  // between sub-branch nodes can be drawn) and a mounted flag that flips
+  // shortly after layout to drive a simple opacity fade-in, instead of the
+  // draggable version's physics animation.
+  const mobileContainerRef = useRef<HTMLDivElement>(null);
+  const mobileNodeDotRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const mobileLineRefs = useRef<(SVGLineElement | null)[]>([]);
+  const [mobileMounted, setMobileMounted] = useState(false);
 
   useLayoutEffect(() => {
+    if (isMobile) return;
     const container = containerRef.current;
     if (!container) return;
 
@@ -390,7 +426,58 @@ export default function AboutMeMindMap() {
     return () => {
       if (frameRef.current !== null) cancelAnimationFrame(frameRef.current);
     };
-  }, []);
+  }, [isMobile]);
+
+  // Mobile: draw the pink connecting lines between sub-branch nodes (e.g. the
+  // BSc node and its child) by measuring their actual rendered positions,
+  // and fade everything in once. Root-level nodes have no center to connect
+  // to anymore, so they get no line. Re-measured on resize since the static
+  // grid layout can reflow at different widths.
+  useLayoutEffect(() => {
+    if (!isMobile) return;
+    const container = mobileContainerRef.current;
+    if (!container) return;
+
+    const updateLines = () => {
+      const containerRect = container.getBoundingClientRect();
+
+      const dotCenters: { x: number; y: number }[] = [];
+      for (let index = 0; index < SATELLITE_COUNT; index++) {
+        const dot = mobileNodeDotRefs.current[index];
+        if (!dot) {
+          dotCenters.push({ x: 0, y: 0 });
+          continue;
+        }
+        const dotRect = dot.getBoundingClientRect();
+        dotCenters.push({
+          x: dotRect.left + dotRect.width / 2 - containerRect.left,
+          y: dotRect.top + dotRect.height / 2 - containerRect.top,
+        });
+      }
+
+      for (let index = 0; index < SATELLITE_COUNT; index++) {
+        const line = mobileLineRefs.current[index];
+        if (!line) continue;
+        const parentId = PARENT_ID_BY_ID[index + 1];
+        if (parentId === 0) continue;
+        const from = dotCenters[parentId - 1];
+        const to = dotCenters[index];
+        line.setAttribute("x1", String(from.x));
+        line.setAttribute("y1", String(from.y));
+        line.setAttribute("x2", String(to.x));
+        line.setAttribute("y2", String(to.y));
+      }
+    };
+
+    updateLines();
+    const mountTimeout = setTimeout(() => setMobileMounted(true), 20);
+    window.addEventListener("resize", updateLines);
+    return () => {
+      clearTimeout(mountTimeout);
+      window.removeEventListener("resize", updateLines);
+      setMobileMounted(false);
+    };
+  }, [isMobile]);
 
   // Whenever the About Me button is re-clicked while already on this page,
   // aboutMeResetSignal increments; animate any dragged nodes back to their
@@ -442,89 +529,165 @@ export default function AboutMeMindMap() {
     window.addEventListener("pointerup", handlePointerUp);
   };
 
-  return (
-    <div ref={containerRef} className="relative w-full h-[700px] sm:h-[800px] pb-12 touch-none">
-      <svg className="absolute inset-0 w-full h-full overflow-visible">
-        {Array.from({ length: SATELLITE_COUNT }, (_, index) => (
-          <line
-            key={index}
-            ref={(el) => {
-              lineElRefs.current[index] = el;
-            }}
-            stroke="#ED2E85"
-            strokeWidth="1"
-            strokeLinecap="round"
-          />
-        ))}
-      </svg>
+  // Phones: a plain static layout (front-page intro text, then the
+  // free-floating nodes in a compact grid) instead of the draggable radial
+  // mind-map, so everything is readable and mostly fits without scrolling.
+  if (isMobile) {
+    return (
+      <div>
+        <TextBlock>
+          <p className="mb-4">
+            My name is <span className="font-bold text-[#ED2E85]">Cæcilie Lidén Bode</span> and
+            I am a digital designer from Copenhagen.
+          </p>
+          <p className="mb-4">
+            I study, analyze and design interactions between people, society and digital technology.
+          </p>
+          <p className="mb-4">
+            Currently I am very interested in concepts of <span className="font-bold text-[#ED2E85]">creativity</span>,{" "}
+            <span className="font-bold text-[#ED2E85]">play</span>, and{" "}
+            <span className="font-bold text-[#ED2E85]">co-design,</span> and am in a process of
+            exploring the digital world and learning new tools.
+          </p>
+          <p>
+            This is my <span className="font-bold text-[#ED2E85]">project parking</span> spot. Here you can see a mix of my digital design
+            projects and personal art pieces.
+          </p>
+        </TextBlock>
 
-      <div
-        ref={(el) => {
-          nodeElRefs.current[0] = el;
-        }}
-        onPointerDown={handlePointerDown(0)}
-        className="absolute top-0 left-0 cursor-grab active:cursor-grabbing"
-      >
-        <span className="block w-2 h-2 rounded-full bg-[#ED2E85] -translate-x-1/2 -translate-y-1/2" />
-        <div
-          ref={(el) => {
-            contentElRefs.current[0] = el;
-          }}
-          className="absolute top-full left-0 -translate-x-1/2 mt-1 w-[230px] sm:w-[269px] select-none"
-        >
-          <div className="relative">
-            <Image
-              src={meImage}
-              alt="Cæcilie"
-              className="w-full h-auto object-cover pointer-events-none"
-              draggable={false}
-            />
-            <span className="absolute bottom-[10px] left-1/2 translate-x-[calc(-50%+6px)] text-xs sm:text-sm font-bold text-white select-none">
-              me
-            </span>
+        <div ref={mobileContainerRef} className="relative flex flex-col items-center pb-8">
+          <svg className="absolute inset-0 w-full h-full overflow-visible pointer-events-none">
+            {SATELLITE_NODES.map((_, index) => {
+              if (PARENT_ID_BY_ID[index + 1] === 0) return null;
+              return (
+                <line
+                  key={index}
+                  ref={(el) => {
+                    mobileLineRefs.current[index] = el;
+                  }}
+                  stroke="#ED2E85"
+                  strokeWidth="1"
+                  strokeLinecap="round"
+                  className="transition-opacity duration-500 ease-out"
+                  style={{ opacity: mobileMounted ? 1 : 0, transitionDelay: `${80 + index * 40}ms` }}
+                />
+              );
+            })}
+          </svg>
+
+          <div className="grid grid-cols-2 gap-x-3 gap-y-4">
+            {SATELLITE_NODES.map((satelliteNode, index) => (
+              <div
+                key={index}
+                className="flex flex-col items-center gap-1 text-center transition-opacity duration-500 ease-out"
+                style={{ opacity: mobileMounted ? 1 : 0, transitionDelay: `${80 + index * 40}ms` }}
+              >
+                <span
+                  ref={(el) => {
+                    mobileNodeDotRefs.current[index] = el;
+                  }}
+                  className="block w-1.5 h-1.5 rounded-full bg-[#ED2E85]"
+                />
+                {satelliteNode.kind === "text" ? (
+                  <p className="text-[11px] leading-snug select-none">{satelliteNode.text}</p>
+                ) : (
+                  <Image
+                    src={satelliteNode.src}
+                    alt={satelliteNode.alt}
+                    className="w-full h-auto object-cover pointer-events-none"
+                    draggable={false}
+                  />
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
+    );
+  }
 
-      {SATELLITE_NODES.map((satelliteNode, index) => {
-        const id = index + 1;
-        return (
-          <div
-            key={id}
-            ref={(el) => {
-              nodeElRefs.current[id] = el;
-            }}
-            onPointerDown={handlePointerDown(id)}
-            className="absolute top-0 left-0 cursor-grab active:cursor-grabbing"
-          >
-            <span className="block w-2 h-2 rounded-full bg-[#ED2E85] -translate-x-1/2 -translate-y-1/2" />
-            {satelliteNode.kind === "text" ? (
-              <span
+  return (
+    <div className="flex gap-6 pb-12">
+      <div className="flex-1">
+        <TextBlock>
+          <p className="mb-4">
+            My name is <span className="font-bold text-[#ED2E85]">Cæcilie Lidén Bode</span> and
+            I am a digital designer from Copenhagen.
+          </p>
+          <p className="mb-4">
+            I study, analyze and design interactions between people, society and digital technology.
+          </p>
+          <p className="mb-4">
+            Currently I am very interested in concepts of <span className="font-bold text-[#ED2E85]">creativity</span>,{" "}
+            <span className="font-bold text-[#ED2E85]">play</span>, and{" "}
+            <span className="font-bold text-[#ED2E85]">co-design,</span> and am in a process of
+            exploring the digital world and learning new tools.
+          </p>
+          <p>
+            This is my <span className="font-bold text-[#ED2E85]">project parking</span> spot. Here you can see a mix of my digital design
+            projects and personal art pieces.
+          </p>
+        </TextBlock>
+      </div>
+
+      <div ref={containerRef} className="relative flex-[2] h-[600px] sm:h-[700px] touch-none">
+        <svg className="absolute inset-0 w-full h-full overflow-visible">
+          {SATELLITE_NODES.map((_, index) => {
+            if (PARENT_ID_BY_ID[index + 1] === 0) return null;
+            return (
+              <line
+                key={index}
                 ref={(el) => {
-                  contentElRefs.current[id] = el;
+                  lineElRefs.current[index] = el;
                 }}
-                className="absolute top-full left-0 -translate-x-1/2 mt-1 w-40 sm:w-48 text-xs sm:text-sm text-center leading-snug select-none"
-              >
-                {satelliteNode.text}
-              </span>
-            ) : (
-              <div
-                ref={(el) => {
-                  contentElRefs.current[id] = el;
-                }}
-                className="absolute top-full left-0 -translate-x-1/2 mt-1 w-24 sm:w-32 select-none"
-              >
-                <Image
-                  src={satelliteNode.src}
-                  alt={satelliteNode.alt}
-                  className="w-full h-auto object-cover pointer-events-none"
-                  draggable={false}
-                />
-              </div>
-            )}
-          </div>
-        );
-      })}
+                stroke="#ED2E85"
+                strokeWidth="1"
+                strokeLinecap="round"
+              />
+            );
+          })}
+        </svg>
+
+        {SATELLITE_NODES.map((satelliteNode, index) => {
+          const id = index + 1;
+          return (
+            <div
+              key={id}
+              ref={(el) => {
+                nodeElRefs.current[id] = el;
+              }}
+              onPointerDown={handlePointerDown(id)}
+              className="absolute top-0 left-0 cursor-grab active:cursor-grabbing"
+            >
+              <span className="block w-2 h-2 rounded-full bg-[#ED2E85] -translate-x-1/2 -translate-y-1/2" />
+              {satelliteNode.kind === "text" ? (
+                <span
+                  ref={(el) => {
+                    contentElRefs.current[id] = el;
+                  }}
+                  className="absolute top-full left-0 -translate-x-1/2 mt-1 w-40 sm:w-48 text-xs sm:text-sm text-center leading-snug select-none"
+                >
+                  {satelliteNode.text}
+                </span>
+              ) : (
+                <div
+                  ref={(el) => {
+                    contentElRefs.current[id] = el;
+                  }}
+                  className="absolute top-full left-0 -translate-x-1/2 mt-1 w-24 sm:w-32 select-none"
+                >
+                  <Image
+                    src={satelliteNode.src}
+                    alt={satelliteNode.alt}
+                    className="w-full h-auto object-cover pointer-events-none"
+                    draggable={false}
+                  />
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

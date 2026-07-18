@@ -1,18 +1,17 @@
-import neverLateBedImage from "@/app/assets/neverlatebed-front-hover.png";
-import thesisImage from "@/app/assets/b-thesis-front.png";
 import ledImage from "@/app/assets/led-installation-hover.png";
 import FlowerLink from "@/app/components/flower-link";
 import FilterNav from "@/app/components/filter-nav";
-import AboutMeButton from "@/app/components/about-me-button";
+// import AboutMeButton from "@/app/components/about-me-button";
 import AboutMeGate from "@/app/components/about-me-gate";
 import BackgroundGraphic from "@/app/components/background-graphic";
 import TextBlock from "@/app/components/text-block";
 import ImageBlock from "@/app/components/image-block";
 import ProjectLink from "@/app/components/project-link";
-import ProjectSwapSlot from "@/app/components/project-swap-slot";
+import MobileProjectSlot from "@/app/components/mobile-project-slot";
 import ThesisRoleplaySlot from "@/app/components/thesis-roleplay-slot";
 import Footer from "@/app/components/footer";
 import CustomCursor from "@/app/components/custom-cursor";
+import FloatingNode from "@/app/components/floating-node";
 import FilterableItem from "@/app/components/filterable-item";
 import { FilterProvider } from "@/app/context/filter-context";
 
@@ -22,11 +21,12 @@ export default function Home() {
       <div className="relative z-0 min-h-screen bg-white">
         <BackgroundGraphic />
         <CustomCursor />
+        <FloatingNode />
         <header className="max-w-6xl mx-auto px-4 md:px-12 pt-4 pb-4 sm:pb-6">
           <div className="flex flex-col xl:flex-row xl:flex-wrap items-start xl:items-end gap-4 xl:min-h-[55px]">
             <FlowerLink />
             <FilterNav />
-            <AboutMeButton />
+            {/* <AboutMeButton /> */}
           </div>
         </header>
         <main className="max-w-6xl mx-auto px-4 md:px-12">
@@ -37,18 +37,17 @@ export default function Home() {
             <div className="flex-1 flex flex-col">
               <TextBlock>
                 <p className="mb-4">
-                  Welcome to my page!
-                </p>
-                <p className="mb-4">
                   My name is <span className="font-bold text-[#ED2E85]">Cæcilie Lidén Bode</span> and
-                  I am a Copenhagen based digital designer. I design{" "}
-                  <span className="font-bold text-[#ED2E85]">interactions between people and technology</span>.
+                  I am a digital designer from Copenhagen.
                 </p>
                 <p className="mb-4">
-                  Currently I am interested in concepts of <span className="font-bold text-[#ED2E85]">creativity</span>,{" "}
+                  I study, analyze and design interactions between people, society and digital technology.
+                </p>
+                <p className="mb-4">
+                  Currently I am very interested in concepts of <span className="font-bold text-[#ED2E85]">creativity</span>,{" "}
                   <span className="font-bold text-[#ED2E85]">play</span>, and{" "}
                   <span className="font-bold text-[#ED2E85]">co-design,</span> and am in a process of
-                  exploring materials and learning new tools.
+                  exploring the digital world and learning new tools.
                 </p>
                 <p>
                   This is my <span className="font-bold text-[#ED2E85]">project parking</span> spot. Here you can see a mix of my digital design
@@ -56,20 +55,13 @@ export default function Home() {
                 </p>
               </TextBlock>
 
-              <FilterableItem category="project">
-                <ProjectLink
-                  href="/projects/co-design-ai-acute-health"
-                  title="Co-Design of AI Solution for Acute Health Situations (My Bachelor Thesis Project)"
-                  year="2026"
-                  image={thesisImage}
-                />
-              </FilterableItem>
+              <MobileProjectSlot position="column1-a" />
 
               <FilterableItem category="artwork">
                 <ImageBlock src="/gallery/red-waves/red-waves-1.png" alt="Red Waves" href="/gallery/red-waves" />
               </FilterableItem>
 
-              <ProjectSwapSlot slot="A" />
+              <MobileProjectSlot position="column1-b" />
 
               <FilterableItem category="artwork">
                 <ImageBlock src="/gallery/mosaic-of-life/mosaic-of-life-1.png" alt="Mosaic of Life" href="/gallery/mosaic-of-life" />
@@ -84,7 +76,7 @@ export default function Home() {
               </FilterableItem>
 
               <FilterableItem category="artwork">
-                <ImageBlock src="/gallery/portrait-of-my-sister/portrait-of-my-sister-1.png" alt="Portrait of my Sister" href="/gallery/portrait-of-my-sister" />
+                <ImageBlock src="/gallery/portrait-of-my-sister/portrait-of-my-sister-1.png" alt="Portrait of My Sister" href="/gallery/portrait-of-my-sister" />
               </FilterableItem>
 
               <FilterableItem category="artwork">
@@ -98,20 +90,15 @@ export default function Home() {
                 <ImageBlock src="/gallery/tulips/tulips-1.png" alt="Tulips" href="/gallery/tulips" />
               </FilterableItem>
 
+              <MobileProjectSlot position="column2-a" />
+
               <FilterableItem category="artwork">
                 <ImageBlock src="/gallery/self-portrait/self-portrait-1.png" alt="Self Portrait" href="/gallery/self-portrait" />
               </FilterableItem>
 
-              <ProjectSwapSlot slot="B" />
+              <MobileProjectSlot position="column2-b" />
 
-              <FilterableItem category="project">
-                <ProjectLink
-                  href="/projects/never-late-bed"
-                  title="The Never-Late Bed"
-                  year="2024"
-                  image={neverLateBedImage}
-                />
-              </FilterableItem>
+              <MobileProjectSlot position="column2-c" />
 
               <FilterableItem category="artwork">
                 <ImageBlock src="/gallery/dream-landscape/dream-landscape-1.png" alt="Dream Landscape" href="/gallery/dream-landscape" />
@@ -137,18 +124,17 @@ export default function Home() {
             <div className="flex-1 flex flex-col">
               <TextBlock>
                 <p className="mb-4">
-                  Welcome to my page!
-                </p>
-                <p className="mb-4">
                   My name is <span className="font-bold text-[#ED2E85]">Cæcilie Lidén Bode</span> and
-                  I am a Copenhagen based digital designer. I design{" "}
-                  <span className="font-bold text-[#ED2E85]">interactions between people and technology</span>.
+                  I am a digital designer from Copenhagen.
                 </p>
                 <p className="mb-4">
-                  Currently I am interested in concepts of <span className="font-bold text-[#ED2E85]">creativity</span>,{" "}
+                  I study, analyze and design interactions between people, society and digital technology.
+                </p>
+                <p className="mb-4">
+                  Currently I am very interested in concepts of <span className="font-bold text-[#ED2E85]">creativity</span>,{" "}
                   <span className="font-bold text-[#ED2E85]">play</span>, and{" "}
                   <span className="font-bold text-[#ED2E85]">co-design,</span> and am in a process of
-                  exploring materials and learning new tools.
+                  exploring the digital world and learning new tools.
                 </p>
                 <p>
                   This is my <span className="font-bold text-[#ED2E85]">project parking</span> spot. Here you can see a mix of my digital design
@@ -194,7 +180,7 @@ export default function Home() {
               </FilterableItem>
 
               <FilterableItem category="artwork">
-                <ImageBlock src="/gallery/portrait-of-my-sister/portrait-of-my-sister-1.png" alt="Portrait of my Sister" href="/gallery/portrait-of-my-sister" />
+                <ImageBlock src="/gallery/portrait-of-my-sister/portrait-of-my-sister-1.png" alt="Portrait of My Sister" href="/gallery/portrait-of-my-sister" />
               </FilterableItem>
 
               <ThesisRoleplaySlot position="column2-secondary" />

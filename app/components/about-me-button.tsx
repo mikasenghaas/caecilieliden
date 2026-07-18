@@ -16,7 +16,7 @@ export default function AboutMeButton() {
           : "border-black text-black hover:border-[#ED2E85] hover:text-[#ED2E85]"
       }`}
     >
-      About Me
+      about me
     </button>
   );
 }
