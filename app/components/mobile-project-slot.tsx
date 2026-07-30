@@ -2,10 +2,10 @@
 
 import { useFilter } from "@/app/context/filter-context";
 import ProjectLink from "@/app/components/project-link";
-import thesisImage from "@/app/assets/b-thesis-front.png";
-import neverLateBedImage from "@/app/assets/neverlatebed-front-hover.png";
-import ledImage from "@/app/assets/led-installation-hover.png";
-import roleplayImage from "@/app/assets/roleplay-front-hover.png";
+import thesisImage from "@/app/assets/thesis-front.png";
+import neverLateBedImage from "@/app/assets/never-late-bed-front.png";
+import ledImage from "@/app/assets/led-installation-front.png";
+import roleplayImage from "@/app/assets/roleplay-front.png";
 
 // Mobile-only (below lg) project placement, kept separate from the desktop
 // column logic (see thesis-roleplay-slot.tsx) since the two need completely
@@ -26,18 +26,18 @@ export default function MobileProjectSlot({ position }: { position: Position }) 
   const thesis = (
     <ProjectLink
       href="/projects/co-design-ai-acute-health"
-      title="Co-Design of AI Solution for Acute Health Situations (Bachelor Thesis Project)"
+      title="Co-designing AI for Acute Health Situations (Bachelor Thesis Project)"
       year="2026"
       image={thesisImage}
     />
   );
   const neverLateBed = (
-    <ProjectLink href="/projects/never-late-bed" title="The Never-Late Bed" year="2024" image={neverLateBedImage} />
+    <ProjectLink href="/projects/never-late-bed" title="Never-Late Bed" year="2024" image={neverLateBedImage} />
   );
   const led = (
     <ProjectLink
       href="/projects/led-installation-strangers-transit"
-      title="LED Installation for Strangers on Transit"
+      title="Strangers on Transit LED Installation"
       year="2026"
       image={ledImage}
     />
@@ -45,7 +45,7 @@ export default function MobileProjectSlot({ position }: { position: Position }) 
   const roleplay = (
     <ProjectLink
       href="/projects/codesign-project"
-      title="Co-Design with a Live-Action Roleplay Community"
+      title="Co-designing with a Live-Action Roleplay Community"
       year="2025"
       image={roleplayImage}
     />

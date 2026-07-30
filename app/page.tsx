@@ -1,4 +1,4 @@
-import ledImage from "@/app/assets/led-installation-hover.png";
+import ledImage from "@/app/assets/led-installation-front.png";
 import FlowerLink from "@/app/components/flower-link";
 import FilterNav from "@/app/components/filter-nav";
 // import AboutMeButton from "@/app/components/about-me-button";
@@ -11,7 +11,6 @@ import MobileProjectSlot from "@/app/components/mobile-project-slot";
 import ThesisRoleplaySlot from "@/app/components/thesis-roleplay-slot";
 import Footer from "@/app/components/footer";
 import CustomCursor from "@/app/components/custom-cursor";
-import FloatingNode from "@/app/components/floating-node";
 import FilterableItem from "@/app/components/filterable-item";
 import { FilterProvider } from "@/app/context/filter-context";
 
@@ -21,7 +20,6 @@ export default function Home() {
       <div className="relative z-0 min-h-screen bg-white">
         <BackgroundGraphic />
         <CustomCursor />
-        <FloatingNode />
         <header className="max-w-6xl mx-auto px-4 md:px-12 pt-4 pb-4 sm:pb-6">
           <div className="flex flex-col xl:flex-row xl:flex-wrap items-start xl:items-end gap-4 xl:min-h-[55px]">
             <FlowerLink />
@@ -50,7 +48,7 @@ export default function Home() {
                   exploring the digital world and learning new tools.
                 </p>
                 <p>
-                  This is my <span className="font-bold text-[#ED2E85]">project parking</span> spot. Here you can see a mix of my digital design
+                  This is my <span className="font-bold text-[#ED2E85]">project parking</span> <span className="font-bold">spot</span>. Here you can see a mix of my digital design
                   projects and personal art pieces.
                 </p>
               </TextBlock>
@@ -137,7 +135,7 @@ export default function Home() {
                   exploring the digital world and learning new tools.
                 </p>
                 <p>
-                  This is my <span className="font-bold text-[#ED2E85]">project parking</span> spot. Here you can see a mix of my digital design
+                  This is my <span className="font-bold text-[#ED2E85]">project parking</span> <span className="font-bold">spot</span>. Here you can see a mix of my digital design
                   projects and personal art pieces.
                 </p>
               </TextBlock>
@@ -195,7 +193,7 @@ export default function Home() {
               <FilterableItem category="project">
                 <ProjectLink
                   href="/projects/led-installation-strangers-transit"
-                  title="LED Installation for Strangers on Transit"
+                  title="Strangers on Transit LED Installation"
                   year="2026"
                   image={ledImage}
                 />

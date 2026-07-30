@@ -2,9 +2,9 @@
 
 import { useFilter } from "@/app/context/filter-context";
 import ProjectLink from "@/app/components/project-link";
-import thesisImage from "@/app/assets/b-thesis-front.png";
-import neverLateBedImage from "@/app/assets/neverlatebed-front-hover.png";
-import roleplayImage from "@/app/assets/roleplay-front-hover.png";
+import thesisImage from "@/app/assets/thesis-front.png";
+import neverLateBedImage from "@/app/assets/never-late-bed-front.png";
+import roleplayImage from "@/app/assets/roleplay-front.png";
 
 // Handles the one part of the 3-column desktop layout that needs to
 // rearrange between columns depending on the active filter: for "all", the
@@ -22,18 +22,18 @@ export default function ThesisRoleplaySlot({ position }: { position: Position })
   const thesis = (
     <ProjectLink
       href="/projects/co-design-ai-acute-health"
-      title="Co-Design of AI Solution for Acute Health Situations (Bachelor Thesis Project)"
+      title="Co-designing AI for Acute Health Situations (Bachelor Thesis Project)"
       year="2026"
       image={thesisImage}
     />
   );
   const neverLateBed = (
-    <ProjectLink href="/projects/never-late-bed" title="The Never-Late Bed" year="2024" image={neverLateBedImage} />
+    <ProjectLink href="/projects/never-late-bed" title="Never-Late Bed" year="2024" image={neverLateBedImage} />
   );
   const roleplay = (
     <ProjectLink
       href="/projects/codesign-project"
-      title="Co-Design with a Live-Action Roleplay Community"
+      title="Co-designing with a Live-Action Roleplay Community"
       year="2025"
       image={roleplayImage}
     />
