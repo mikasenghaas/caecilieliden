@@ -3,4 +3,58 @@ title: "Co-designing AI for Acute Health Situations (Bachelor Thesis Project)"
 year: "2026"
 ---
 
-Under construction.
+When people get hurt or sick, most have, at some point, hesitated over whether their situation is "bad enough" to seek help. That uncertainty became the central problem behind my bachelor thesis project.
+
+In Denmark's Capital Region, the Danish emergency medical helpline, Akuttelefonen 1813, answers close to 900,000 calls a year, roughly a third of them non-acute, and on the busiest days, callers wait hours to get through. Together with Amalie Caramés Slot Larsen and Caroline Caramés Slot Larsen, I explored how AI could support this system, and reduce non-acute calls without failing people who genuinely need help.
+
+Through a co-design process with citizens who had called 1813 before, we developed a set of interaction design policies for an AI self-help system meant to guide people and increase their certainty.
+
+Our findings will be presented to relevant stakeholders in August 2026.
+
+## What motivated this project
+
+When patients call 1813, a nurse or a doctor triages the situation and decides what happens next: go to the emergency room, contact their own doctor, or simply wait it out. The queue to the acute telephone is long due to general uncertainty about when you should call and difficulty self-triaging your own situation. For example, some call as anxious parents. Some call to get a prescription renewed (something 1813 can't help with). Some call (or don't call) because they genuinely can't tell if their situation is acute (if you're not a healthcare professional, "acute" can be hard to define).
+
+This project was motivated by a simple question: could AI take on some of that first triage step, easing the queue without putting anyone at risk?
+
+## A co-design process
+
+Designing healthcare technology means designing for high risk situations, which is why we included 10 citizens who had called 1813 before as co-designers. Having them as co-designers meant we could learn from each other: we were experts of the design tools, process, and possibilities; the citizens were experts of their own mental models and when an AI felt trustworthy and helpful.
+
+We worked through a Tell-Make-Enact framework: listen to real experiences (Tell), design something together (Make), then test it with them to see if it holds up (Enact). In practice: three one-on-one interviews with former callers, a focus group with three parent couples, and two workshops where the real design happened, with phases overlapping since we couldn't tell without shaping the make, or make without enacting a live behavior. The process surfaced not just what patients thought they trusted, but their subconscious trust and understandings of systems like this.
+
+<Image src="/projects/co-design-ai-acute-health/image1.png" caption="Citizen co-designers working through the design exercises during a workshop" />
+
+## Design events
+
+The centerpiece of the design workshops was an exercise we called "the perfect conversation." Participants were asked to imagine they were the AI: a fictional user, Søren, had hurt his foot, and it was up to them to respond to his messages and guide him through it.
+
+At each step, we handed them several pre-written response options to choose from, one for each of seven tones we'd prepared in advance, ranging from neutral and clinical to highly empathetic. We never told them which tone belonged to which response. We wanted their instinct, not a reasoned case for a particular style.
+
+<Image src="/projects/co-design-ai-acute-health/image4.png" caption="The seven response tones participants chose between during the 'perfect conversation' exercise" />
+
+After each choice, we asked why they picked what they picked, and what they'd have wanted to hear instead, often more revealing than the choice itself, since it surfaced the gap between an answer that sounded reassuring and one people actually trusted. Across both workshops, we tallied which responses got picked most often and why, and those patterns became the backbone of our final design guidelines: seven critical moments in the user journey, each with a clear do and don't for how the AI should behave.
+
+We followed this up with a reversed version: instead of role-playing the AI, participants chatted directly with an AI (ChatGPT and Claude, prompted to act as a 1813 assistant) as if they were the caller. This gave us a check on the first exercise; it's one thing to say what tone you'd want, another to see how you actually react when you're the one typing "my foot hurts, what do I do" into a chat window.
+
+## Results
+
+The result of the project is a set of Interaction Design Policies (a framework adapted from Google's PAIR): rules for how the AI should behave at critical moments in a patient's journey, shaped through the co-design process with patients. For each moment, we defined what the AI should do, what it should never do, and where its own uncertainty should hand control back to a human.
+
+One decision shaped everything else: the AI isn't positioned inside the call queue, triaging live calls. It's a self-service tool people turn to before they decide whether to call at all, helping them get clearer on whether their situation is actually acute and where to turn, or, just as often, giving them the nudge to call when they'd otherwise hesitate. That positioning wasn't invented from scratch. Several informants told us they already google their symptoms or ask ChatGPT before calling 1813, they just do it with tools that weren't built for the job. We designed for that existing behavior instead of trying to insert AI into the call itself.
+
+<Image src="/projects/co-design-ai-acute-health/image3.png" caption="One of the critical moments from the final interaction design policies, with acceptable and unacceptable AI behavior" />
+
+Across both workshops, the "perfect conversation" converged on a clear pattern: neutral, professional, and action-oriented. Every participant, without knowing the categories existed, picked the same opening tone: brisk and clear. Empathy was actively rejected. Several said a warm or caring tone from an AI felt fake, precisely because they knew it wasn't a person saying it.
+
+That result was interesting on its own, but the deeper theme underneath it mattered more: trust in AI isn't one fixed thing, it depends on who's asking. The same person who wants a blunt, no-nonsense answer about a sprained ankle might want something different when it's their child running a fever at 2am. Some people hesitate to reach out at all, worried about "bothering" anyone; others would rather call one time too many than risk missing something serious. An AI that only spoke in one register, however well-tested, would fail one of these groups by design.
+
+That's the real finding from the workshops: it's not enough to land on the "right" tone. The system has to recognize what kind of uncertainty a person is bringing to it, and respond accordingly.
+
+## Learnings I will take on for next projects
+
+Most interaction design deals with something you can pin down. A button does the same thing every time. A screen looks the same to every user. You can build a prototype, hand it to someone, and know exactly what you're testing. AI doesn't offer that certainty. Funnily enough, the question I found myself asking most throughout this project was "what am I even designing?"
+
+While a lot of AI development has worked from a technology-first approach, and while that has opened doors for impressive technologies, I believe high-risk domains like in this project call for a human-first approach as we surfaced several pitfalls for an AI on the acute telephone that could now be avoided. If an AI gives someone false reassurance and they don't get medical help when they should have, that's not a bug you patch, it's a person who didn't get help in time. Getting that wrong isn't something you can fix in a later release.
+
+Another counterintuitive thing I learned from this project is that too much trust in a system can be just as dangerous as too little. Overtrust means people act on an AI's suggestion even when their own judgment says something's off. Undertrust means people ignore a system that could actually help them, or abandon it altogether. Going in, I expected undertrust to be the bigger risk in healthcare; it turned out overtrust was the harder one to design against.

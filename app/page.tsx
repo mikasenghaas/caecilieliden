@@ -48,7 +48,7 @@ export default function Home() {
                   exploring the digital world and learning new tools.
                 </p>
                 <p>
-                  This is my <span className="font-bold text-[#ED2E85]">project parking</span> <span className="font-bold">spot</span>. Here you can see a mix of my digital design
+                  This is my <span className="font-bold text-[#ED2E85]">project parking spot</span>. Here you can see a mix of my digital design
                   projects and personal art pieces.
                 </p>
               </TextBlock>
@@ -135,7 +135,7 @@ export default function Home() {
                   exploring the digital world and learning new tools.
                 </p>
                 <p>
-                  This is my <span className="font-bold text-[#ED2E85]">project parking</span> <span className="font-bold">spot</span>. Here you can see a mix of my digital design
+                  This is my <span className="font-bold text-[#ED2E85]">project parking spot</span>. Here you can see a mix of my digital design
                   projects and personal art pieces.
                 </p>
               </TextBlock>

@@ -5,11 +5,12 @@ interface MdxImageProps {
   alt?: string;
   caption?: string;
   priority?: boolean;
+  width?: string;
 }
 
-export default function MdxImage({ src, alt, caption, priority = false }: MdxImageProps) {
+export default function MdxImage({ src, alt, caption, priority = false, width = "100%" }: MdxImageProps) {
   return (
-    <figure className="my-8 space-y-3">
+    <figure className="my-8 space-y-3 mx-auto" style={{ maxWidth: width }}>
       <div className="relative w-full">
         <Image
           src={src}

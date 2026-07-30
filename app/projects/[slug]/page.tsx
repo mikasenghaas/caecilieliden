@@ -25,13 +25,13 @@ const mdxComponents = {
     <a className="underline hover:opacity-70 transition-opacity" {...props} />
   ),
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h1 className="text-xs sm:text-sm leading-relaxed mb-4 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]" {...props} />
+    <h1 className="text-xs sm:text-sm leading-relaxed mb-4 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]" {...props} />
   ),
   h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h2 className="text-xs sm:text-sm leading-relaxed mb-3 mt-8 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]" {...props} />
+    <h2 className="text-xs sm:text-sm leading-relaxed mb-3 mt-8 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]" {...props} />
   ),
   h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h3 className="text-xs sm:text-sm leading-relaxed mb-2 mt-6 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]" {...props} />
+    <h3 className="text-xs sm:text-sm leading-relaxed mb-2 mt-6 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]" {...props} />
   ),
   ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
     <ul className="list-disc list-inside mb-6 space-y-2" {...props} />
@@ -70,7 +70,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
         <main className="max-w-2xl mx-auto px-6 md:px-12 py-16 lg:py-24">
         {/* Header */}
         <header className="mb-12">
-          <h1 className="text-xs sm:text-sm leading-relaxed mb-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+          <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
             {frontmatter.title}
           </h1>
           <div className="text-xs sm:text-sm text-foreground/60 space-y-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
