@@ -70,7 +70,7 @@ export default function Home() {
               </FilterableItem>
 
               <FilterableItem category="artwork">
-                <ImageBlock src="/gallery/chicken/chicken-1.png" alt="Chicken" href="/gallery/chicken" />
+                <ImageBlock src="/gallery/blue-heron/blue-heron-1.png" alt="Blue Heron" href="/gallery/blue-heron" />
               </FilterableItem>
 
               <FilterableItem category="artwork">
@@ -147,7 +147,7 @@ export default function Home() {
               </FilterableItem>
 
               <FilterableItem category="artwork">
-                <ImageBlock src="/gallery/chicken/chicken-1.png" alt="Chicken" href="/gallery/chicken" />
+                <ImageBlock src="/gallery/blue-heron/blue-heron-1.png" alt="Blue Heron" href="/gallery/blue-heron" />
               </FilterableItem>
 
               <ThesisRoleplaySlot position="column1-secondary" />
