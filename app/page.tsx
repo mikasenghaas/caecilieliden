@@ -39,7 +39,7 @@ export default function Home() {
                   I am a digital designer from Copenhagen.
                 </p>
                 <p className="mb-4">
-                  I study, analyze and design interactions between people, society and digital technology.
+                  I study, analyze and design <span className="font-bold text-[#ED2E85]">experiences</span> and <span className="font-bold text-[#ED2E85]">interactions</span> between people, society and digital technology.
                 </p>
                 <p className="mb-4">
                   Currently I am very interested in concepts of <span className="font-bold text-[#ED2E85]">creativity</span>,{" "}
@@ -126,7 +126,7 @@ export default function Home() {
                   I am a digital designer from Copenhagen.
                 </p>
                 <p className="mb-4">
-                  I study, analyze and design interactions between people, society and digital technology.
+                  I study, analyze and design <span className="font-bold text-[#ED2E85]">experiences</span> and <span className="font-bold text-[#ED2E85]">interactions</span> between people, society and digital technology.
                 </p>
                 <p className="mb-4">
                   Currently I am very interested in concepts of <span className="font-bold text-[#ED2E85]">creativity</span>,{" "}
