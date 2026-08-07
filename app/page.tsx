@@ -36,19 +36,18 @@ export default function Home() {
               <TextBlock>
                 <p className="mb-4">
                   My name is <span className="font-bold text-[#ED2E85]">Cæcilie Lidén Bode</span> and
-                  I am a digital designer from Copenhagen.
+                  I am a <span className="font-bold text-[#ED2E85]">product designer</span> from Copenhagen.
                 </p>
                 <p className="mb-4">
-                  I study, analyze and design <span className="font-bold text-[#ED2E85]">experiences</span> and <span className="font-bold text-[#ED2E85]">interactions</span> between people, society and digital technology.
-                </p>
-                <p className="mb-4">
-                  Currently I am very interested in concepts of <span className="font-bold text-[#ED2E85]">creativity</span>,{" "}
+                  I work across research, interaction, and visual design to shape how digital products look, feel, and behave. I&apos;m currently exploring concepts of{" "}
                   <span className="font-bold text-[#ED2E85]">play</span>, and{" "}
-                  <span className="font-bold text-[#ED2E85]">co-design,</span> and am in a process of
-                  exploring the digital world and learning new tools.
+                  <span className="font-bold text-[#ED2E85]">co-design</span> through my projects, and learning new tools along the way.
+                </p>
+                <p className="mb-4">
+                  I am looking for a product design internship this spring!
                 </p>
                 <p>
-                  This is my <span className="font-bold text-[#ED2E85]">project parking spot</span>. Here you can see a mix of my digital design
+                  This is my <span className="font-bold text-[#ED2E85]">project parking spot</span>. Here you can see a mix of my product design
                   projects and personal art pieces.
                 </p>
               </TextBlock>
@@ -123,19 +122,18 @@ export default function Home() {
               <TextBlock>
                 <p className="mb-4">
                   My name is <span className="font-bold text-[#ED2E85]">Cæcilie Lidén Bode</span> and
-                  I am a digital designer from Copenhagen.
+                  I am a <span className="font-bold text-[#ED2E85]">product designer</span> from Copenhagen.
                 </p>
                 <p className="mb-4">
-                  I study, analyze and design <span className="font-bold text-[#ED2E85]">experiences</span> and <span className="font-bold text-[#ED2E85]">interactions</span> between people, society and digital technology.
-                </p>
-                <p className="mb-4">
-                  Currently I am very interested in concepts of <span className="font-bold text-[#ED2E85]">creativity</span>,{" "}
+                  I work across research, interaction, and visual design to shape how digital products look, feel, and behave. I&apos;m currently exploring concepts of{" "}
                   <span className="font-bold text-[#ED2E85]">play</span>, and{" "}
-                  <span className="font-bold text-[#ED2E85]">co-design,</span> and am in a process of
-                  exploring the digital world and learning new tools.
+                  <span className="font-bold text-[#ED2E85]">co-design</span> through my projects, and learning new tools along the way.
+                </p>
+                <p className="mb-4">
+                  I am looking for a product design internship this spring!
                 </p>
                 <p>
-                  This is my <span className="font-bold text-[#ED2E85]">project parking spot</span>. Here you can see a mix of my digital design
+                  This is my <span className="font-bold text-[#ED2E85]">project parking spot</span>. Here you can see a mix of my product design
                   projects and personal art pieces.
                 </p>
               </TextBlock>
