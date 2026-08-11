@@ -110,7 +110,6 @@ const OUTCOME_COLOR: Record<string, string> = {
   rejected: "#DB3A34",
   pending: "#BF9ACA",
 };
-const DEFAULT_OUTCOME_COLOR = "#9CA3AF";
 
 interface RejectionRow {
   count: number;
@@ -224,7 +223,7 @@ export default function RejectionsJourneyPage() {
           y: radius * Math.sin(angleRad),
           size: nodeSize(row.fearlvl),
           shape: CATEGORY_SHAPE[row.category] || DEFAULT_SHAPE,
-          color: OUTCOME_COLOR[row.outcome] || DEFAULT_OUTCOME_COLOR,
+          color: OUTCOME_COLOR[row.outcome] || OUTCOME_COLOR.pending,
         };
       }),
     [rows]
@@ -550,13 +549,6 @@ export default function RejectionsJourneyPage() {
                     style={{ backgroundColor: OUTCOME_COLOR.pending }}
                   />
                   pending
-                </LegendRow>
-                <LegendRow>
-                  <span
-                    className="inline-block w-3.5 h-3.5 rounded-full"
-                    style={{ backgroundColor: DEFAULT_OUTCOME_COLOR }}
-                  />
-                  other / unrecognized
                 </LegendRow>
               </div>
             </div>
