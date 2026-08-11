@@ -559,6 +559,13 @@ export default function RejectionsJourneyPage() {
                 Bigger nodes = asks that felt scarier to make (1–3).
               </p>
             </div>
+
+            <div>
+              <p className="font-bold mb-2">Position = time/sequence of asks</p>
+              <p className="text-foreground/60 max-w-[16rem]">
+                Each ask spirals outward from the center. #1 sits at the middle, and the spiral grows outward as the count goes up.
+              </p>
+            </div>
           </div>
         </main>
       </div>
