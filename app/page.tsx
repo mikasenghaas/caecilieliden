@@ -64,7 +64,7 @@ export default function Home() {
               <FilterableItem category="project">
                 <ProjectLink
                   href="/projects/1000-rejections-journey-creative-data-viz"
-                  title="1000 Rejections, an Experiment and Creative Data Visualisation"
+                  title="1000 Rejections, a Live Experiment and Creative Data Visualisation"
                   year="2026"
                   image={rejectionsImage}
                 />
@@ -210,7 +210,7 @@ export default function Home() {
               <FilterableItem category="project">
                 <ProjectLink
                   href="/projects/1000-rejections-journey-creative-data-viz"
-                  title="1000 Rejections, an Experiment and Creative Data Visualisation"
+                  title="1000 Rejections, a Live Experiment and Creative Data Visualisation"
                   year="2026"
                   image={rejectionsImage}
                 />

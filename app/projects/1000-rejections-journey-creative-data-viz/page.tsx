@@ -111,6 +111,31 @@ const OUTCOME_COLOR: Record<string, string> = {
   pending: "#BF9ACA",
 };
 
+// Manually authored, occasional field notes — newest entries go at the end
+// of this list; display order is handled separately so it can be flipped.
+interface FieldNote {
+  date: string; // ISO yyyy-mm-dd
+  text: string;
+}
+const FIELD_NOTES: FieldNote[] = [
+  {
+    date: "2026-08-10",
+    text: "Learning that you can actually just message anyone. Way less scary than it seems.",
+  },
+  {
+    date: "2026-08-11",
+    text: "People would rather leave me pending than reject me.",
+  },
+];
+
+function formatNoteDate(iso: string): string {
+  return new Date(`${iso}T00:00:00`).toLocaleDateString("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  });
+}
+
 interface RejectionRow {
   count: number;
   date: string;
@@ -165,6 +190,12 @@ export default function RejectionsJourneyPage() {
   // Counts that have finished their one-time entrance settle (CSS-transitioned
   // from their random entrance offset back to their true spiral position).
   const [settledCounts, setSettledCounts] = useState<Set<number>>(new Set());
+
+  const [notesNewestFirst, setNotesNewestFirst] = useState(true);
+  const sortedFieldNotes = useMemo(() => {
+    const sorted = [...FIELD_NOTES].sort((a, b) => a.date.localeCompare(b.date));
+    return notesNewestFirst ? sorted.reverse() : sorted;
+  }, [notesNewestFirst]);
 
   const fetchData = useCallback(() => {
     // Google's published-CSV endpoint caches aggressively; bust it so
@@ -340,7 +371,7 @@ export default function RejectionsJourneyPage() {
         <main className="max-w-3xl mx-auto px-6 md:px-12 py-16 lg:py-24">
           <header className="mb-8">
             <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
-              1000 Rejections, an Experiment and Creative Data Visualisation
+              1000 Rejections, a Live Experiment and Creative Data Visualisation
             </h1>
             <p className="text-xs sm:text-sm text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white] mb-4">
               Through Instagram, I discovered a girl trying to get rejected 1000 times. What
@@ -351,12 +382,16 @@ export default function RejectionsJourneyPage() {
               On this visualisation, you can follow my journey. It updates every time I make
               an ask, showing whether I was accepted, rejected, or am still pending a
               response. It also shows how much fear I felt making each ask, and which area of
-              my life it belonged to. The spiral is a record of time, starting at the center
-              and growing bigger the more asks I make.
+              my life it belonged to. The spiral is a record of time or sequence of asks,
+              starting at the center and growing bigger the more asks I make.
             </p>
-            <p className="text-xs sm:text-sm text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+            <p className="text-xs sm:text-sm text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white] mb-4">
               An ask includes everything from job/internship applications, to asking someone I
               admire for coffee, to signing up for something crazy.
+            </p>
+            <p className="text-xs sm:text-sm text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+              At the end of this page, I am collecting field notes on the go. These are my
+              thoughts, realisations, struggles, and learnings from this experiment.
             </p>
           </header>
 
@@ -507,8 +542,8 @@ export default function RejectionsJourneyPage() {
           )}
 
           {/* Legend */}
-          <div className="flex flex-wrap gap-x-10 gap-y-4 mt-10 text-xs sm:text-sm">
-            <div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-10 text-xs sm:text-sm">
+            <div className="p-4">
               <p className="font-bold mb-2">Shape = category</p>
               <div className="flex flex-col gap-1.5">
                 <LegendRow>
@@ -526,7 +561,7 @@ export default function RejectionsJourneyPage() {
               </div>
             </div>
 
-            <div>
+            <div className="p-4">
               <p className="font-bold mb-2">Color = outcome</p>
               <div className="flex flex-col gap-1.5">
                 <LegendRow>
@@ -553,20 +588,47 @@ export default function RejectionsJourneyPage() {
               </div>
             </div>
 
-            <div>
+            <div className="p-4">
               <p className="font-bold mb-2">Size = fear level</p>
-              <p className="text-foreground/60 max-w-[16rem]">
+              <p className="text-foreground/60">
                 Bigger nodes = asks that felt scarier to make (1–3).
               </p>
             </div>
 
-            <div>
+            <div className="p-4">
               <p className="font-bold mb-2">Position = time/sequence of asks</p>
-              <p className="text-foreground/60 max-w-[16rem]">
+              <p className="text-foreground/60">
                 Each ask spirals outward from the center. #1 sits at the middle, and the spiral grows outward as the count goes up.
               </p>
             </div>
           </div>
+
+          {/* Field notes */}
+          <section className="mt-16">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="font-bold text-base sm:text-lg">Notes and learnings</h2>
+              <button
+                type="button"
+                onClick={() => setNotesNewestFirst((prev) => !prev)}
+                title={notesNewestFirst ? "Showing newest first" : "Showing oldest first"}
+                aria-label="Toggle notes order"
+                className="p-1.5 border-2 border-black/10 hover:border-[#ED2E85] text-black hover:text-[#ED2E85] transition-colors duration-200"
+              >
+                <SortArrowsIcon />
+              </button>
+            </div>
+            <div className="flex flex-col gap-3">
+              {sortedFieldNotes.map((note) => (
+                <div
+                  key={note.date}
+                  className="border-2 border-black/10 p-4 text-xs sm:text-sm"
+                >
+                  <p className="text-foreground/50 mb-1.5">{formatNoteDate(note.date)}</p>
+                  <p>{note.text}</p>
+                </div>
+              ))}
+            </div>
+          </section>
         </main>
       </div>
     </>
@@ -575,6 +637,26 @@ export default function RejectionsJourneyPage() {
 
 function LegendRow({ children }: { children: React.ReactNode }) {
   return <div className="flex items-center gap-2">{children}</div>;
+}
+
+// Two small arrows (one up, one down) indicating the notes list can be
+// flipped between newest-first and oldest-first.
+function SortArrowsIcon() {
+  return (
+    <svg
+      width="14"
+      height="14"
+      viewBox="0 0 14 14"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M4 10.5V2M4 2L1.5 4.5M4 2L6.5 4.5" />
+      <path d="M10 3.5V12M10 12L7.5 9.5M10 12L12.5 9.5" />
+    </svg>
+  );
 }
 
 function LegendShapeIcon({ shape }: { shape: Shape }) {
