@@ -126,6 +126,11 @@ const FIELD_NOTES: FieldNote[] = [
     date: "2026-08-11",
     text: "People would rather leave me pending than reject me.",
   },
+  {
+    date: "2026-08-11",
+    text:
+      "Felt unsure how small or big an ask had to be to add it to my list. Decided to add it no matter the size. Recently sent a lot of Instagram DMs for interviews for a project I am doing. Instead of combining all DMs into one ask, I have now expanded it so each has its own ask.",
+  },
 ];
 
 function formatNoteDate(iso: string): string {
@@ -618,9 +623,9 @@ export default function RejectionsJourneyPage() {
               </button>
             </div>
             <div className="flex flex-col gap-3">
-              {sortedFieldNotes.map((note) => (
+              {sortedFieldNotes.map((note, i) => (
                 <div
-                  key={note.date}
+                  key={`${note.date}-${i}`}
                   className="border-2 border-black/10 p-4 text-xs sm:text-sm"
                 >
                   <p className="text-foreground/50 mb-1.5">{formatNoteDate(note.date)}</p>
