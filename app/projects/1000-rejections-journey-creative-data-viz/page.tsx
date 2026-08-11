@@ -402,7 +402,7 @@ export default function RejectionsJourneyPage() {
 
           <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 mb-6">
             <div className="text-xs sm:text-sm leading-relaxed">
-              <p className="font-bold text-base sm:text-lg text-[#ED2E85]">
+              <p className="font-bold text-xs sm:text-sm text-[#ED2E85]">
                 {totalAsks} asks made so far
               </p>
             </div>
@@ -611,7 +611,7 @@ export default function RejectionsJourneyPage() {
           {/* Field notes */}
           <section className="mt-16">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-bold text-base sm:text-lg">Notes and learnings</h2>
+              <h2 className="font-bold text-xs sm:text-sm">Notes and learnings</h2>
               <button
                 type="button"
                 onClick={() => setNotesNewestFirst((prev) => !prev)}
