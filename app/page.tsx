@@ -1,4 +1,5 @@
 import ledImage from "@/app/assets/led-installation-front.png";
+import rejectionsImage from "@/app/assets/1000REJECTIONS-FRONT.png";
 import FlowerLink from "@/app/components/flower-link";
 import FilterNav from "@/app/components/filter-nav";
 // import AboutMeButton from "@/app/components/about-me-button";
@@ -59,6 +60,15 @@ export default function Home() {
               </FilterableItem>
 
               <MobileProjectSlot position="column1-b" />
+
+              <FilterableItem category="project">
+                <ProjectLink
+                  href="/projects/1000-rejections-journey-creative-data-viz"
+                  title="1000 Rejections, an Experiment and Creative Data Visualisation"
+                  year="2026"
+                  image={rejectionsImage}
+                />
+              </FilterableItem>
 
               <FilterableItem category="artwork">
                 <ImageBlock src="/gallery/mosaic-of-life/mosaic-of-life-1.png" alt="Mosaic of Life" href="/gallery/mosaic-of-life" />
@@ -194,6 +204,15 @@ export default function Home() {
                   title="Strangers on Transit LED Installation"
                   year="2026"
                   image={ledImage}
+                />
+              </FilterableItem>
+
+              <FilterableItem category="project">
+                <ProjectLink
+                  href="/projects/1000-rejections-journey-creative-data-viz"
+                  title="1000 Rejections, an Experiment and Creative Data Visualisation"
+                  year="2026"
+                  image={rejectionsImage}
                 />
               </FilterableItem>
 
