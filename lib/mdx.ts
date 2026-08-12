@@ -9,6 +9,7 @@ export interface ProjectFrontmatter {
   subtitle?: string;
   type?: string;
   year?: string;
+  heroImage?: string;
 }
 
 export interface ProjectData {

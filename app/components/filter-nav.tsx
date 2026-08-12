@@ -14,7 +14,7 @@ export default function FilterNav() {
             key={filter}
             type="button"
             onClick={() => setActiveFilter(filter)}
-            className={`p-[10px] border-2 text-xs sm:text-sm transition-colors duration-200 ${
+            className={`p-[10px] rounded-2xl border-2 text-xs sm:text-sm transition-colors duration-200 ${
               isActive
                 ? "border-[#ED2E85] text-[#ED2E85]"
                 : "border-black text-black hover:border-[#ED2E85] hover:text-[#ED2E85]"

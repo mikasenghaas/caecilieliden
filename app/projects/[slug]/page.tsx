@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation";
+import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import FlowerLink from "@/app/components/flower-link";
 import CustomCursor from "@/app/components/custom-cursor";
@@ -69,14 +70,35 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
         <main className="max-w-2xl mx-auto px-6 md:px-12 py-16 lg:py-24">
         {/* Header */}
-        <header className="mb-12">
-          <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
-            {frontmatter.title}
-          </h1>
-          <div className="text-xs sm:text-sm text-foreground/60 space-y-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
-            {frontmatter.year && <p>{frontmatter.year}</p>}
-          </div>
-        </header>
+        {frontmatter.heroImage ? (
+          <header className="relative mb-12 flex items-end min-h-[320px] sm:min-h-[420px] overflow-hidden rounded-lg">
+            <Image
+              src={frontmatter.heroImage}
+              alt={frontmatter.title}
+              fill
+              priority
+              className="object-cover opacity-90"
+              sizes="(max-width: 768px) 100vw, 672px"
+            />
+            <div className="relative z-10 p-6">
+              <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+                {frontmatter.title}
+              </h1>
+              <div className="text-xs sm:text-sm text-foreground/60 space-y-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+                {frontmatter.year && <p>{frontmatter.year}</p>}
+              </div>
+            </div>
+          </header>
+        ) : (
+          <header className="mb-12">
+            <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+              {frontmatter.title}
+            </h1>
+            <div className="text-xs sm:text-sm text-foreground/60 space-y-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+              {frontmatter.year && <p>{frontmatter.year}</p>}
+            </div>
+          </header>
+        )}
 
         {/* Content */}
         <article className="prose-invert">

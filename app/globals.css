@@ -10,12 +10,17 @@
 @layer base {
   html {
     color-scheme: light;
+    /* Horizontal page navigation is handled by our own swipe/scroll logic —
+       stop the browser's native swipe-to-go-back/forward gesture (and its
+       arrow indicator) from also firing on the same trackpad gesture. */
+    overscroll-behavior-x: none;
   }
 
   body {
     background-color: #FFFFFF;
     color: #1B1B1B;
     font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+    overscroll-behavior-x: none;
   }
 
   ::selection {
