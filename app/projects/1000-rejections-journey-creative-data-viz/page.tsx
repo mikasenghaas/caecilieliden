@@ -179,18 +179,10 @@ export default function RejectionsJourneyPage() {
   const hasDataRef = useRef(false);
 
   // view = { scale, x, y } maps raw spiral coordinates into the fixed
-  // -500..500 viewBox: screenPoint = (x, y) + scale * (rawX, rawY)
+  // -500..500 viewBox: screenPoint = (x, y) + scale * (rawX, rawY). The
+  // visualization is fixed in place — no panning — so x/y always stay 0 and
+  // only scale (auto-fit to the current data) ever changes.
   const [view, setView] = useState({ scale: 1, x: 0, y: 0 });
-  const [followAutoFit, setFollowAutoFit] = useState(true);
-  const canvasRef = useRef<HTMLDivElement>(null);
-  const dragRef = useRef<{
-    pointerId: number;
-    startClientX: number;
-    startClientY: number;
-    startX: number;
-    startY: number;
-    moved: boolean;
-  } | null>(null);
 
   // Counts that have finished their one-time entrance settle (CSS-transitioned
   // from their random entrance offset back to their true spiral position).
@@ -321,42 +313,10 @@ export default function RejectionsJourneyPage() {
     return (VIEW_HALF * 0.88) / Math.max(maxExtent, 1);
   }, [nodes]);
 
-  // Snap to the auto-fit view whenever the data changes, unless the user has
-  // manually zoomed/panned (in which case "Reset view" brings it back).
+  // Snap to the auto-fit view whenever the data changes.
   useEffect(() => {
-    if (followAutoFit) {
-      setView({ scale: autoFitScale, x: 0, y: 0 });
-    }
-  }, [autoFitScale, followAutoFit]);
-
-  const handleCanvasPointerDown = (e: React.PointerEvent) => {
-    (e.currentTarget as Element).setPointerCapture(e.pointerId);
-    dragRef.current = {
-      pointerId: e.pointerId,
-      startClientX: e.clientX,
-      startClientY: e.clientY,
-      startX: view.x,
-      startY: view.y,
-      moved: false,
-    };
-  };
-  const handleCanvasPointerMove = (e: React.PointerEvent) => {
-    const drag = dragRef.current;
-    if (!drag || drag.pointerId !== e.pointerId || !canvasRef.current) return;
-    const rect = canvasRef.current.getBoundingClientRect();
-    const dxScreen = e.clientX - drag.startClientX;
-    const dyScreen = e.clientY - drag.startClientY;
-    if (Math.hypot(dxScreen, dyScreen) > 3) {
-      if (!drag.moved) setFollowAutoFit(false);
-      drag.moved = true;
-    }
-    const dx = (dxScreen / rect.width) * VIEW_HALF * 2;
-    const dy = (dyScreen / rect.height) * VIEW_HALF * 2;
-    setView((prev) => ({ ...prev, x: drag.startX + dx, y: drag.startY + dy }));
-  };
-  const handleCanvasPointerUp = () => {
-    dragRef.current = null;
-  };
+    setView({ scale: autoFitScale, x: 0, y: 0 });
+  }, [autoFitScale]);
 
   const totalAsks = rows.length;
   // Date of the most recent row in the sheet itself (last ask logged),
@@ -448,15 +408,7 @@ export default function RejectionsJourneyPage() {
 
           {status === "ready" && rows.length > 0 && (
             <div className="relative w-full aspect-square max-w-2xl mx-auto">
-              <div
-                ref={canvasRef}
-                className="w-full h-full touch-none select-none"
-                onPointerDown={handleCanvasPointerDown}
-                onPointerMove={handleCanvasPointerMove}
-                onPointerUp={handleCanvasPointerUp}
-                onPointerCancel={handleCanvasPointerUp}
-                onPointerLeave={handleCanvasPointerUp}
-              >
+              <div className="w-full h-full select-none">
                 <svg
                   viewBox={`-${VIEW_HALF} -${VIEW_HALF} ${VIEW_HALF * 2} ${VIEW_HALF * 2}`}
                   className="w-full h-full"

@@ -25,12 +25,6 @@ const projects = [
     year: "2025",
     image: "/projects/codesign-project/roleplay-new.png",
   },
-  {
-    href: "/projects/never-late-bed",
-    title: "Never-Late Bed",
-    year: "2024",
-    image: "/projects/never-late-bed/neverlate-new.png",
-  },
 ];
 
 export default function Home() {

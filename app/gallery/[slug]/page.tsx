@@ -31,7 +31,7 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
       <CustomCursor />
       <div className="min-h-screen bg-white text-foreground">
         <div className="px-4 pt-4 md:px-12 lg:p-0">
-          <FlowerLink />
+          <FlowerLink href="/art" />
         </div>
 
       <main className="min-h-screen flex items-center justify-center px-6 py-12">

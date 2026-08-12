@@ -1,7 +1,7 @@
 "use client";
 
 import { ReactNode, useLayoutEffect, useRef } from "react";
-import { usePathname } from "next/navigation";
+import Link from "next/link";
 import FlowerLink from "@/app/components/flower-link";
 import CustomCursor from "@/app/components/custom-cursor";
 import PageNav from "@/app/components/page-nav";
@@ -14,13 +14,6 @@ import HorizontalPageSwipe from "@/app/components/horizontal-page-swipe";
 // corner. Only the right-hand content (passed as children) differs per page.
 export default function SiteFrame({ children }: { children: ReactNode }) {
   const headerRef = useRef<HTMLElement>(null);
-  const pathname = usePathname();
-  // The home flower is a "go home" button — redundant (and hidden) on the
-  // pages SiteFrame covers (design projects, drawings and paintings, about
-  // me), since PageNav already lets you get to any of them. It stays visible
-  // on article/project and gallery/artwork pages, which render it directly.
-  const isSiteFramePage = pathname === "/" || pathname === "/art" || pathname === "/about";
-
   // Measure the header's real rendered height so the fixed sidebar can start
   // at exactly the same "roof" as the main content below it, instead of a
   // guessed offset.
@@ -46,32 +39,45 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
       <CustomCursor />
       <HorizontalPageSwipe />
 
-      {!isSiteFramePage && <FlowerLink fixed="always" />}
+      <FlowerLink />
 
       <header
         ref={headerRef}
         className="max-w-[1400px] mx-auto px-4 md:px-12 pt-6 pb-6 sm:pt-8"
       >
-        <div className="flex flex-col sm:flex-row gap-10 sm:gap-12 lg:gap-16">
-          <div className="sm:w-56 md:w-64 lg:w-72 shrink-0" />
+        <div className="flex flex-row items-center gap-3 sm:gap-12 lg:gap-16">
+          {/* Spacer: on mobile just wide enough to clear the fixed home
+              flower so the filter starts right after it, on the same line;
+              widens to reserve the full sidebar column on desktop. */}
+          <div className="w-14 sm:w-56 md:w-64 lg:w-72 shrink-0" />
           <PageNav />
         </div>
       </header>
 
       <main className="max-w-[1400px] mx-auto px-4 md:px-12 pb-16">
         <div className="flex flex-col sm:flex-row gap-10 sm:gap-12 lg:gap-16">
-          {/* Sidebar: name, bio (mobile only — desktop version is rendered fixed below) */}
+          {/* Sidebar: bio (mobile only — desktop version is rendered fixed below) */}
           <div className="sm:hidden shrink-0">
-            <h1 className="text-sm sm:text-base font-bold leading-relaxed mb-4 text-[#ED2E85]">
-              Cæcilie Lidén Bode
-            </h1>
             <div className="text-xs sm:text-sm leading-relaxed space-y-4">
+              <h1 className="text-sm sm:text-base font-bold text-[#ED2E85]">Cæcilie Lidén Bode</h1>
               <p>Product designer and digital artist from Copenhagen.</p>
               <p>
-                I work across research, interaction, and visual design to shape how digital products look, feel, and
-                behave. I&apos;m currently exploring concepts of play through my projects and learning new tools.
+                This is my project parking spot. Here you can see a mix of my{" "}
+                <Link
+                  href="/"
+                  className="transition-colors duration-200 ease-out hover:text-[#ED2E85]"
+                >
+                  design projects
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="/art"
+                  className="transition-colors duration-200 ease-out hover:text-[#ED2E85]"
+                >
+                  paintings
+                </Link>
+                .
               </p>
-              <p>This is my project parking spot. Here you can see a mix of my design projects and paintings.</p>
             </div>
           </div>
 
@@ -86,8 +92,8 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
             sitting at the very bottom instead of pinned over the content. */}
         <div className="sm:hidden flex flex-col gap-3 mt-10">
           <div className="text-xs leading-relaxed space-y-4">
-            <p>I am looking for a interaction / product design internship this spring.</p>
-            <p>You are welcome to connect with me!</p>
+            <p>I am looking for a interaction / product design internship this spring!</p>
+            <p className="font-bold text-[#ED2E85]">Want to grab a coffee sometime?</p>
           </div>
           <Footer />
         </div>
@@ -101,16 +107,26 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
       >
         <div className="max-w-[1400px] mx-auto px-4 md:px-12">
           <div className="sm:w-56 md:w-64 lg:w-72 pointer-events-auto">
-            <h1 className="text-sm sm:text-base font-bold leading-relaxed mb-4 text-[#ED2E85]">
-              Cæcilie Lidén Bode
-            </h1>
             <div className="text-xs sm:text-sm leading-relaxed space-y-4">
+              <h1 className="text-sm sm:text-base font-bold text-[#ED2E85]">Cæcilie Lidén Bode</h1>
               <p>Product designer and digital artist from Copenhagen.</p>
               <p>
-                I work across research, interaction, and visual design to shape how digital products look, feel, and
-                behave. I&apos;m currently exploring concepts of play through my projects and learning new tools.
+                This is my project parking spot. Here you can see a mix of my{" "}
+                <Link
+                  href="/"
+                  className="transition-colors duration-200 ease-out hover:text-[#ED2E85]"
+                >
+                  design projects
+                </Link>{" "}
+                and{" "}
+                <Link
+                  href="/art"
+                  className="transition-colors duration-200 ease-out hover:text-[#ED2E85]"
+                >
+                  paintings
+                </Link>
+                .
               </p>
-              <p>This is my project parking spot. Here you can see a mix of my design projects and paintings.</p>
             </div>
           </div>
         </div>
@@ -122,8 +138,8 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
         <div className="max-w-[1400px] mx-auto px-4 md:px-12">
           <div className="sm:w-56 md:w-64 lg:w-72 pointer-events-auto flex flex-col gap-3">
             <div className="text-xs sm:text-sm leading-relaxed space-y-4">
-              <p>I am looking for a interaction / product design internship this spring.</p>
-              <p>You are welcome to connect with me!</p>
+              <p>I am looking for a interaction / product design internship this spring!</p>
+              <p className="font-bold text-[#ED2E85]">Want to grab a coffee sometime?</p>
             </div>
             <Footer />
           </div>

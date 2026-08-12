@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { MouseEvent, useEffect, useRef, useState } from "react";
-import { motion } from "motion/react";
+import { MouseEvent } from "react";
+import { AnimatePresence, motion } from "motion/react";
 
 export const PAGES = [
   { href: "/", label: "design projects" },
@@ -16,30 +16,27 @@ export const PAGES = [
 // element whose whole box is resized. Resizing a single rounded element
 // distorts its border-radius/content mid-animation; only ever animating the
 // (unrounded) middle rectangle's width avoids that entirely. When the
-// rectangle is 0px wide, the two caps sit flush and form a full circle.
+// rectangle has no padding/content, the two caps sit flush and form a full
+// circle.
+//
+// The rectangle's width itself is never measured or set from JS — it's
+// driven by Framer Motion's `layout` animation, which reads the real,
+// already-laid-out DOM size (padding present or not, label mounted or not)
+// and smoothly interpolates between old/new sizes. That sidesteps an
+// earlier JS-measurement approach entirely: measuring label widths in an
+// effect and animating to a computed pixel value meant the very first paint
+// of a fresh mount (e.g. this component fully remounting after leaving a
+// project/painting detail page, which lives outside the layout that keeps
+// this nav mounted) could briefly render before that measurement had run,
+// flashing every label at once. `layout` has no such gap — with no prior
+// frame to interpolate from on mount, it just renders at the final,
+// already-correct layout immediately.
 const CAP_WIDTH = 18; // half of the h-9 (36px) circle's diameter
-const RECT_PADDING_X = 6; // horizontal padding inside the rectangle, per side
+const SPRING = { type: "spring" as const, stiffness: 700, damping: 36 };
 
 export default function PageNav() {
   const pathname = usePathname();
   const router = useRouter();
-  const textRefs = useRef<Record<string, HTMLSpanElement | null>>({});
-  const [textWidths, setTextWidths] = useState<Record<string, number>>({});
-
-  useEffect(() => {
-    function measure() {
-      const next: Record<string, number> = {};
-      for (const page of PAGES) {
-        const el = textRefs.current[page.href];
-        if (el) next[page.href] = el.offsetWidth;
-      }
-      setTextWidths(next);
-    }
-
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, []);
 
   const handleActiveClick = (e: MouseEvent) => {
     // Clicking the already-active filter changes the page instead of doing
@@ -52,76 +49,50 @@ export default function PageNav() {
   };
 
   return (
-    <>
-      <nav className="flex flex-wrap items-center justify-start gap-[10px]">
-        {PAGES.map((page) => {
-          const isActive = pathname === page.href;
-          const rectWidth = isActive
-            ? (textWidths[page.href] ?? 0) + RECT_PADDING_X * 2
-            : 0;
+    <nav className="flex flex-wrap items-center justify-start gap-[10px]">
+      {PAGES.map((page) => {
+        const isActive = pathname === page.href;
 
-          return (
-            <Link
-              key={page.href}
-              href={page.href}
-              aria-label={page.label}
-              onClick={isActive ? handleActiveClick : undefined}
-            >
-              <motion.span
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: "spring", stiffness: 700, damping: 36 }}
-                className="group flex h-9 items-center"
-              >
-                <span
-                  style={{ width: CAP_WIDTH }}
-                  className="h-9 shrink-0 rounded-l-full border-y border-l border-black bg-white transition-colors duration-200 group-hover:border-[#ED2E85]"
-                />
-
-                <motion.span
-                  animate={{ width: rectWidth }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 700,
-                    damping: 36,
-                    delay: isActive ? 0 : 0.08,
-                  }}
-                  className="flex h-9 shrink-0 items-center justify-center overflow-hidden border-y border-black bg-white transition-colors duration-200 group-hover:border-[#ED2E85]"
-                >
-                  <motion.span
-                    animate={{ opacity: isActive ? 1 : 0 }}
-                    transition={{ duration: 0.08, delay: isActive ? 0.18 : 0 }}
-                    className="whitespace-nowrap text-black text-xs sm:text-sm transition-colors duration-200 group-hover:text-[#ED2E85]"
-                  >
-                    {page.label}
-                  </motion.span>
-                </motion.span>
-
-                <span
-                  style={{ width: CAP_WIDTH }}
-                  className="h-9 shrink-0 rounded-r-full border-y border-r border-black bg-white transition-colors duration-200 group-hover:border-[#ED2E85]"
-                />
-              </motion.span>
-            </Link>
-          );
-        })}
-      </nav>
-
-      {/* Hidden measuring bank: same font classes as the real labels, used
-          only to read each label's natural pixel width so the stretchy
-          rectangle knows what width to animate to. */}
-      <div aria-hidden className="fixed -left-[9999px] -top-[9999px] pointer-events-none">
-        {PAGES.map((page) => (
-          <span
+        return (
+          <Link
             key={page.href}
-            ref={(el) => {
-              textRefs.current[page.href] = el;
-            }}
-            className="whitespace-nowrap text-xs sm:text-sm"
+            href={page.href}
+            aria-label={page.label}
+            onClick={isActive ? handleActiveClick : undefined}
           >
-            {page.label}
-          </span>
-        ))}
-      </div>
-    </>
+            <span className="group flex h-9 items-center">
+              <span
+                style={{ width: CAP_WIDTH }}
+                className="h-9 shrink-0 rounded-l-full border-y border-l border-black bg-white transition-colors duration-200 group-hover:border-[#ED2E85]"
+              />
+
+              <motion.span
+                layout
+                transition={{ ...SPRING, delay: isActive ? 0 : 0.08 }}
+                className="flex h-9 shrink-0 items-center justify-center overflow-hidden border-y border-black bg-white transition-colors duration-200 group-hover:border-[#ED2E85]"
+              >
+                <AnimatePresence>
+                  {isActive && (
+                    <motion.span
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1, transition: { duration: 0.08, delay: 0.18 } }}
+                      exit={{ opacity: 0, transition: { duration: 0.08 } }}
+                      className="whitespace-nowrap px-1.5 text-black text-xs sm:text-sm transition-colors duration-200 group-hover:text-[#ED2E85]"
+                    >
+                      {page.label}
+                    </motion.span>
+                  )}
+                </AnimatePresence>
+              </motion.span>
+
+              <span
+                style={{ width: CAP_WIDTH }}
+                className="h-9 shrink-0 rounded-r-full border-y border-r border-black bg-white transition-colors duration-200 group-hover:border-[#ED2E85]"
+              />
+            </span>
+          </Link>
+        );
+      })}
+    </nav>
   );
 }
