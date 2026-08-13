@@ -2,6 +2,7 @@
 
 import { ReactNode, useLayoutEffect, useRef } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import FlowerLink from "@/app/components/flower-link";
 import CustomCursor from "@/app/components/custom-cursor";
 import PageNav from "@/app/components/page-nav";
@@ -14,6 +15,11 @@ import HorizontalPageSwipe from "@/app/components/horizontal-page-swipe";
 // corner. Only the right-hand content (passed as children) differs per page.
 export default function SiteFrame({ children }: { children: ReactNode }) {
   const headerRef = useRef<HTMLElement>(null);
+  const pathname = usePathname();
+  // On phone the bio sits directly above the page content, so on the about
+  // page this intro would read as a preamble to the about text itself. The
+  // desktop sidebar keeps it, since there it's clearly a separate column.
+  const showMobileIntro = pathname !== "/about";
   // Measure the header's real rendered height so the fixed sidebar can start
   // at exactly the same "roof" as the main content below it, instead of a
   // guessed offset.
@@ -69,23 +75,25 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
             <div className="text-xs sm:text-sm leading-relaxed space-y-4">
               <h1 className="text-sm sm:text-base font-bold text-[#ED2E85]">Cæcilie Lidén Bode</h1>
               <p>Product designer and digital artist from Copenhagen.</p>
-              <p>
-                This is my <strong>project parking spot</strong>. Here you can see a mix of my{" "}
-                <Link
-                  href="/"
-                  className="transition-colors duration-200 ease-out hover:text-[#ED2E85]"
-                >
-                  design projects
-                </Link>{" "}
-                and{" "}
-                <Link
-                  href="/art"
-                  className="transition-colors duration-200 ease-out hover:text-[#ED2E85]"
-                >
-                  paintings
-                </Link>
-                .
-              </p>
+              {showMobileIntro && (
+                <p>
+                  This is my <strong>project parking spot</strong>. Here you can see a mix of my{" "}
+                  <Link
+                    href="/"
+                    className="transition-colors duration-200 ease-out hover:text-[#ED2E85]"
+                  >
+                    design projects
+                  </Link>{" "}
+                  and{" "}
+                  <Link
+                    href="/art"
+                    className="transition-colors duration-200 ease-out hover:text-[#ED2E85]"
+                  >
+                    paintings
+                  </Link>
+                  .
+                </p>
+              )}
             </div>
           </div>
 

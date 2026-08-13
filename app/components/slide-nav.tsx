@@ -20,7 +20,9 @@ interface SlideNavProps {
 // local slide index via a button/callback instead of navigating routes via
 // next/link.
 const CAP_WIDTH = 18;
-const SPRING = { type: "spring" as const, stiffness: 700, damping: 36 };
+// Critically damped, so the width never overshoots its target and bumps a
+// pill onto a second line mid-animation. See PageNav.
+const SPRING = { type: "spring" as const, stiffness: 700, damping: 53 };
 
 export default function SlideNav({
   slides,

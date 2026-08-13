@@ -29,7 +29,12 @@ export const PAGES = [
 // reposition off the true layout every frame instead of needing their own
 // synced layout animation to avoid overlapping.
 const CAP_WIDTH = 18; // half of the h-9 (36px) circle's diameter
-const SPRING = { type: "spring" as const, stiffness: 700, damping: 36 };
+// Critically damped (damping = 2 * sqrt(stiffness)), so the width settles on
+// its target without ever going past it. A bouncier spring overshoots the
+// final width by a few percent mid-animation, and on a phone the row of pills
+// only just fits across the screen, so those few percent were enough to push
+// the last pill onto a second line for the length of the animation.
+const SPRING = { type: "spring" as const, stiffness: 700, damping: 53 };
 
 export default function PageNav() {
   const pathname = usePathname();
