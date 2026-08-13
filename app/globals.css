@@ -23,8 +23,19 @@
     overscroll-behavior-x: none;
   }
 
-  ::selection {
+  /* Dragging over text draws the light pink block behind it. This is only for
+     selection — inline bold below is deliberately highlight-free. */
+  ::selection,
+  strong::selection {
     background-color: #FFDEF4;
+    color: #ED2E85;
+  }
+
+  /* Inline bold is drawn in the accent pink, with no highlight behind it, so
+     it reads the same on white and on top of images. Headings are bolded with
+     font-bold rather than <strong>, so they keep their normal styling. */
+  strong {
+    font-weight: 700;
     color: #ED2E85;
   }
 

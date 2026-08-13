@@ -11,12 +11,12 @@ interface FlowerLinkProps {
   href?: string;
 }
 
-// Fixed to the viewport at every breakpoint (not just desktop) so it never
-// scrolls away with the page content, on phone included.
 export default function FlowerLink({ theme = "light", fixed = true, href = "/" }: FlowerLinkProps) {
   const flowerIcon = theme === "dark" ? flowerLightSvg : flowerSvg;
 
-  const positionClasses = fixed ? "fixed top-4 left-4" : "relative";
+  const positionClasses = fixed
+    ? "relative xl:fixed mb-4 xl:m-0 xl:top-4 xl:left-4"
+    : "relative";
 
   return (
     <Link

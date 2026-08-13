@@ -1,9 +1,33 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import Papa from "papaparse";
+import { AnimatePresence, motion } from "motion/react";
 import FlowerLink from "@/app/components/flower-link";
 import CustomCursor from "@/app/components/custom-cursor";
+import SlideNav from "@/app/components/slide-nav";
+import h1Image from "@/app/assets/h1.png";
+import h2Image from "@/app/assets/h2.png";
+import h3Image from "@/app/assets/h3.png";
+
+// Same "powerpoint"-style deck as the LED project: one slide visible at a
+// time, switched via the pill nav fixed to the bottom-middle of the screen.
+// The live visualisation leads, since it's the piece that actually updates.
+const SLIDES = [
+  { id: "viz", label: "live data visualisation" },
+  { id: "notes", label: "field notes" },
+  { id: "process", label: "design process" },
+  { id: "conclusion", label: "conclusion" },
+];
+
+function isTypingTarget(target: EventTarget | null) {
+  if (!(target instanceof HTMLElement)) return false;
+  return (
+    target.isContentEditable ||
+    ["INPUT", "TEXTAREA", "SELECT"].includes(target.tagName)
+  );
+}
 
 const CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vRygBgv3rdWSyM9t8OYKxJvp50ORhlv1PEGWw2ChE0GqhTHNDGb1-dAQAZLrIQz_oG9_mvsw_bpesJe/pub?output=csv";
@@ -57,7 +81,9 @@ function floatSeed(seed: number): number {
 }
 
 function entranceOffset(seed: number): { dx: number; dy: number } {
-  const dist = ENTRANCE_DISTANCE_MIN + seed * (ENTRANCE_DISTANCE_MAX - ENTRANCE_DISTANCE_MIN);
+  const dist =
+    ENTRANCE_DISTANCE_MIN +
+    seed * (ENTRANCE_DISTANCE_MAX - ENTRANCE_DISTANCE_MIN);
   const angle = seed * Math.PI * 2;
   return { dx: Math.cos(angle) * dist, dy: Math.sin(angle) * dist };
 }
@@ -67,7 +93,7 @@ function entranceOffset(seed: number): { dx: number; dy: number } {
 // don't all land in sync.
 function nodeAnimStyle(
   offset: { dx: number; dy: number; isSettled: boolean },
-  seed: number
+  seed: number,
 ): React.CSSProperties {
   const transform = `translate(${offset.dx}px, ${offset.dy}px)`;
   const delay = offset.isSettled ? 0 : seed * ENTRANCE_STAGGER_MS;
@@ -101,7 +127,8 @@ const FLOWER_PATH =
 // Uniform scale so the shape's larger bounding dimension maps to `size`.
 function shapeScale(shape: Shape, size: number): number {
   if (shape === "plus") return size / Math.max(PLUS_VIEWBOX.w, PLUS_VIEWBOX.h);
-  if (shape === "flower") return size / Math.max(FLOWER_VIEWBOX.w, FLOWER_VIEWBOX.h);
+  if (shape === "flower")
+    return size / Math.max(FLOWER_VIEWBOX.w, FLOWER_VIEWBOX.h);
   return 1;
 }
 
@@ -128,17 +155,18 @@ const FIELD_NOTES: FieldNote[] = [
   },
   {
     date: "2026-08-11",
-    text:
-      "Felt unsure how small or big an ask had to be to add it to my list. Decided to add it no matter the size. Recently sent a lot of Instagram DMs for interviews for a project I am doing. Instead of combining all DMs into one ask, I have now expanded it so each has its own ask.",
+    text: "Felt unsure how small or big an ask had to be to add it to my list. Decided to add it no matter the size. Recently sent a lot of Instagram DMs for interviews for a project I am doing. Instead of combining all DMs into one ask, I have now expanded it so each has its own ask.",
+  },
+  {
+    date: "2026-08-13",
+    text: "It is kind of hard coming up with things to be rejected for.",
   },
 ];
 
+// "2026-08-11" becomes "11-8-2026" — day first, no leading zero on the month.
 function formatNoteDate(iso: string): string {
-  return new Date(`${iso}T00:00:00`).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
+  const [year, month, day] = iso.split("-");
+  return `${Number(day)}-${Number(month)}-${year}`;
 }
 
 interface RejectionRow {
@@ -173,8 +201,13 @@ function nodeSize(fearlvl: number): number {
 }
 
 export default function RejectionsJourneyPage() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeSlide = SLIDES[activeIndex];
+
   const [rows, setRows] = useState<RejectionRow[]>([]);
-  const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
+  const [status, setStatus] = useState<"loading" | "ready" | "error">(
+    "loading",
+  );
   const [errorMessage, setErrorMessage] = useState("");
   const hasDataRef = useRef(false);
 
@@ -190,7 +223,9 @@ export default function RejectionsJourneyPage() {
 
   const [notesNewestFirst, setNotesNewestFirst] = useState(true);
   const sortedFieldNotes = useMemo(() => {
-    const sorted = [...FIELD_NOTES].sort((a, b) => a.date.localeCompare(b.date));
+    const sorted = [...FIELD_NOTES].sort((a, b) =>
+      a.date.localeCompare(b.date),
+    );
     return notesNewestFirst ? sorted.reverse() : sorted;
   }, [notesNewestFirst]);
 
@@ -240,6 +275,25 @@ export default function RejectionsJourneyPage() {
     return () => clearInterval(id);
   }, [fetchData]);
 
+  // Left/right arrow keys step through the slides, clamped to the ends rather
+  // than wrapping, since this is a linear narrative.
+  useEffect(() => {
+    function handleKeyDown(event: KeyboardEvent) {
+      if (isTypingTarget(event.target)) return;
+
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        setActiveIndex((prev) => Math.min(prev + 1, SLIDES.length - 1));
+      } else if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        setActiveIndex((prev) => Math.max(prev - 1, 0));
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
   const nodes: VizNode[] = useMemo(
     () =>
       rows.map((row, idx) => {
@@ -254,7 +308,7 @@ export default function RejectionsJourneyPage() {
           color: OUTCOME_COLOR[row.outcome] || OUTCOME_COLOR.pending,
         };
       }),
-    [rows]
+    [rows],
   );
 
   // Shortly after new rows appear, flip them to "settled" so their CSS
@@ -284,7 +338,9 @@ export default function RejectionsJourneyPage() {
   // transforms don't animate; style ones do).
   const nodeOffsets = nodes.map((node) => {
     const isSettled = settledCounts.has(node.row.count);
-    const entrance = isSettled ? { dx: 0, dy: 0 } : entranceOffset(floatSeed(node.row.count));
+    const entrance = isSettled
+      ? { dx: 0, dy: 0 }
+      : entranceOffset(floatSeed(node.row.count));
     return { dx: entrance.dx, dy: entrance.dy, isSettled };
   });
 
@@ -328,265 +384,500 @@ export default function RejectionsJourneyPage() {
     <>
       <style>{`html, body { background-color: #FFFFFF !important; }`}</style>
       <CustomCursor />
-      <div className="min-h-screen bg-white text-foreground">
-        <div className="px-4 pt-4 md:px-12 lg:p-0">
+      {/* From md up the whole deck is locked to one viewport with no page
+          scroll: the shell is exactly h-screen, and every box down to the
+          slide itself is a flex child with min-h-0 so the content shrinks to
+          the space left over rather than pushing the page taller. Below md it
+          falls back to normal document flow, where stacking and scrolling is
+          the right behaviour. */}
+      <div className="min-h-screen md:h-screen md:overflow-hidden md:flex md:flex-col bg-white text-foreground">
+        {/* On phone the flower sits alone in the top-left; the filter is
+            pinned to the bottom of the screen instead (see below). */}
+        <header className="sm:hidden max-w-[1400px] mx-auto px-4 pt-4 pb-6">
+          <FlowerLink fixed={false} />
+        </header>
+
+        {/* Tablet and up: flower on its own row, filter pinned near the bottom. */}
+        <div className="hidden sm:block px-4 pt-4 md:px-12 lg:p-0 md:shrink-0">
           <FlowerLink />
         </div>
 
-        <main className="max-w-3xl mx-auto px-6 md:px-12 py-16 lg:py-24">
-          <header className="mb-8">
+        <main className="min-h-screen md:min-h-0 md:flex-1 flex flex-col px-6 md:px-12 pb-28">
+          {/* Fixed at the same top position on every slide, independent of
+              how tall each slide's content is. */}
+          <div className="w-full max-w-6xl mx-auto pt-2 sm:pt-8 lg:pt-12 md:shrink-0">
             <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               1000 Rejections, a Live Experiment and Creative Data Visualisation
             </h1>
-            <p className="text-xs sm:text-sm text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white] mb-4">
-              Through Instagram, I discovered a girl trying to get rejected 1000 times. What
-              she found was not rejection, but instead opportunities she never could&apos;ve
-              imagined. I am doing this same experiment from June 2026 to June 2027.
-            </p>
-            <p className="text-xs sm:text-sm text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white] mb-4">
-              On this visualisation, you can follow my journey. It updates every time I make
-              an ask, showing whether I was accepted, rejected, or am still pending a
-              response. It also shows how much fear I felt making each ask, and which area of
-              my life it belonged to. The spiral is a record of time or sequence of asks,
-              starting at the center and growing bigger the more asks I make.
-            </p>
-            <p className="text-xs sm:text-sm text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white] mb-4">
-              An ask includes everything from job/internship applications, to asking someone I
-              admire for coffee, to signing up for something crazy.
-            </p>
             <p className="text-xs sm:text-sm text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
-              At the end of this page, I am collecting field notes on the go. These are my
-              thoughts, realisations, struggles, and learnings from this experiment.
+              2026
             </p>
-          </header>
 
-          <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-2 mb-6">
-            <div className="text-xs sm:text-sm leading-relaxed">
-              <p className="font-bold text-xs sm:text-sm text-[#ED2E85]">
-                {totalAsks} asks made so far
-              </p>
-            </div>
-            {lastEntryDate && (
-              <div className="text-xs sm:text-sm text-foreground/50">
-                Last updated {lastEntryDate}
+            {activeSlide.id === "viz" && (
+              <div className="hidden md:flex items-baseline gap-x-6 mt-2 text-xs sm:text-sm leading-relaxed">
+                <p className="font-bold text-[#ED2E85]">
+                  {totalAsks} asks made so far
+                </p>
+                {lastEntryDate && (
+                  <p className="text-foreground/50">
+                    Last updated {lastEntryDate}
+                  </p>
+                )}
               </div>
             )}
           </div>
 
-          {errorMessage && rows.length > 0 && (
-            <p className="text-xs sm:text-sm text-[#D6473C] mb-4">{errorMessage}</p>
-          )}
-
-          {status === "loading" && (
-            <div className="w-full aspect-square max-w-2xl mx-auto flex items-center justify-center border-2 border-black/10">
-              <p className="text-xs sm:text-sm text-foreground/60">Loading rejections…</p>
-            </div>
-          )}
-
-          {status === "error" && (
-            <div className="w-full aspect-square max-w-2xl mx-auto flex flex-col items-center justify-center gap-4 border-2 border-black/10 px-6 text-center">
-              <p className="text-xs sm:text-sm text-foreground/70">
-                Couldn&apos;t load the sheet. {errorMessage}
-              </p>
-              <button
-                type="button"
-                onClick={() => fetchData()}
-                className="px-3 py-1.5 border-2 border-black text-black hover:border-[#ED2E85] hover:text-[#ED2E85] transition-colors duration-200"
-              >
-                Try again
-              </button>
-            </div>
-          )}
-
-          {status === "ready" && rows.length === 0 && (
-            <div className="w-full aspect-square max-w-2xl mx-auto flex items-center justify-center border-2 border-black/10">
-              <p className="text-xs sm:text-sm text-foreground/60">
-                No asks logged yet — check back soon.
-              </p>
-            </div>
-          )}
-
-          {status === "ready" && rows.length > 0 && (
-            <div className="relative w-full aspect-square max-w-2xl mx-auto">
-              <div className="w-full h-full select-none">
-                <svg
-                  viewBox={`-${VIEW_HALF} -${VIEW_HALF} ${VIEW_HALF * 2} ${VIEW_HALF * 2}`}
-                  className="w-full h-full"
-                  role="img"
-                  aria-label="Spiral visualization of rejection tracking data"
+          <div className="flex-1 md:min-h-0 flex items-start justify-center w-full pt-6 md:pt-4">
+            <article className="w-full max-w-6xl min-h-[240px] md:h-full md:min-h-0">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeSlide.id}
+                  className="md:h-full md:min-h-0"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  <defs>
-                    {/* Divide by view.scale so the blur stays a flat
+                  {activeSlide.id === "viz" ? (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:h-full md:min-h-0">
+                      {/* Second in the DOM order on desktop, so the spiral sits
+                          on the right, but still first when the grid collapses
+                          to one column on phone. */}
+                      <div className="flex flex-col gap-2 md:order-2 md:h-full md:min-h-0 md:justify-center">
+                        {/* Phone only — from md up these same totals sit on the
+                            title's own line in the header above. */}
+                        <div className="md:hidden flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 text-xs sm:text-sm leading-relaxed">
+                          <p className="font-bold text-[#ED2E85]">
+                            {totalAsks} asks made so far
+                          </p>
+                          {lastEntryDate && (
+                            <p className="text-foreground/50">
+                              Last updated {lastEntryDate}
+                            </p>
+                          )}
+                        </div>
+
+                        {errorMessage && rows.length > 0 && (
+                          <p className="text-xs sm:text-sm text-[#D6473C]">
+                            {errorMessage}
+                          </p>
+                        )}
+
+                        {/* Kept square rather than stretched to fill the column,
+                            and centred in whatever height is left over, so the
+                            spiral sits in the middle of the space instead of
+                            being pushed low by the header above it. max-h-full
+                            caps it on short viewports; the SVG's own viewBox
+                            keeps the spiral circular and centred whatever shape
+                            the box ends up, so it always scales to fit rather
+                            than forcing the page to scroll. */}
+                        <div className="relative w-full aspect-square md:min-h-0 md:max-h-full">
+                          {status === "loading" && (
+                            <div className="w-full h-full flex items-center justify-center border-2 border-black/10">
+                              <p className="text-xs sm:text-sm text-foreground/60">
+                                Loading rejections…
+                              </p>
+                            </div>
+                          )}
+
+                          {status === "error" && (
+                            <div className="w-full h-full flex flex-col items-center justify-center gap-4 border-2 border-black/10 px-6 text-center">
+                              <p className="text-xs sm:text-sm text-foreground/70">
+                                Couldn&apos;t load the sheet. {errorMessage}
+                              </p>
+                              <button
+                                type="button"
+                                onClick={() => fetchData()}
+                                className="px-3 py-1.5 border-2 border-black text-black hover:border-[#ED2E85] hover:text-[#ED2E85] transition-colors duration-200"
+                              >
+                                Try again
+                              </button>
+                            </div>
+                          )}
+
+                          {status === "ready" && rows.length === 0 && (
+                            <div className="w-full h-full flex items-center justify-center border-2 border-black/10">
+                              <p className="text-xs sm:text-sm text-foreground/60">
+                                No asks logged yet — check back soon.
+                              </p>
+                            </div>
+                          )}
+
+                          {status === "ready" && rows.length > 0 && (
+                            <div className="w-full h-full select-none">
+                              <svg
+                                viewBox={`-${VIEW_HALF} -${VIEW_HALF} ${VIEW_HALF * 2} ${VIEW_HALF * 2}`}
+                                className="w-full h-full"
+                                role="img"
+                                aria-label="Spiral visualization of rejection tracking data"
+                              >
+                                <defs>
+                                  {/* Divide by view.scale so the blur stays a flat
                         FIGURE_BLUR_PX on screen regardless of node size or
                         how far autoFitScale has zoomed out for a bigger
                         dataset. */}
-                    <filter id="figure-blur" x="-80%" y="-80%" width="260%" height="260%">
-                      <feGaussianBlur stdDeviation={FIGURE_BLUR_PX / view.scale} />
-                    </filter>
-                  </defs>
-                  <g transform={`translate(${view.x} ${view.y}) scale(${view.scale})`}>
-                    <g
-                      fill="none"
-                      stroke="#1B1B1B"
-                      strokeOpacity={0.15}
-                      strokeWidth={1.5 / view.scale}
-                      strokeDasharray={`${4 / view.scale} ${3 / view.scale}`}
-                    >
-                      {curves.map((d, i) => (
-                        <path key={i} d={d} />
-                      ))}
-                    </g>
-                    <g filter="url(#figure-blur)">
-                      {nodes.map((node, i) => {
-                        const offset = nodeOffsets[i];
-                        const animStyle = nodeAnimStyle(offset, floatSeed(node.row.count));
+                                  <filter
+                                    id="figure-blur"
+                                    x="-80%"
+                                    y="-80%"
+                                    width="260%"
+                                    height="260%"
+                                  >
+                                    <feGaussianBlur
+                                      stdDeviation={FIGURE_BLUR_PX / view.scale}
+                                    />
+                                  </filter>
+                                </defs>
+                                <g
+                                  transform={`translate(${view.x} ${view.y}) scale(${view.scale})`}
+                                >
+                                  <g
+                                    fill="none"
+                                    stroke="#1B1B1B"
+                                    strokeOpacity={0.15}
+                                    strokeWidth={1.5 / view.scale}
+                                    strokeDasharray={`${4 / view.scale} ${3 / view.scale}`}
+                                  >
+                                    {curves.map((d, i) => (
+                                      <path key={i} d={d} />
+                                    ))}
+                                  </g>
+                                  <g filter="url(#figure-blur)">
+                                    {nodes.map((node, i) => {
+                                      const offset = nodeOffsets[i];
+                                      const animStyle = nodeAnimStyle(
+                                        offset,
+                                        floatSeed(node.row.count),
+                                      );
 
-                        if (node.shape === "plus") {
-                          const s = shapeScale("plus", node.size);
-                          return (
-                            <g key={node.row.count} transform={`translate(${node.x} ${node.y})`}>
-                              <g style={animStyle}>
-                                <path
-                                  d={PLUS_PATH}
-                                  fill={node.color}
-                                  transform={`scale(${s}) translate(${-PLUS_VIEWBOX.w / 2} ${-PLUS_VIEWBOX.h / 2})`}
+                                      if (node.shape === "plus") {
+                                        const s = shapeScale("plus", node.size);
+                                        return (
+                                          <g
+                                            key={node.row.count}
+                                            transform={`translate(${node.x} ${node.y})`}
+                                          >
+                                            <g style={animStyle}>
+                                              <path
+                                                d={PLUS_PATH}
+                                                fill={node.color}
+                                                transform={`scale(${s}) translate(${-PLUS_VIEWBOX.w / 2} ${-PLUS_VIEWBOX.h / 2})`}
+                                              />
+                                            </g>
+                                          </g>
+                                        );
+                                      }
+                                      if (node.shape === "flower") {
+                                        const s = shapeScale(
+                                          "flower",
+                                          node.size,
+                                        );
+                                        return (
+                                          <g
+                                            key={node.row.count}
+                                            transform={`translate(${node.x} ${node.y})`}
+                                          >
+                                            <g style={animStyle}>
+                                              <path
+                                                d={FLOWER_PATH}
+                                                fill={node.color}
+                                                transform={`scale(${s}) translate(${-FLOWER_VIEWBOX.w / 2} ${-FLOWER_VIEWBOX.h / 2})`}
+                                              />
+                                            </g>
+                                          </g>
+                                        );
+                                      }
+                                      return (
+                                        <g
+                                          key={node.row.count}
+                                          transform={`translate(${node.x} ${node.y})`}
+                                        >
+                                          <g style={animStyle}>
+                                            <circle
+                                              cx={0}
+                                              cy={0}
+                                              r={node.size / 2}
+                                              fill={node.color}
+                                            />
+                                          </g>
+                                        </g>
+                                      );
+                                    })}
+                                  </g>
+                                  {/* Small unblurred black core dot, like a normal node's center. */}
+                                  <g fill="#1B1B1B">
+                                    {nodes.map((node, i) => {
+                                      const offset = nodeOffsets[i];
+                                      const dotStyle = nodeAnimStyle(
+                                        offset,
+                                        floatSeed(node.row.count),
+                                      );
+                                      return (
+                                        <g
+                                          key={node.row.count}
+                                          transform={`translate(${node.x} ${node.y})`}
+                                        >
+                                          <g style={dotStyle}>
+                                            <circle
+                                              cx={0}
+                                              cy={0}
+                                              r={Math.max(
+                                                0.5,
+                                                node.size * 0.08,
+                                              )}
+                                            />
+                                          </g>
+                                        </g>
+                                      );
+                                    })}
+                                  </g>
+                                </g>
+                              </svg>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
+                      {/* Legend, starting level with the totals line above the
+                          spiral rather than with the spiral itself. Scrolls
+                          inside itself on short viewports so it can never push
+                          the locked-height page taller. */}
+                      <div className="flex flex-col justify-start gap-4 md:order-1 md:h-full md:min-h-0 md:max-w-[26rem] md:overflow-y-auto text-left text-xs sm:text-sm leading-relaxed">
+                        <p>
+                          Through Instagram, I discovered a girl trying to get
+                          rejected 1000 times. What she found was not rejection,
+                          but opportunities. I am doing the same experiment from
+                          June 2026 to June 2027.
+                        </p>
+
+                        <p>
+                          <strong>To get rejected, I have to make asks.</strong>{" "}
+                          An ask includes
+                          everything from job and internship applications, to
+                          asking someone I admire for coffee, to signing up for
+                          something crazy.
+                        </p>
+
+                        <p>
+                          This visualisation updates every time I make an ask,
+                          showing whether I was accepted, rejected, or am still
+                          pending a response. It also shows how much fear I felt
+                          making each ask, and which area of my life it belonged
+                          to.
+                        </p>
+
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          <div>
+                            <p className="font-bold mb-2">Shape = category</p>
+                            <div className="flex flex-col gap-1.5">
+                              <LegendRow>
+                                <LegendShapeIcon shape="plus" />
+                                professional
+                              </LegendRow>
+                              <LegendRow>
+                                <LegendShapeIcon shape="flower" />
+                                personal
+                              </LegendRow>
+                              <LegendRow>
+                                <LegendShapeIcon shape="circle" />
+                                random
+                              </LegendRow>
+                            </div>
+                          </div>
+
+                          <div>
+                            <p className="font-bold mb-2">Color = outcome</p>
+                            <div className="flex flex-col gap-1.5">
+                              <LegendRow>
+                                <span
+                                  className="inline-block w-3.5 h-3.5 rounded-full"
+                                  style={{
+                                    backgroundColor: OUTCOME_COLOR.accepted,
+                                  }}
                                 />
-                              </g>
-                            </g>
-                          );
-                        }
-                        if (node.shape === "flower") {
-                          const s = shapeScale("flower", node.size);
-                          return (
-                            <g key={node.row.count} transform={`translate(${node.x} ${node.y})`}>
-                              <g style={animStyle}>
-                                <path
-                                  d={FLOWER_PATH}
-                                  fill={node.color}
-                                  transform={`scale(${s}) translate(${-FLOWER_VIEWBOX.w / 2} ${-FLOWER_VIEWBOX.h / 2})`}
+                                accepted
+                              </LegendRow>
+                              <LegendRow>
+                                <span
+                                  className="inline-block w-3.5 h-3.5 rounded-full"
+                                  style={{
+                                    backgroundColor: OUTCOME_COLOR.rejected,
+                                  }}
                                 />
-                              </g>
-                            </g>
-                          );
-                        }
-                        return (
-                          <g key={node.row.count} transform={`translate(${node.x} ${node.y})`}>
-                            <g style={animStyle}>
-                              <circle cx={0} cy={0} r={node.size / 2} fill={node.color} />
-                            </g>
-                          </g>
-                        );
-                      })}
-                    </g>
-                    {/* Small unblurred black core dot, like a normal node's center. */}
-                    <g fill="#1B1B1B">
-                      {nodes.map((node, i) => {
-                        const offset = nodeOffsets[i];
-                        const dotStyle = nodeAnimStyle(offset, floatSeed(node.row.count));
-                        return (
-                          <g key={node.row.count} transform={`translate(${node.x} ${node.y})`}>
-                            <g style={dotStyle}>
-                              <circle cx={0} cy={0} r={Math.max(0.5, node.size * 0.08)} />
-                            </g>
-                          </g>
-                        );
-                      })}
-                    </g>
-                  </g>
-                </svg>
-              </div>
-            </div>
-          )}
+                                rejected
+                              </LegendRow>
+                              <LegendRow>
+                                <span
+                                  className="inline-block w-3.5 h-3.5 rounded-full"
+                                  style={{
+                                    backgroundColor: OUTCOME_COLOR.pending,
+                                  }}
+                                />
+                                pending
+                              </LegendRow>
+                            </div>
+                          </div>
 
-          {/* Legend */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-10 text-xs sm:text-sm">
-            <div className="p-4">
-              <p className="font-bold mb-2">Shape = category</p>
-              <div className="flex flex-col gap-1.5">
-                <LegendRow>
-                  <LegendShapeIcon shape="plus" />
-                  professional
-                </LegendRow>
-                <LegendRow>
-                  <LegendShapeIcon shape="flower" />
-                  personal
-                </LegendRow>
-                <LegendRow>
-                  <LegendShapeIcon shape="circle" />
-                  random
-                </LegendRow>
-              </div>
-            </div>
+                          <div>
+                            <p className="font-bold mb-2">Size = fear level</p>
+                            <p className="text-foreground/60">
+                              Bigger nodes are asks that felt scarier to make
+                              (1&ndash;3).
+                            </p>
+                          </div>
 
-            <div className="p-4">
-              <p className="font-bold mb-2">Color = outcome</p>
-              <div className="flex flex-col gap-1.5">
-                <LegendRow>
-                  <span
-                    className="inline-block w-3.5 h-3.5 rounded-full"
-                    style={{ backgroundColor: OUTCOME_COLOR.accepted }}
-                  />
-                  accepted
-                </LegendRow>
-                <LegendRow>
-                  <span
-                    className="inline-block w-3.5 h-3.5 rounded-full"
-                    style={{ backgroundColor: OUTCOME_COLOR.rejected }}
-                  />
-                  rejected
-                </LegendRow>
-                <LegendRow>
-                  <span
-                    className="inline-block w-3.5 h-3.5 rounded-full"
-                    style={{ backgroundColor: OUTCOME_COLOR.pending }}
-                  />
-                  pending
-                </LegendRow>
-              </div>
-            </div>
+                          <div>
+                            <p className="font-bold mb-2">
+                              Position = sequence of asks
+                            </p>
+                            <p className="text-foreground/60">
+                              Each ask spirals outward from the center. #1 sits
+                              at the middle, and the spiral grows as the count
+                              goes up.
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ) : activeSlide.id === "notes" ? (
+                    /* Reads as one centred article column: the intro, then the
+                       notes running underneath it, rather than the two side by
+                       side. */
+                    <div className="mx-auto flex w-full max-w-2xl flex-col md:h-full md:min-h-0 text-left text-xs sm:text-sm leading-relaxed">
+                      <p className="shrink-0">
+                        Besides the data visualisation, I am collecting field
+                        notes on the go. These are my thoughts, realisations,
+                        struggles, and learnings from the experiment.
+                      </p>
 
-            <div className="p-4">
-              <p className="font-bold mb-2">Size = fear level</p>
-              <p className="text-foreground/60">
-                Bigger nodes = asks that felt scarier to make (1–3).
-              </p>
-            </div>
+                      <div className="flex items-center justify-between mt-6 mb-3 shrink-0">
+                        <p className="font-bold text-[#ED2E85]">Field notes</p>
+                        <button
+                          type="button"
+                          onClick={() => setNotesNewestFirst((prev) => !prev)}
+                          title={
+                            notesNewestFirst
+                              ? "Showing newest first"
+                              : "Showing oldest first"
+                          }
+                          aria-label="Toggle notes order"
+                          className="p-1.5 border-2 border-black/10 hover:border-[#ED2E85] text-black hover:text-[#ED2E85] transition-colors duration-200"
+                        >
+                          <SortArrowsIcon />
+                        </button>
+                      </div>
 
-            <div className="p-4">
-              <p className="font-bold mb-2">Position = time/sequence of asks</p>
-              <p className="text-foreground/60">
-                Each ask spirals outward from the center. #1 sits at the middle, and the spiral grows outward as the count goes up.
-              </p>
-            </div>
+                      {/* The notes list is the only thing that grows over the
+                          year, so it scrolls inside the frame rather than
+                          pushing the slide taller. */}
+                      <div className="flex flex-col gap-3 md:min-h-0 md:flex-1 md:overflow-y-auto md:pr-1">
+                        {sortedFieldNotes.map((note, i) => (
+                          <div
+                            key={`${note.date}-${i}`}
+                            className="border-2 border-black/10 p-4 shrink-0"
+                          >
+                            <p className="text-foreground/50 mb-1.5">
+                              {formatNoteDate(note.date)}
+                            </p>
+                            <p>{note.text}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ) : activeSlide.id === "process" ? (
+                    <div className="grid grid-cols-1 md:grid-cols-[0.6fr_1.4fr] gap-6 md:h-full md:min-h-0 text-left text-xs sm:text-sm leading-relaxed">
+                      <div className="flex flex-col justify-start space-y-3">
+                        <p>
+                          The design process for this data visualisation was
+                          rather simple. I wanted to visualise my journey in a
+                          simple but aesthetic way, illustrating the concepts of
+                          time, fear, and outcome. The images show my honest
+                          sketching, where I was playing with what the different
+                          elements should represent. Category came later, while
+                          coding assisted by Claude Code.
+                        </p>
+                      </div>
+
+                      {/* Each image shrink-wraps to whatever width the frame's
+                          height implies at its own aspect ratio, so nothing is
+                          cropped. The sketch is the point of the slide, so it
+                          gets the frame's full height while the two references
+                          share a half-height column beside it. */}
+                      <div className="flex flex-col md:flex-row md:h-full md:min-h-0 md:items-start gap-4">
+                        <div className="relative w-full md:w-fit md:h-full overflow-hidden">
+                          <Image
+                            src={h1Image}
+                            alt="Sketches working out what each element of the visualisation should represent"
+                            className="w-full h-auto md:h-full md:w-auto object-contain object-top"
+                          />
+                        </div>
+
+                        <div className="flex flex-row md:flex-col md:h-full md:min-h-0 gap-4">
+                          {/* The tint and caption only appear on hover, so the
+                              references read as plain images until you go
+                              looking for where they came from. */}
+                          <a
+                            href="https://dk.pinterest.com/pin/787918897354920626/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group relative flex w-1/2 md:w-fit md:flex-1 md:min-h-0 overflow-hidden"
+                          >
+                            <Image
+                              src={h2Image}
+                              alt="Visual reference collected while sketching (opens on Pinterest)"
+                              className="block w-full h-auto md:h-full md:w-auto object-contain"
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/45 p-3 text-center text-xs sm:text-sm leading-relaxed text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                              <p>Click to see where I found this</p>
+                            </div>
+                          </a>
+
+                          <a
+                            href="https://dk.pinterest.com/pin/787918897354920072/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group relative flex w-1/2 md:w-fit md:flex-1 md:min-h-0 overflow-hidden"
+                          >
+                            <Image
+                              src={h3Image}
+                              alt="Visual reference collected while sketching (opens on Pinterest)"
+                              className="block w-full h-auto md:h-full md:w-auto object-contain"
+                            />
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/45 p-3 text-center text-xs sm:text-sm leading-relaxed text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                              <p>Click to see where I found this</p>
+                            </div>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  ) : activeSlide.id === "conclusion" ? (
+                    /* Nothing to conclude yet, so the slide is just a single
+                       line sitting in the middle of the empty frame. */
+                    <div className="flex h-full min-h-[240px] items-center justify-center">
+                      <p className="text-center text-xs sm:text-sm leading-relaxed text-foreground/50">
+                        Coming when I have reached 1000 rejections.
+                      </p>
+                    </div>
+                  ) : null}
+                </motion.div>
+              </AnimatePresence>
+            </article>
           </div>
-
-          {/* Field notes */}
-          <section className="mt-16">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="font-bold text-xs sm:text-sm">Notes and learnings</h2>
-              <button
-                type="button"
-                onClick={() => setNotesNewestFirst((prev) => !prev)}
-                title={notesNewestFirst ? "Showing newest first" : "Showing oldest first"}
-                aria-label="Toggle notes order"
-                className="p-1.5 border-2 border-black/10 hover:border-[#ED2E85] text-black hover:text-[#ED2E85] transition-colors duration-200"
-              >
-                <SortArrowsIcon />
-              </button>
-            </div>
-            <div className="flex flex-col gap-3">
-              {sortedFieldNotes.map((note, i) => (
-                <div
-                  key={`${note.date}-${i}`}
-                  className="border-2 border-black/10 p-4 text-xs sm:text-sm"
-                >
-                  <p className="text-foreground/50 mb-1.5">{formatNoteDate(note.date)}</p>
-                  <p>{note.text}</p>
-                </div>
-              ))}
-            </div>
-          </section>
         </main>
+
+        {/* Slide nav: fixed to the bottom-middle of the screen. On phone it
+            sits in a full-width white footer bar flush with the bottom edge,
+            so content scrolling past does not show through behind it. From sm
+            up it floats free over the page as before. */}
+        <div className="flex fixed inset-x-0 bottom-0 sm:bottom-20 z-40 justify-center px-4 py-4 sm:py-0 bg-white sm:bg-transparent pointer-events-none">
+          <div className="pointer-events-auto">
+            <SlideNav
+              slides={SLIDES}
+              activeIndex={activeIndex}
+              onSelect={setActiveIndex}
+            />
+          </div>
+        </div>
       </div>
     </>
   );

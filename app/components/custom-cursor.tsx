@@ -22,39 +22,48 @@ export default function CustomCursor() {
   useEffect(() => {
     if (!hasPointer) return;
 
+    const isIframe = (target: EventTarget | null) =>
+      target instanceof Element && target.tagName === "IFRAME";
+
     const updatePosition = (e: MouseEvent | PointerEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
+      // Getting an event at all means we're back on the parent document, so
+      // this also recovers if an iframe was unmounted while hovered (e.g.
+      // changing slide by keyboard) and its mouseout never fired.
+      setIsOverIframe(isIframe(e.target));
     };
 
     const handleMouseLeave = () => setIsInViewport(false);
     const handleMouseEnter = () => setIsInViewport(true);
 
-    // Use pointermove for better initial capture
+    // iframes (e.g. YouTube embeds) are separate documents, so pointermove
+    // stops firing once the cursor enters one, causing it to freeze/"park"
+    // at the iframe's edge while the embed draws its own cursor, which reads
+    // as two cursors. mouseover/mouseout still fire on the iframe element in
+    // the parent page, so use those to hide ours while it's over the video.
+    //
+    // These are delegated on the document rather than bound to each iframe,
+    // because slides mount and unmount: a one-time querySelectorAll would
+    // leave every iframe rendered after this effect ran without listeners.
+    const handleMouseOver = (e: MouseEvent) => {
+      if (isIframe(e.target)) setIsOverIframe(true);
+    };
+    const handleMouseOut = (e: MouseEvent) => {
+      if (isIframe(e.target)) setIsOverIframe(false);
+    };
+
     document.addEventListener("pointermove", updatePosition);
     document.addEventListener("mouseleave", handleMouseLeave);
     document.addEventListener("mouseenter", handleMouseEnter);
-
-    // iframes (e.g. YouTube embeds) are separate documents, so pointermove
-    // stops firing once the cursor enters one, causing it to freeze/"park"
-    // at the iframe's edge. mouseenter/mouseleave on the iframe element
-    // itself still fire though, since that's tracked by the parent page -
-    // use those to hide our cursor and let the iframe's own cursor show.
-    const iframes = Array.from(document.querySelectorAll("iframe"));
-    const handleIframeEnter = () => setIsOverIframe(true);
-    const handleIframeLeave = () => setIsOverIframe(false);
-    iframes.forEach((iframe) => {
-      iframe.addEventListener("mouseenter", handleIframeEnter);
-      iframe.addEventListener("mouseleave", handleIframeLeave);
-    });
+    document.addEventListener("mouseover", handleMouseOver);
+    document.addEventListener("mouseout", handleMouseOut);
 
     return () => {
       document.removeEventListener("pointermove", updatePosition);
       document.removeEventListener("mouseleave", handleMouseLeave);
       document.removeEventListener("mouseenter", handleMouseEnter);
-      iframes.forEach((iframe) => {
-        iframe.removeEventListener("mouseenter", handleIframeEnter);
-        iframe.removeEventListener("mouseleave", handleIframeLeave);
-      });
+      document.removeEventListener("mouseover", handleMouseOver);
+      document.removeEventListener("mouseout", handleMouseOut);
     };
   }, [hasPointer]);
 

@@ -39,17 +39,25 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
       <CustomCursor />
       <HorizontalPageSwipe />
 
-      <FlowerLink />
+      {/* On tablet/desktop, the flower renders on its own row above the
+          header, same as it always has. */}
+      <div className="hidden sm:block">
+        <FlowerLink />
+      </div>
 
       <header
         ref={headerRef}
-        className="max-w-[1400px] mx-auto px-4 md:px-12 pt-6 pb-6 sm:pt-8"
+        className="max-w-[1400px] mx-auto px-4 md:px-12 pt-4 pb-6 sm:pt-8"
       >
         <div className="flex flex-row items-center gap-3 sm:gap-12 lg:gap-16">
-          {/* Spacer: on mobile just wide enough to clear the fixed home
-              flower so the filter starts right after it, on the same line;
-              widens to reserve the full sidebar column on desktop. */}
-          <div className="w-14 sm:w-56 md:w-64 lg:w-72 shrink-0" />
+          {/* On phone, the flower sits inline right here, at the same
+              top-left spot article/artwork pages place it, with the filter
+              directly beside it on the same line. */}
+          <div className="sm:hidden shrink-0">
+            <FlowerLink fixed={false} />
+          </div>
+          {/* Spacer reserving the full sidebar column width on tablet/desktop. */}
+          <div className="hidden sm:block sm:w-56 md:w-64 lg:w-72 shrink-0" />
           <PageNav />
         </div>
       </header>
@@ -62,7 +70,7 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
               <h1 className="text-sm sm:text-base font-bold text-[#ED2E85]">Cæcilie Lidén Bode</h1>
               <p>Product designer and digital artist from Copenhagen.</p>
               <p>
-                This is my project parking spot. Here you can see a mix of my{" "}
+                This is my <strong>project parking spot</strong>. Here you can see a mix of my{" "}
                 <Link
                   href="/"
                   className="transition-colors duration-200 ease-out hover:text-[#ED2E85]"
@@ -92,8 +100,10 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
             sitting at the very bottom instead of pinned over the content. */}
         <div className="sm:hidden flex flex-col gap-3 mt-10">
           <div className="text-xs leading-relaxed space-y-4">
-            <p>I am looking for a interaction / product design internship this spring!</p>
-            <p className="font-bold text-[#ED2E85]">Want to grab a coffee sometime?</p>
+            <p className="font-bold text-[#ED2E85]">
+              I am looking for a interaction / product design internship this spring!
+            </p>
+            <p className="font-bold text-[#ED2E85]">Feel free to reach out to me!</p>
           </div>
           <Footer />
         </div>
@@ -111,7 +121,7 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
               <h1 className="text-sm sm:text-base font-bold text-[#ED2E85]">Cæcilie Lidén Bode</h1>
               <p>Product designer and digital artist from Copenhagen.</p>
               <p>
-                This is my project parking spot. Here you can see a mix of my{" "}
+                This is my <strong>project parking spot</strong>. Here you can see a mix of my{" "}
                 <Link
                   href="/"
                   className="transition-colors duration-200 ease-out hover:text-[#ED2E85]"
@@ -138,8 +148,10 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
         <div className="max-w-[1400px] mx-auto px-4 md:px-12">
           <div className="sm:w-56 md:w-64 lg:w-72 pointer-events-auto flex flex-col gap-3">
             <div className="text-xs sm:text-sm leading-relaxed space-y-4">
-              <p>I am looking for a interaction / product design internship this spring!</p>
-              <p className="font-bold text-[#ED2E85]">Want to grab a coffee sometime?</p>
+              <p className="font-bold text-[#ED2E85]">
+                I am looking for a interaction / product design internship this spring!
+              </p>
+              <p className="font-bold text-[#ED2E85]">Feel free to reach out to me!</p>
             </div>
             <Footer />
           </div>

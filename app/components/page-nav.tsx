@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { MouseEvent } from "react";
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 
 export const PAGES = [
   { href: "/", label: "design projects" },
@@ -11,26 +11,23 @@ export const PAGES = [
   { href: "/about", label: "about me" },
 ];
 
-// Each filter is built from three pieces — a fixed-size left cap, a
-// stretchy middle rectangle, and a fixed-size right cap — instead of one
-// element whose whole box is resized. Resizing a single rounded element
-// distorts its border-radius/content mid-animation; only ever animating the
-// (unrounded) middle rectangle's width avoids that entirely. When the
-// rectangle has no padding/content, the two caps sit flush and form a full
-// circle.
+// The whole pill is a single bordered, overflow-hidden capsule (not three
+// separately-bordered pieces) so there's exactly one border line with no
+// seams. Its two ends are fixed-width spacers (no border/radius of their own —
+// the capsule's own radius + overflow-hidden already gives them their curved
+// shape) and the middle is the label's flex container; only the capsule's
+// overall width changes.
 //
-// The rectangle's width itself is never measured or set from JS — it's
-// driven by Framer Motion's `layout` animation, which reads the real,
-// already-laid-out DOM size (padding present or not, label mounted or not)
-// and smoothly interpolates between old/new sizes. That sidesteps an
-// earlier JS-measurement approach entirely: measuring label widths in an
-// effect and animating to a computed pixel value meant the very first paint
-// of a fresh mount (e.g. this component fully remounting after leaving a
-// project/painting detail page, which lives outside the layout that keeps
-// this nav mounted) could briefly render before that measurement had run,
-// flashing every label at once. `layout` has no such gap — with no prior
-// frame to interpolate from on mount, it just renders at the final,
-// already-correct layout immediately.
+// That width comes from animating the label box's own width between 0 and
+// auto, so the capsule simply reflows around it. It is deliberately *not*
+// Framer's `layout`: a layout animation fakes size changes with scaleX, which
+// squashes the round caps into ellipses for the length of the animation.
+// Framer can only approximately correct that distortion, and the residue was
+// clearly visible on phone, where the label widths (and so the scale factors)
+// are largest relative to the pill. Animating real width applies no transform
+// at all, so the caps stay perfect half-circles, and the neighbouring pills
+// reposition off the true layout every frame instead of needing their own
+// synced layout animation to avoid overlapping.
 const CAP_WIDTH = 18; // half of the h-9 (36px) circle's diameter
 const SPRING = { type: "spring" as const, stiffness: 700, damping: 36 };
 
@@ -59,36 +56,33 @@ export default function PageNav() {
             href={page.href}
             aria-label={page.label}
             onClick={isActive ? handleActiveClick : undefined}
+            className="block h-9"
           >
-            <span className="group flex h-9 items-center">
-              <span
-                style={{ width: CAP_WIDTH }}
-                className="h-9 shrink-0 rounded-l-full border-y border-l border-black bg-white transition-colors duration-200 group-hover:border-[#ED2E85]"
-              />
+            <span
+              // CAP_WIDTH is exactly half the h-9 height, so each end is a
+              // true half-circle.
+              style={{ borderRadius: CAP_WIDTH }}
+              className="group flex h-9 items-center overflow-hidden border border-black bg-white transition-colors duration-200 hover:border-[#ED2E85]"
+            >
+              <span style={{ width: CAP_WIDTH }} className="h-9 shrink-0" />
 
               <motion.span
-                layout
-                transition={{ ...SPRING, delay: isActive ? 0 : 0.08 }}
-                className="flex h-9 shrink-0 items-center justify-center overflow-hidden border-y border-black bg-white transition-colors duration-200 group-hover:border-[#ED2E85]"
+                initial={false}
+                animate={{ width: isActive ? "auto" : 0 }}
+                transition={SPRING}
+                className="flex h-9 flex-none items-center justify-center overflow-hidden"
               >
-                <AnimatePresence>
-                  {isActive && (
-                    <motion.span
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1, transition: { duration: 0.08, delay: 0.18 } }}
-                      exit={{ opacity: 0, transition: { duration: 0.08 } }}
-                      className="whitespace-nowrap px-1.5 text-black text-xs sm:text-sm transition-colors duration-200 group-hover:text-[#ED2E85]"
-                    >
-                      {page.label}
-                    </motion.span>
-                  )}
-                </AnimatePresence>
+                <motion.span
+                  initial={false}
+                  animate={{ opacity: isActive ? 1 : 0 }}
+                  transition={{ duration: 0.08, delay: isActive ? 0.18 : 0 }}
+                  className="shrink-0 whitespace-nowrap px-1.5 text-black text-xs sm:text-sm transition-colors duration-200 group-hover:text-[#ED2E85]"
+                >
+                  {page.label}
+                </motion.span>
               </motion.span>
 
-              <span
-                style={{ width: CAP_WIDTH }}
-                className="h-9 shrink-0 rounded-r-full border-y border-r border-black bg-white transition-colors duration-200 group-hover:border-[#ED2E85]"
-              />
+              <span style={{ width: CAP_WIDTH }} className="h-9 shrink-0" />
             </span>
           </Link>
         );
