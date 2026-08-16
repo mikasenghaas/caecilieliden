@@ -14,7 +14,7 @@ const SOCIALS: Record<string, string> = {
 
 const NOTE_GROUPS: string[][][] = [
   [
-    ["looking", "for", "internship"],
+    ["looking", "for", "an", "internship"],
     ["this", "spring"],
   ],
   [["feel", "free", "to", "reach", "out"]],
