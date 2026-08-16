@@ -5,7 +5,8 @@ import ProjectCard from "@/app/components/project-card";
 const projects = [
   {
     href: "/projects/co-design-ai-acute-health",
-    title: "Co-designing AI for Acute Health Service (Bachelor Thesis Project)",
+    title:
+      "Co-designing AI for the Danish emergency medical helpline Akuttelefonen 1813 (Bachelor Thesis Project)",
     image: "/projects/co-design-ai-acute-health/card.png",
   },
   {
@@ -15,7 +16,7 @@ const projects = [
   },
   {
     href: "/projects/1000-rejections-journey-creative-data-viz",
-    title: "1000 Rejections, a Live Experiment and Creative Data Visualisation",
+    title: "1000 Rejections, a Live Experiment and Creative Data Visualization",
     image: "/projects/1000-rejections-journey-creative-data-viz/card.png",
   },
   {

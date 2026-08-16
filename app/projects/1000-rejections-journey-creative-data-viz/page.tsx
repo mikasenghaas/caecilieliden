@@ -13,9 +13,9 @@ import h3Image from "@/app/assets/h3.png";
 
 // Same "powerpoint"-style deck as the LED project: one slide visible at a
 // time, switched via the pill nav fixed to the bottom-middle of the screen.
-// The live visualisation leads, since it's the piece that actually updates.
+// The live visualization leads, since it's the piece that actually updates.
 const SLIDES = [
-  { id: "viz", label: "live data visualisation" },
+  { id: "viz", label: "live data visualization" },
   { id: "notes", label: "field notes" },
   { id: "process", label: "design process" },
   { id: "conclusion", label: "conclusion" },
@@ -407,14 +407,17 @@ export default function RejectionsJourneyPage() {
               how tall each slide's content is. */}
           <div className="w-full max-w-6xl mx-auto pt-2 sm:pt-8 lg:pt-12 md:shrink-0">
             <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
-              1000 Rejections, a Live Experiment and Creative Data Visualisation
+              1000 Rejections, a Live Experiment and Creative Data Visualization
             </h1>
             <p className="text-xs sm:text-sm text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               2026
             </p>
 
             {activeSlide.id === "viz" && (
-              <div className="hidden md:flex items-baseline gap-x-6 mt-2 text-xs sm:text-sm leading-relaxed">
+              // mt-4 matches the md:pt-4 the content wrapper below uses, so
+              // this line starts at the same height as the first line of
+              // content on every other slide.
+              <div className="hidden md:flex items-baseline gap-x-6 mt-4 text-xs sm:text-sm leading-relaxed">
                 <p className="font-bold text-[#ED2E85]">
                   {totalAsks} asks made so far
                 </p>
@@ -652,14 +655,13 @@ export default function RejectionsJourneyPage() {
 
                         <p>
                           <strong>To get rejected, I have to make asks.</strong>{" "}
-                          An ask includes
-                          everything from job and internship applications, to
-                          asking someone I admire for coffee, to signing up for
-                          something crazy.
+                          An ask includes everything from job and internship
+                          applications, to asking someone I admire for coffee,
+                          to signing up for something crazy.
                         </p>
 
                         <p>
-                          This visualisation updates every time I make an ask,
+                          This visualization updates every time I make an ask,
                           showing whether I was accepted, rejected, or am still
                           pending a response. It also shows how much fear I felt
                           making each ask, and which area of my life it belonged
@@ -745,8 +747,8 @@ export default function RejectionsJourneyPage() {
                        side. */
                     <div className="mx-auto flex w-full max-w-2xl flex-col md:h-full md:min-h-0 text-left text-xs sm:text-sm leading-relaxed">
                       <p className="shrink-0">
-                        Besides the data visualisation, I am collecting field
-                        notes on the go. These are my thoughts, realisations,
+                        Besides the data visualization, I am collecting field
+                        notes on the go. These are my thoughts, realizations,
                         struggles, and learnings from the experiment.
                       </p>
 
@@ -788,8 +790,8 @@ export default function RejectionsJourneyPage() {
                     <div className="grid grid-cols-1 md:grid-cols-[0.6fr_1.4fr] gap-6 md:h-full md:min-h-0 text-left text-xs sm:text-sm leading-relaxed">
                       <div className="flex flex-col justify-start space-y-3">
                         <p>
-                          The design process for this data visualisation was
-                          rather simple. I wanted to visualise my journey in a
+                          The design process for this data visualization was
+                          rather simple. I wanted to visualize my journey in a
                           simple but aesthetic way, illustrating the concepts of
                           time, fear, and outcome. The images show my honest
                           sketching, where I was playing with what the different
@@ -807,7 +809,7 @@ export default function RejectionsJourneyPage() {
                         <div className="relative w-full md:w-fit md:h-full overflow-hidden">
                           <Image
                             src={h1Image}
-                            alt="Sketches working out what each element of the visualisation should represent"
+                            alt="Sketches working out what each element of the visualization should represent"
                             className="w-full h-auto md:h-full md:w-auto object-contain object-top"
                           />
                         </div>
