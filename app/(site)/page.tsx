@@ -1,28 +1,86 @@
-import ProjectCard from "@/app/components/project-card";
+import ArtboardCard, { CardDesign } from "@/app/components/artboard-card";
 
-// The cards are pure artwork — the title is baked into each image rather than
-// drawn over it, so it's kept here only as the image's alt text.
-const projects = [
+// Each card is drawn in code from its 470x470 Figma artboard: the title and
+// footer are real text, and only the photography/illustration is an image.
+// `title` stays the long, readable version used as the link's accessible name.
+const projects: {
+  href: string;
+  title: string;
+  design: CardDesign;
+}[] = [
   {
     href: "/projects/co-design-ai-acute-health",
     title:
       "Co-designing AI for the Danish emergency medical helpline Akuttelefonen 1813 (Bachelor Thesis Project)",
-    image: "/projects/co-design-ai-acute-health/card.png",
+    design: {
+      lines: [
+        "CO-DESIGNING AI FOR THE DANISH",
+        "EMERGENCY MEDICAL HELPLINE",
+        "AKUTTELEFONEN 1813",
+      ],
+      footer: "2026 BACHELOR THESIS PROJECT",
+      artwork: [
+        {
+          src: "/projects/co-design-ai-acute-health/photo.png",
+          left: 176,
+          top: 132,
+          width: 204,
+          height: 204,
+        },
+      ],
+    },
   },
   {
     href: "/projects/led-installation-strangers-transit",
     title: "Strangers on Transit LED Installation",
-    image: "/projects/led-installation-strangers-transit/card.png",
+    design: {
+      lines: ["STRANGERS ON TRANSIT"],
+      footer: "2026 LED INSTALLATION",
+      artwork: [
+        {
+          src: "/projects/led-installation-strangers-transit/artwork.png",
+          left: 0,
+          top: 56,
+          width: 470,
+          height: 382,
+        },
+      ],
+    },
   },
   {
     href: "/projects/1000-rejections-journey-creative-data-viz",
     title: "1000 Rejections, a Live Experiment and Creative Data Visualization",
-    image: "/projects/1000-rejections-journey-creative-data-viz/card.png",
+    design: {
+      lines: ["1000 REJECTIONS"],
+      footer: "2026-2027 CREATIVE DATA VISUALIZATION",
+      tag: { label: "LIVE EXPERIMENT", color: "#EE2427" },
+      artwork: [
+        {
+          src: "/projects/1000-rejections-journey-creative-data-viz/dots.png",
+          left: 26,
+          top: 78,
+          width: 204,
+          height: 204,
+        },
+      ],
+    },
   },
   {
     href: "/projects/codesign-project",
     title: "Co-designing with a Live-Action Roleplay Community",
-    image: "/projects/codesign-project/card.png",
+    design: {
+      lines: ["CO-DESIGN WITH A", "LIVE-ACTION ROLEPLAY COMMUNITY"],
+      footer: "2026",
+      artwork: [
+        {
+          src: "/projects/codesign-project/photo.png",
+          left: 59,
+          top: 189,
+          width: 204,
+          height: 204,
+        },
+      ],
+    },
   },
 ];
 
@@ -30,7 +88,7 @@ export default function Home() {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 content-start">
       {projects.map((project) => (
-        <ProjectCard key={project.href} {...project} />
+        <ArtboardCard key={project.href} {...project} />
       ))}
     </div>
   );

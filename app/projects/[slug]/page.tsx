@@ -81,20 +81,20 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               sizes="(max-width: 768px) 100vw, 672px"
             />
             <div className="relative z-10 p-6">
-              <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+              <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-mono [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
                 {frontmatter.title}
               </h1>
-              <div className="text-xs sm:text-sm text-foreground/60 space-y-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+              <div className="text-xs sm:text-sm font-mono text-foreground/60 space-y-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
                 {frontmatter.year && <p>{frontmatter.year}</p>}
               </div>
             </div>
           </header>
         ) : (
           <header className="mb-12">
-            <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+            <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-mono [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               {frontmatter.title}
             </h1>
-            <div className="text-xs sm:text-sm text-foreground/60 space-y-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+            <div className="text-xs sm:text-sm font-mono text-foreground/60 space-y-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               {frontmatter.year && <p>{frontmatter.year}</p>}
             </div>
           </header>

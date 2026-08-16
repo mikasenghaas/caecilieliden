@@ -107,10 +107,10 @@ export default function LedInstallationPage() {
           {/* Fixed at the same top position on every slide, independent of
               how tall each slide's content is. */}
           <div className="w-full max-w-6xl mx-auto pt-2 sm:pt-16 lg:pt-24">
-            <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
-              Strangers on Transit
+            <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-mono [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+              STRANGERS ON TRANSIT
             </h1>
-            <p className="text-xs sm:text-sm text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+            <p className="text-xs sm:text-sm font-mono text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               2026
             </p>
           </div>
@@ -150,8 +150,7 @@ export default function LedInstallationPage() {
                             <p>
                               I saw it as a site for something more meaningful
                               and playful, which is why this project explores
-                              how <strong className="text-white">play</strong>{" "}
-                              can open up the liminal, in-between state of
+                              how play can open up the liminal, in-between state of
                               public transport, while experimenting with how
                               play can be used as part of design processes.
                             </p>
@@ -159,7 +158,7 @@ export default function LedInstallationPage() {
                         </div>
                         <p className="text-left text-xs sm:text-sm leading-relaxed mt-3 px-4 shrink-0">
                           I ended up designing an{" "}
-                          <strong>interactive LED system</strong>, where
+                          interactive LED system, where
                           passengers can interact with each other indirectly.
                           From your seat, a joystick lets you steer a small
                           light, or &quot;character,&quot; along LED strips that
@@ -189,7 +188,7 @@ export default function LedInstallationPage() {
                         <p className="text-xs sm:text-sm leading-relaxed mb-3">
                           What motivated this project was two questions:
                         </p>
-                        <ol className="list-decimal list-inside text-xs sm:text-sm leading-relaxed space-y-2">
+                        <ol className="list-decimal list-inside text-xs sm:text-sm leading-relaxed space-y-2 text-[#ED2E85] marker:text-[#ED2E85]">
                           <li>How can play be used as a design approach?</li>
                           <li>
                             How can I get even the most serious person to play?
@@ -215,7 +214,7 @@ export default function LedInstallationPage() {
                         <div className="absolute inset-0 bg-black/50" />
                         <div className="absolute inset-0 flex flex-col justify-end items-start p-4 sm:p-6 text-left text-xs sm:text-sm leading-relaxed text-white space-y-4">
                           <div>
-                            <p className="font-bold mb-1">Why play?</p>
+                            <p className="mb-1">Why play?</p>
                             <p>
                               Most of the spaces around us are designed to make
                               us productive. Even the time we spend waiting is
@@ -230,9 +229,7 @@ export default function LedInstallationPage() {
                           </div>
 
                           <div>
-                            <p className="font-bold mb-1">
-                              And why public transport?
-                            </p>
+                            <p className="mb-1">And why public transport?</p>
                             <p>
                               Third places are rare, spaces that aren&apos;t
                               home or work, where we can just exist among
@@ -265,8 +262,8 @@ export default function LedInstallationPage() {
                         <p>
                           Rather than plan the design process upfront, I
                           approached the project through{" "}
-                          <strong>&quot;revealing&quot;</strong>. This meant
-                          staying open to what emerged, instead of
+                          &quot;revealing&quot;. This meant{" "}
+                          <strong>staying open to what emerged</strong>, instead of
                           &quot;enframing,&quot; which forces the material into
                           a predetermined shape.
                         </p>
@@ -275,8 +272,8 @@ export default function LedInstallationPage() {
                           enframing, sorting the design process into categories
                           and often following the double diamond model. I was
                           interested in trying something different like
-                          revealing, because I wanted the process to feel like I
-                          was playing, making my own rules and following my
+                          revealing, because I wanted the process to{" "}
+                          <strong>feel like I was playing</strong>, making my own rules and following my
                           intuition of what the next step was.
                         </p>
                       </div>
@@ -408,9 +405,7 @@ export default function LedInstallationPage() {
 
                       <div className="flex flex-col justify-start space-y-3 text-left text-xs sm:text-sm leading-relaxed">
                         <div>
-                          <p className="font-bold mb-1 text-[#ED2E85]">
-                            What happened?
-                          </p>
+                          <p className="mb-1">What happened?</p>
                           <p>
                             I was really happy to see that people discovered the
                             system unprompted and invented their own games with
@@ -515,7 +510,7 @@ export default function LedInstallationPage() {
             sits in a full-width white footer bar flush with the bottom edge,
             so content scrolling past does not show through behind it. From sm
             up it floats free over the page as before. */}
-        <div className="flex fixed inset-x-0 bottom-0 sm:bottom-20 z-40 justify-center px-4 py-4 sm:py-0 bg-white sm:bg-transparent pointer-events-none">
+        <div className="flex fixed inset-x-0 bottom-0 sm:bottom-16 z-40 justify-center px-4 py-4 sm:py-0 bg-white sm:bg-transparent pointer-events-none">
           <div className="pointer-events-auto">
             <SlideNav
               slides={SLIDES}

@@ -406,28 +406,38 @@ export default function RejectionsJourneyPage() {
           {/* Fixed at the same top position on every slide, independent of
               how tall each slide's content is. */}
           <div className="w-full max-w-6xl mx-auto pt-2 sm:pt-8 lg:pt-12 md:shrink-0">
-            <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
-              1000 Rejections, a Live Experiment and Creative Data Visualization
+            <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-mono [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+              1000 REJECTIONS
             </h1>
-            <p className="text-xs sm:text-sm text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
-              2026
+            <p className="text-xs sm:text-sm font-mono text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+              2026-2027
             </p>
 
-            {activeSlide.id === "viz" && (
-              // mt-4 matches the md:pt-4 the content wrapper below uses, so
-              // this line starts at the same height as the first line of
-              // content on every other slide.
-              <div className="hidden md:flex items-baseline gap-x-6 mt-4 text-xs sm:text-sm leading-relaxed">
-                <p className="font-bold text-[#ED2E85]">
-                  {totalAsks} asks made so far
-                </p>
-                {lastEntryDate && (
-                  <p className="text-foreground/50">
-                    Last updated {lastEntryDate}
-                  </p>
-                )}
-              </div>
-            )}
+            {/* These totals sit in the header, outside the slide's own
+                AnimatePresence, so they need to fade on the same 0.2s curve —
+                otherwise they blink out instantly while the slide below is
+                still fading, and the header reads as a separate element. */}
+            <AnimatePresence>
+              {activeSlide.id === "viz" && (
+                // mt-4 matches the md:pt-4 the content wrapper below uses, so
+                // this line starts at the same height as the first line of
+                // content on every other slide.
+                <motion.div
+                  className="hidden md:flex items-baseline gap-x-6 mt-4 text-xs sm:text-sm leading-relaxed"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  <p className="text-[#ED2E85]">{totalAsks} asks made so far</p>
+                  {lastEntryDate && (
+                    <p className="text-foreground/50">
+                      Last updated {lastEntryDate}
+                    </p>
+                  )}
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
           <div className="flex-1 md:min-h-0 flex items-start justify-center w-full pt-6 md:pt-4">
@@ -450,9 +460,7 @@ export default function RejectionsJourneyPage() {
                         {/* Phone only — from md up these same totals sit on the
                             title's own line in the header above. */}
                         <div className="md:hidden flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 text-xs sm:text-sm leading-relaxed">
-                          <p className="font-bold text-[#ED2E85]">
-                            {totalAsks} asks made so far
-                          </p>
+                          <p className="text-[#ED2E85]">{totalAsks} asks made so far</p>
                           {lastEntryDate && (
                             <p className="text-foreground/50">
                               Last updated {lastEntryDate}
@@ -477,7 +485,7 @@ export default function RejectionsJourneyPage() {
                         <div className="relative w-full aspect-square md:min-h-0 md:max-h-full">
                           {status === "loading" && (
                             <div className="w-full h-full flex items-center justify-center border-2 border-black/10">
-                              <p className="text-xs sm:text-sm text-foreground/60">
+                              <p className="text-xs sm:text-sm font-mono text-foreground/60">
                                 Loading rejections…
                               </p>
                             </div>
@@ -485,7 +493,7 @@ export default function RejectionsJourneyPage() {
 
                           {status === "error" && (
                             <div className="w-full h-full flex flex-col items-center justify-center gap-4 border-2 border-black/10 px-6 text-center">
-                              <p className="text-xs sm:text-sm text-foreground/70">
+                              <p className="text-xs sm:text-sm font-mono text-foreground/70">
                                 Couldn&apos;t load the sheet. {errorMessage}
                               </p>
                               <button
@@ -500,7 +508,7 @@ export default function RejectionsJourneyPage() {
 
                           {status === "ready" && rows.length === 0 && (
                             <div className="w-full h-full flex items-center justify-center border-2 border-black/10">
-                              <p className="text-xs sm:text-sm text-foreground/60">
+                              <p className="text-xs sm:text-sm font-mono text-foreground/60">
                                 No asks logged yet — check back soon.
                               </p>
                             </div>
@@ -806,12 +814,18 @@ export default function RejectionsJourneyPage() {
                           gets the frame's full height while the two references
                           share a half-height column beside it. */}
                       <div className="flex flex-col md:flex-row md:h-full md:min-h-0 md:items-start gap-4">
-                        <div className="relative w-full md:w-fit md:h-full overflow-hidden">
+                        <div className="group relative w-full md:w-fit md:h-full overflow-hidden">
                           <Image
                             src={h1Image}
                             alt="Sketches working out what each element of the visualization should represent"
                             className="w-full h-auto md:h-full md:w-auto object-contain object-top"
                           />
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/45 p-3 text-center text-xs sm:text-sm leading-relaxed text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                            <p>
+                              Sketches working out what each element should
+                              represent
+                            </p>
+                          </div>
                         </div>
 
                         <div className="flex flex-row md:flex-col md:h-full md:min-h-0 gap-4">
@@ -830,7 +844,7 @@ export default function RejectionsJourneyPage() {
                               className="block w-full h-auto md:h-full md:w-auto object-contain"
                             />
                             <div className="absolute inset-0 flex items-center justify-center bg-black/45 p-3 text-center text-xs sm:text-sm leading-relaxed text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                              <p>Click to see where I found this</p>
+                              <p>Inspo from Pinterest</p>
                             </div>
                           </a>
 
@@ -846,7 +860,7 @@ export default function RejectionsJourneyPage() {
                               className="block w-full h-auto md:h-full md:w-auto object-contain"
                             />
                             <div className="absolute inset-0 flex items-center justify-center bg-black/45 p-3 text-center text-xs sm:text-sm leading-relaxed text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
-                              <p>Click to see where I found this</p>
+                              <p>Inspo from Pinterest</p>
                             </div>
                           </a>
                         </div>
@@ -871,7 +885,7 @@ export default function RejectionsJourneyPage() {
             sits in a full-width white footer bar flush with the bottom edge,
             so content scrolling past does not show through behind it. From sm
             up it floats free over the page as before. */}
-        <div className="flex fixed inset-x-0 bottom-0 sm:bottom-20 z-40 justify-center px-4 py-4 sm:py-0 bg-white sm:bg-transparent pointer-events-none">
+        <div className="flex fixed inset-x-0 bottom-0 sm:bottom-16 z-40 justify-center px-4 py-4 sm:py-0 bg-white sm:bg-transparent pointer-events-none">
           <div className="pointer-events-auto">
             <SlideNav
               slides={SLIDES}

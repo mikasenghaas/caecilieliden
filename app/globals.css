@@ -1,10 +1,12 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-background: #F2F5D3;
-  --color-foreground: #1B1B1B;
+  --color-background: #f2f5d3;
+  --color-foreground: #1b1b1b;
   --font-sans: var(--font-mada);
   --font-display: var(--font-madimi);
+  --font-plex: var(--font-plex-sans);
+  --font-mono: "Andale Mono", ui-monospace, Menlo, Consolas, monospace;
 }
 
 @layer base {
@@ -17,8 +19,8 @@
   }
 
   body {
-    background-color: #FFFFFF;
-    color: #1B1B1B;
+    background-color: #ffffff;
+    color: #1b1b1b;
     font-family: var(--font-sans), Arial, Helvetica, sans-serif;
     overscroll-behavior-x: none;
   }
@@ -27,8 +29,8 @@
      selection — inline bold below is deliberately highlight-free. */
   ::selection,
   strong::selection {
-    background-color: #FFDEF4;
-    color: #ED2E85;
+    background-color: #ffdef4;
+    color: #ed2e85;
   }
 
   /* Inline bold is drawn in the accent pink, with no highlight behind it, so
@@ -36,14 +38,15 @@
      font-bold rather than <strong>, so they keep their normal styling. */
   strong {
     font-weight: 700;
-    color: #ED2E85;
+    color: #ed2e85;
   }
-
 }
 
 /* Hide default cursor only on devices with a mouse */
 @media (pointer: fine) and (hover: hover) {
-  html, body, * {
+  html,
+  body,
+  * {
     cursor: none !important;
   }
 }

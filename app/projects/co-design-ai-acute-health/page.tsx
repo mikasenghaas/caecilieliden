@@ -92,11 +92,11 @@ export default function CoDesignAiAcuteHealthPage() {
           {/* Fixed at the same top position on every slide, independent of
               how tall each slide's content is. */}
           <div className="w-full max-w-6xl mx-auto pt-2 sm:pt-16 lg:pt-24">
-            <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
-              Co-designing AI for the Danish emergency medical helpline
-              Akuttelefonen 1813 (Bachelor Thesis Project)
+            <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-mono [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+              CO-DESIGNING AI FOR THE DANISH EMERGENCY MEDICAL HELPLINE
+              AKUTTELEFONEN 1813
             </h1>
-            <p className="text-xs sm:text-sm text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+            <p className="text-xs sm:text-sm font-mono text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               2026
             </p>
           </div>
@@ -271,9 +271,7 @@ export default function CoDesignAiAcuteHealthPage() {
                       className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${CONTENT_HEIGHT} text-left text-xs sm:text-sm leading-relaxed`}
                     >
                       <div className="flex flex-col justify-start space-y-3">
-                        <p>
-                          <strong>Focus group</strong>
-                        </p>
+                        <p className="font-bold">Focus group</p>
                         <p>
                           The initial interviews informed what to look for in
                           the focus group. There we mapped the
@@ -304,9 +302,7 @@ export default function CoDesignAiAcuteHealthPage() {
                       </div>
 
                       <div className="flex flex-col justify-start space-y-3">
-                        <p>
-                          <strong>Workshops</strong>
-                        </p>
+                        <p className="font-bold">Workshops</p>
                         <p>
                           The centerpiece of the workshops was an exercise
                           called{" "}
@@ -433,11 +429,9 @@ export default function CoDesignAiAcuteHealthPage() {
                           sized by their combined width. */}
                       <div className="group relative flex flex-col justify-start overflow-hidden md:col-span-2 md:col-start-1 md:-mt-14 md:self-start">
                         <div className="text-[11px] leading-snug transition-opacity duration-200 group-hover:opacity-0 motion-reduce:transition-none">
-                          <p className="mb-1.5">
-                            <strong>
-                              Critical moment 1: The user opens the chat for the
-                              first time
-                            </strong>
+                          <p className="mb-1.5 font-bold">
+                            Critical moment 1: The user opens the chat for the
+                            first time
                           </p>
                           <table className="w-full table-fixed border-separate border-spacing-1">
                             <tbody className="align-top">
@@ -620,7 +614,7 @@ export default function CoDesignAiAcuteHealthPage() {
             sits in a full-width white footer bar flush with the bottom edge,
             so content scrolling past does not show through behind it. From sm
             up it floats free over the page as before. */}
-        <div className="flex fixed inset-x-0 bottom-0 sm:bottom-20 z-40 justify-center px-4 py-4 sm:py-0 bg-white sm:bg-transparent pointer-events-none">
+        <div className="flex fixed inset-x-0 bottom-0 sm:bottom-16 z-40 justify-center px-4 py-4 sm:py-0 bg-white sm:bg-transparent pointer-events-none">
           <div className="pointer-events-auto">
             <SlideNav
               slides={SLIDES}

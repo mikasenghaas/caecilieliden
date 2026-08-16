@@ -5,10 +5,11 @@ import { usePathname, useRouter } from "next/navigation";
 import { MouseEvent } from "react";
 import { motion } from "motion/react";
 
+// The /about route still exists and works, it is just kept out of the filter
+// (and so out of the swipe/cycle order) until the page is ready to show.
 export const PAGES = [
   { href: "/", label: "design projects" },
   { href: "/art", label: "drawings and paintings" },
-  { href: "/about", label: "about me" },
 ];
 
 // The whole pill is a single bordered, overflow-hidden capsule (not three
@@ -81,7 +82,7 @@ export default function PageNav() {
                   initial={false}
                   animate={{ opacity: isActive ? 1 : 0 }}
                   transition={{ duration: 0.08, delay: isActive ? 0.18 : 0 }}
-                  className="shrink-0 whitespace-nowrap px-1.5 text-black text-xs sm:text-sm transition-colors duration-200 group-hover:text-[#ED2E85]"
+                  className="shrink-0 whitespace-nowrap px-1.5 font-mono text-black text-xs sm:text-sm transition-colors duration-200 group-hover:text-[#ED2E85]"
                 >
                   {page.label}
                 </motion.span>

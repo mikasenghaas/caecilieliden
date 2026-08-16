@@ -16,7 +16,7 @@ export default function YouTubeEmbed({ videoId, caption }: YouTubeEmbedProps) {
         />
       </div>
       {caption && (
-        <figcaption className="text-center text-sm text-foreground/60 italic">
+        <figcaption className="text-center text-xs sm:text-sm text-foreground/60">
           {caption}
         </figcaption>
       )}
