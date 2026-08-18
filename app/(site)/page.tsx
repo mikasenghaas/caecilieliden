@@ -19,6 +19,8 @@ const projects: {
         "AKUTTELEFONEN 1813",
       ],
       footer: "2026 BACHELOR THESIS PROJECT",
+      description:
+        "A third of calls are non-acute, because people are unsure what counts as acute. We co-designed interaction policies for an AI that makes them certain.",
       artwork: [
         {
           src: "/projects/co-design-ai-acute-health/photo.png",
@@ -36,6 +38,10 @@ const projects: {
     design: {
       lines: ["STRANGERS ON TRANSIT"],
       footer: "2026 LED INSTALLATION",
+      description:
+        "On transport we sit together but disappear into our phones. I built a playful LED system that lets strangers connect through low stakes interaction.",
+      // Only the square photo inside the composite, not the drawing beside it.
+      descriptionSlot: { left: 240, top: 232, width: 205, height: 205 },
       artwork: [
         {
           src: "/projects/led-installation-strangers-transit/artwork.png",
@@ -54,6 +60,8 @@ const projects: {
       lines: ["1000 REJECTIONS"],
       footer: "2026-2027 CREATIVE DATA VISUALIZATION",
       tag: { label: "LIVE EXPERIMENT", color: "#EE2427" },
+      description:
+        "A live data visualization of 1000 asks/rejections over a year. Every ask I make adds a node to a spiral that grows and flowers outward as I grow.",
       artwork: [
         {
           src: "/projects/1000-rejections-journey-creative-data-viz/dots.png",
@@ -71,6 +79,8 @@ const projects: {
     design: {
       lines: ["CO-DESIGN WITH A", "LIVE-ACTION ROLEPLAY COMMUNITY"],
       footer: "2026",
+      description:
+        "Long check in queues at events were wearing the volunteers down. With them we co-designed a QR-code check in that cuts the manual work.",
       artwork: [
         {
           src: "/projects/codesign-project/photo.png",

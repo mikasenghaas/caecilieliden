@@ -23,6 +23,18 @@ export interface CardDesign {
   artwork: Artwork[];
   /** Optional right-aligned status label, marked with a coloured dot. */
   tag?: { label: string; color: string };
+  /**
+   * Swapped in for the artwork while the card is hovered: the text fades in
+   * over the image's own box, so nothing else on the card moves.
+   */
+  description?: string;
+  /**
+   * The box the description covers, in board pixels. Defaults to the first
+   * artwork's box, which is right for the cards whose artwork is a single
+   * square. The LED card's image is one full-bleed composite, so it names the
+   * square photo inside that composite instead.
+   */
+  descriptionSlot?: { left: number; top: number; width: number; height: number };
 }
 
 export default function ArtboardCard({
@@ -34,7 +46,8 @@ export default function ArtboardCard({
   title: string;
   design: CardDesign;
 }) {
-  const { lines, footer, artwork, tag } = design;
+  const { lines, footer, artwork, tag, description, descriptionSlot } = design;
+  const slot = descriptionSlot ?? artwork[0];
 
   return (
     <Link
@@ -79,6 +92,28 @@ export default function ArtboardCard({
           }}
         />
       ))}
+
+      {/* Opaque in the card's own grey, so it hides the image underneath
+          rather than the image needing to fade out. That matters on the LED
+          card, where this covers only the square photo inside a larger
+          composite and the rest of the drawing has to stay put.
+          The box-shadow bleeds that same grey a few pixels past the edges:
+          the overlay and the image are both positioned in percentages, which
+          round to different device pixels, so without it a hairline of photo
+          shows around the overlay and reads as a border. */}
+      {description && slot && (
+        <span
+          className="absolute flex items-center overflow-hidden bg-[#EDEDED] opacity-0 shadow-[0_0_0_3px_#EDEDED] transition-opacity duration-200 ease-out group-hover:opacity-100 motion-reduce:transition-none"
+          style={{
+            left: pct(slot.left),
+            top: pct(slot.top),
+            width: pct(slot.width),
+            height: pct(slot.height),
+          }}
+        >
+          {description}
+        </span>
+      )}
 
       <span
         className="absolute whitespace-nowrap"
