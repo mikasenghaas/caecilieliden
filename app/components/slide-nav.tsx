@@ -19,7 +19,11 @@ interface SlideNavProps {
 // component (rather than generalizing PageNav itself) since this one picks a
 // local slide index via a button/callback instead of navigating routes via
 // next/link.
-const CAP_WIDTH = 18;
+// Half the h-9 height at sm+, i.e. a true half-circle on each end. On phone
+// the caps are narrowed: these navs have up to four pills, and with the
+// longest label expanded the full row is a few pixels wider than a 375px
+// screen, which pushed the last pill onto a second line.
+const CAP = "h-9 shrink-0 w-3 sm:w-[18px]";
 // Critically damped, so the width never overshoots its target and bumps a
 // pill onto a second line mid-animation. See PageNav.
 const SPRING = { type: "spring" as const, stiffness: 700, damping: 53 };
@@ -30,7 +34,7 @@ export default function SlideNav({
   onSelect,
 }: SlideNavProps) {
   return (
-    <nav className="flex flex-wrap items-center justify-center gap-[10px]">
+    <nav className="flex flex-nowrap items-center justify-center gap-1.5 sm:gap-[10px]">
       {slides.map((slide, index) => {
         const isActive = index === activeIndex;
         return (
@@ -42,13 +46,8 @@ export default function SlideNav({
             onClick={() => onSelect(index)}
             className="block h-9"
           >
-            <span
-              // CAP_WIDTH is half the h-9 height, i.e. a true half-circle on
-              // each end.
-              style={{ borderRadius: CAP_WIDTH }}
-              className="group flex h-9 items-center overflow-hidden border border-black bg-white transition-colors duration-200 hover:border-[#ED2E85]"
-            >
-              <span style={{ width: CAP_WIDTH }} className="h-9 shrink-0" />
+            <span className="group flex h-9 items-center overflow-hidden rounded-full border border-black bg-white transition-colors duration-200 hover:border-[#ED2E85]">
+              <span className={CAP} />
 
               {/* The label's real width is animated, rather than faking the
                   size change with Framer's `layout` (which resizes via
@@ -74,7 +73,7 @@ export default function SlideNav({
                 </motion.span>
               </motion.span>
 
-              <span style={{ width: CAP_WIDTH }} className="h-9 shrink-0" />
+              <span className={CAP} />
             </span>
           </button>
         );
