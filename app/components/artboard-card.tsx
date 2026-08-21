@@ -53,7 +53,12 @@ export default function ArtboardCard({
     <Link
       href={href}
       aria-label={title}
-      className="group relative block aspect-square w-full max-w-[470px] overflow-hidden bg-[#EDEDED] font-mono text-xs leading-[22px] text-[#1B1B1B] transition-transform duration-200 ease-out hover:scale-[1.01] sm:text-sm"
+      // Fixed width and one fixed type size, not a share of the grid: the card
+      // is drawn from a 470px artboard, so anything that scaled with the
+      // window would make the text drift against the artwork. The card keeps
+      // one size and the row simply wraps once two no longer fit. max-w-full
+      // is the one exception, for phones narrower than a card.
+      className="group relative block aspect-square w-[460px] max-w-full shrink-0 overflow-hidden bg-[#EDEDED] font-mono text-sm leading-[22px] text-[#1B1B1B] transition-transform duration-200 ease-out hover:scale-[1.01]"
     >
       <span
         className="absolute whitespace-pre-line"

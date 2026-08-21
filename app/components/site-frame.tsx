@@ -12,6 +12,17 @@ import HorizontalPageSwipe from "@/app/components/horizontal-page-swipe";
 // eventually about me): fixed home flower, top nav aligned with the content
 // column, a fixed name/bio sidebar, and socials pinned to the bottom-left
 // corner. Only the right-hand content (passed as children) differs per page.
+// The page container shrink-wraps its content rather than filling the window:
+// its two widths are exactly the sidebar + gap + one card, and the same + two
+// cards. Because it is mx-auto and exactly that wide, the bio and the projects
+// centre on screen as one block and the gap between them is always the same
+// 64px — no column ever absorbs the leftover width. Every fixed element uses
+// this same container, so they stay aligned with the content column.
+// 844 = 32 padding + 288 sidebar + 64 gap + 460 card.
+// 1328 = the same with two cards (944).
+const CONTAINER =
+  "mx-auto w-full max-w-[844px] min-[1328px]:max-w-[1328px] px-4";
+
 export default function SiteFrame({ children }: { children: ReactNode }) {
   const headerRef = useRef<HTMLElement>(null);
   // Measure the header's real rendered height so the fixed sidebar can start
@@ -50,46 +61,50 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
       <CustomCursor />
       <HorizontalPageSwipe />
 
-      {/* On tablet/desktop, the flower renders on its own row above the
-          header, same as it always has. */}
-      <div className="hidden sm:block">
-        <FlowerLink />
+      {/* One position at every width, out of the flow entirely, so the flower
+          never shifts as the window resizes — and so nothing below it moves
+          either. FlowerLink's own fixed variant isn't used: it only pins from
+          xl up, which is one of the jumps this removes. */}
+      <div className="fixed left-4 top-6 z-50">
+        <FlowerLink fixed={false} />
       </div>
 
-      <header
-        ref={headerRef}
-        className="max-w-[1400px] mx-auto px-4 md:px-12 pt-6 pb-6 sm:pt-12"
-      >
-        <div className="flex flex-row items-center gap-3 sm:gap-12 lg:gap-16">
-          {/* On phone, the flower sits inline right here, at the same
-              top-left spot article/artwork pages place it, with the filter
-              directly beside it on the same line. */}
-          <div className="sm:hidden shrink-0">
-            <FlowerLink fixed={false} />
-          </div>
-          {/* Spacer reserving the full sidebar column width on tablet/desktop. */}
-          <div className="hidden sm:block sm:w-56 md:w-64 lg:w-72 shrink-0" />
+      {/* The sidebar layout only appears from lg up. The bio is a justified
+          word grid sized for a 288px column, so in a narrower one its longest
+          rows ("figma procreate & by hand") push their last word out past the
+          edge. Below lg everything stacks instead. */}
+      <header ref={headerRef} className={`${CONTAINER} pt-12 pb-6`}>
+        {/* Stacked: the filter is right-aligned to the content column below it
+            (the bio and cards, capped at a card's width and centred), not to
+            the window, so it stays flush with their right edge as the window
+            widens. From lg the column is offset by the sidebar + its gap
+            instead, putting the filter directly above the projects. Its fixed
+            height keeps the header identical in both, so the filter never
+            moves down — only across, and only when the bio does. */}
+        <div className="mx-auto flex h-[55px] w-full max-w-[460px] flex-row items-center justify-end lg:mx-0 lg:max-w-none lg:justify-start lg:pl-[352px]">
           <PageNav />
         </div>
       </header>
 
-      <main className="max-w-[1400px] mx-auto px-4 md:px-12 pb-16">
-        <div className="flex flex-col sm:flex-row gap-10 sm:gap-12 lg:gap-16">
-          {/* Sidebar: bio (mobile only — desktop version is rendered fixed below) */}
-          <div className="sm:hidden shrink-0">
+      <main className={`${CONTAINER} pb-16`}>
+        <div className="flex flex-col lg:flex-row gap-10 lg:gap-16">
+          {/* Bio in the stacked layout — the lg version is rendered fixed
+              below. Capped to a card's width so the justified word rows never
+              stretch wider than the projects sitting underneath them. */}
+          <div className="lg:hidden w-full max-w-[460px] mx-auto shrink-0">
             <BioBlock />
           </div>
 
           {/* Spacer preserving the sidebar's width in the layout on desktop */}
-          <div className="hidden sm:block sm:w-56 md:w-64 lg:w-72 shrink-0" />
+          <div className="hidden lg:block lg:w-72 shrink-0" />
 
           {/* Page content */}
-          <div className="flex-1">{children}</div>
+          <div className="min-w-0">{children}</div>
         </div>
 
-        {/* Internship note + socials: part of normal page flow on mobile,
+        {/* Internship note + socials: part of normal page flow when stacked,
             sitting at the very bottom instead of pinned over the content. */}
-        <div className="sm:hidden flex flex-col gap-3 mt-10">
+        <div className="lg:hidden flex flex-col gap-3 mt-10 w-full max-w-[460px] mx-auto">
           <ContactBlock />
         </div>
       </main>
@@ -97,11 +112,11 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
       {/* Sidebar: name, bio — fixed to the viewport on desktop, never moves on
           scroll, starting level with the top of the main content. */}
       <div
-        className="hidden sm:block fixed inset-x-0 pointer-events-none z-30"
+        className="hidden lg:block fixed inset-x-0 pointer-events-none z-30"
         style={{ top: "var(--header-height, 5.5rem)" }}
       >
-        <div className="max-w-[1400px] mx-auto px-4 md:px-12">
-          <div className="sm:w-56 md:w-64 lg:w-72 pointer-events-auto">
+        <div className={CONTAINER}>
+          <div className="w-72 pointer-events-auto">
             <BioBlock />
           </div>
         </div>
@@ -109,9 +124,9 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
 
       {/* Internship note + socials — fixed to the viewport on desktop, aligned
           to the same left margin as the bio sidebar and the main content column. */}
-      <div className="hidden sm:block fixed inset-x-0 bottom-16 z-40 pointer-events-none">
-        <div className="max-w-[1400px] mx-auto px-4 md:px-12">
-          <div className="sm:w-56 md:w-64 lg:w-72 pointer-events-auto flex flex-col gap-3">
+      <div className="hidden lg:block fixed inset-x-0 bottom-16 z-40 pointer-events-none">
+        <div className={CONTAINER}>
+          <div className="w-72 pointer-events-auto flex flex-col gap-3">
             <ContactBlock />
           </div>
         </div>

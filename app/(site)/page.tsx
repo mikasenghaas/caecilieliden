@@ -96,7 +96,11 @@ const projects: {
 
 export default function Home() {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 lg:gap-8 content-start">
+    // Snapped to exactly one or two cards wide, never anything in between, so
+    // the row shrink-wraps its cards instead of stretching to whatever space
+    // is going. 1328px is where the sidebar, the gap, two cards and the page
+    // padding all fit at once — the same width SiteFrame's container snaps at.
+    <div className="mx-auto flex max-w-[460px] flex-wrap content-start justify-center gap-6 min-[1328px]:max-w-[944px]">
       {projects.map((project) => (
         <ArtboardCard key={project.href} {...project} />
       ))}

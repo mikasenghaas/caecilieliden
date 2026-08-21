@@ -82,7 +82,10 @@ export default function PageNav() {
                   initial={false}
                   animate={{ opacity: isActive ? 1 : 0 }}
                   transition={{ duration: 0.08, delay: isActive ? 0.18 : 0 }}
-                  className="shrink-0 whitespace-nowrap px-1.5 font-mono text-black text-xs sm:text-sm transition-colors duration-200 group-hover:text-[#ED2E85]"
+                  // One fixed size at every width: the pills are the first
+                  // thing on the page, so a label that grew a step partway
+                  // through a resize was the most visible thing moving.
+                  className="shrink-0 whitespace-nowrap px-1.5 font-mono text-black text-sm transition-colors duration-200 group-hover:text-[#ED2E85]"
                 >
                   {page.label}
                 </motion.span>
