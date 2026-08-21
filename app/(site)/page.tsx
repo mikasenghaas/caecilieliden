@@ -20,7 +20,7 @@ const projects: {
       ],
       footer: "2026 BACHELOR THESIS PROJECT",
       description:
-        "A third of calls are non-acute, because people are unsure what counts as acute. We co-designed interaction policies for an AI that makes them certain.",
+        "A third of calls to the acute medical helpline are non-acute, because people are unsure what counts as acute. We co-designed interaction policies for an AI that makes them certain.",
       artwork: [
         {
           src: "/projects/co-design-ai-acute-health/photo.png",
