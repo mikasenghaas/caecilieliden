@@ -397,8 +397,11 @@ export default function RejectionsJourneyPage() {
           <FlowerLink fixed={false} />
         </header>
 
-        {/* Tablet and up: flower on its own row, filter pinned near the bottom. */}
-        <div className="hidden sm:block px-4 pt-4 md:px-12 lg:p-0 md:shrink-0">
+        {/* Tablet and up the flower pins itself to the viewport, so this is just
+            the empty row it used to occupy — kept below lg so it does not
+            crowd the title, and collapsed from lg up to match the widest
+            layout, where the flower has always been out of the flow. */}
+        <div className="hidden sm:block h-[71px] lg:h-0 md:shrink-0">
           <FlowerLink />
         </div>
 
@@ -406,10 +409,10 @@ export default function RejectionsJourneyPage() {
           {/* Fixed at the same top position on every slide, independent of
               how tall each slide's content is. */}
           <div className="w-full max-w-6xl mx-auto pt-2 sm:pt-8 lg:pt-12 md:shrink-0">
-            <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-mono [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
-              1000 REJECTIONS
+            <h1 className="text-[16px] font-plex font-light leading-relaxed mb-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+              1000 rejections
             </h1>
-            <p className="text-xs sm:text-sm font-mono text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+            <p className="text-[14px] font-plex font-light text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               2026-2027
             </p>
 
@@ -423,7 +426,7 @@ export default function RejectionsJourneyPage() {
                 // this line starts at the same height as the first line of
                 // content on every other slide.
                 <motion.div
-                  className="hidden md:flex items-baseline gap-x-6 mt-4 text-xs sm:text-sm leading-relaxed"
+                  className="hidden md:flex items-baseline gap-x-6 mt-4 text-[14px] leading-relaxed"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
@@ -459,7 +462,7 @@ export default function RejectionsJourneyPage() {
                       <div className="flex flex-col gap-2 md:order-2 md:h-full md:min-h-0 md:justify-center">
                         {/* Phone only — from md up these same totals sit on the
                             title's own line in the header above. */}
-                        <div className="md:hidden flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 text-xs sm:text-sm leading-relaxed">
+                        <div className="md:hidden flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 text-[14px] leading-relaxed">
                           <p className="text-[#ED2E85]">{totalAsks} asks made so far</p>
                           {lastEntryDate && (
                             <p className="text-foreground/50">
@@ -469,7 +472,7 @@ export default function RejectionsJourneyPage() {
                         </div>
 
                         {errorMessage && rows.length > 0 && (
-                          <p className="text-xs sm:text-sm text-[#D6473C]">
+                          <p className="text-[14px] text-[#D6473C]">
                             {errorMessage}
                           </p>
                         )}
@@ -485,7 +488,7 @@ export default function RejectionsJourneyPage() {
                         <div className="relative w-full aspect-square md:min-h-0 md:max-h-full">
                           {status === "loading" && (
                             <div className="w-full h-full flex items-center justify-center border-2 border-black/10">
-                              <p className="text-xs sm:text-sm font-mono text-foreground/60">
+                              <p className="text-[14px] font-mono text-foreground/60">
                                 Loading rejections…
                               </p>
                             </div>
@@ -493,7 +496,7 @@ export default function RejectionsJourneyPage() {
 
                           {status === "error" && (
                             <div className="w-full h-full flex flex-col items-center justify-center gap-4 border-2 border-black/10 px-6 text-center">
-                              <p className="text-xs sm:text-sm font-mono text-foreground/70">
+                              <p className="text-[14px] font-mono text-foreground/70">
                                 Couldn&apos;t load the sheet. {errorMessage}
                               </p>
                               <button
@@ -508,7 +511,7 @@ export default function RejectionsJourneyPage() {
 
                           {status === "ready" && rows.length === 0 && (
                             <div className="w-full h-full flex items-center justify-center border-2 border-black/10">
-                              <p className="text-xs sm:text-sm font-mono text-foreground/60">
+                              <p className="text-[14px] font-mono text-foreground/60">
                                 No asks logged yet — check back soon.
                               </p>
                             </div>
@@ -653,7 +656,7 @@ export default function RejectionsJourneyPage() {
                           spiral rather than with the spiral itself. Scrolls
                           inside itself on short viewports so it can never push
                           the locked-height page taller. */}
-                      <div className="flex flex-col justify-start gap-4 md:order-1 md:h-full md:min-h-0 md:max-w-[26rem] md:overflow-y-auto text-left text-xs sm:text-sm leading-relaxed">
+                      <div className="flex flex-col justify-start gap-4 md:order-1 md:h-full md:min-h-0 md:max-w-[26rem] md:overflow-y-auto text-left text-[14px] leading-relaxed">
                         <p>
                           Through Instagram, I discovered a girl trying to get
                           rejected 1000 times. What she found was not rejection,
@@ -753,7 +756,7 @@ export default function RejectionsJourneyPage() {
                     /* Reads as one centred article column: the intro, then the
                        notes running underneath it, rather than the two side by
                        side. */
-                    <div className="mx-auto flex w-full max-w-2xl flex-col md:h-full md:min-h-0 text-left text-xs sm:text-sm leading-relaxed">
+                    <div className="mx-auto flex w-full max-w-2xl flex-col md:h-full md:min-h-0 text-left text-[14px] leading-relaxed">
                       <p className="shrink-0">
                         Besides the data visualization, I am collecting field
                         notes on the go. These are my thoughts, realizations,
@@ -795,7 +798,7 @@ export default function RejectionsJourneyPage() {
                       </div>
                     </div>
                   ) : activeSlide.id === "process" ? (
-                    <div className="grid grid-cols-1 md:grid-cols-[0.6fr_1.4fr] gap-6 md:h-full md:min-h-0 text-left text-xs sm:text-sm leading-relaxed">
+                    <div className="grid grid-cols-1 md:grid-cols-[0.6fr_1.4fr] gap-6 md:h-full md:min-h-0 text-left text-[14px] leading-relaxed">
                       <div className="flex flex-col justify-start space-y-3">
                         <p>
                           The design process for this data visualization was
@@ -820,7 +823,7 @@ export default function RejectionsJourneyPage() {
                             alt="Sketches working out what each element of the visualization should represent"
                             className="w-full h-auto md:h-full md:w-auto object-contain object-top"
                           />
-                          <div className="absolute inset-0 flex items-center justify-center bg-black/45 p-3 text-center text-xs sm:text-sm leading-relaxed text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                          <div className="absolute inset-0 flex items-center justify-center bg-black/45 p-3 text-center text-[14px] leading-relaxed text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
                             <p>
                               Sketches working out what each element should
                               represent
@@ -843,7 +846,7 @@ export default function RejectionsJourneyPage() {
                               alt="Visual reference collected while sketching (opens on Pinterest)"
                               className="block w-full h-auto md:h-full md:w-auto object-contain"
                             />
-                            <div className="absolute inset-0 flex items-center justify-center bg-black/45 p-3 text-center text-xs sm:text-sm leading-relaxed text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/45 p-3 text-center text-[14px] leading-relaxed text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
                               <p>Inspo from Pinterest</p>
                             </div>
                           </a>
@@ -859,7 +862,7 @@ export default function RejectionsJourneyPage() {
                               alt="Visual reference collected while sketching (opens on Pinterest)"
                               className="block w-full h-auto md:h-full md:w-auto object-contain"
                             />
-                            <div className="absolute inset-0 flex items-center justify-center bg-black/45 p-3 text-center text-xs sm:text-sm leading-relaxed text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                            <div className="absolute inset-0 flex items-center justify-center bg-black/45 p-3 text-center text-[14px] leading-relaxed text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100">
                               <p>Inspo from Pinterest</p>
                             </div>
                           </a>
@@ -870,7 +873,7 @@ export default function RejectionsJourneyPage() {
                     /* Nothing to conclude yet, so the slide is just a single
                        line sitting in the middle of the empty frame. */
                     <div className="flex h-full min-h-[240px] items-center justify-center">
-                      <p className="text-center text-xs sm:text-sm leading-relaxed text-foreground/50">
+                      <p className="text-center text-[14px] leading-relaxed text-foreground/50">
                         Coming when I have reached 1000 rejections.
                       </p>
                     </div>

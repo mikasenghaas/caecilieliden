@@ -58,7 +58,7 @@ export default function ArtboardCard({
       // window would make the text drift against the artwork. The card keeps
       // one size and the row simply wraps once two no longer fit. max-w-full
       // is the one exception, for phones narrower than a card.
-      className="group relative block aspect-square w-[460px] max-w-full shrink-0 overflow-hidden bg-[#EDEDED] font-mono text-sm leading-[22px] text-[#1B1B1B] transition-transform duration-200 ease-out hover:scale-[1.01]"
+      className="group relative block aspect-square w-[460px] max-w-full shrink-0 overflow-hidden bg-[#EDEDED] font-plex text-[16px] font-light leading-[22px] text-[#1B1B1B] transition-transform duration-200 ease-out hover:scale-[1.01]"
     >
       <span
         className="absolute whitespace-pre-line"

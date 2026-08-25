@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <div className="flex flex-col gap-1.5 text-xs sm:text-sm leading-relaxed">
+    <div className="flex flex-col gap-1.5 text-[14px] leading-relaxed">
       <Link
         href="mailto:caeciliebode@gmail.com"
         className="w-fit transition-colors duration-200 ease-out hover:text-[#ED2E85]"

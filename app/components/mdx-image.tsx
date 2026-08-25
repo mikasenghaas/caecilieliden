@@ -23,7 +23,7 @@ export default function MdxImage({ src, alt, caption, priority = false, width = 
         />
       </div>
       {caption && (
-        <figcaption className="text-center text-xs sm:text-sm text-foreground/60">
+        <figcaption className="text-center text-[14px] text-foreground/60">
           {caption}
         </figcaption>
       )}

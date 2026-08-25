@@ -67,7 +67,7 @@ export default function SlideNav({
                   initial={false}
                   animate={{ opacity: isActive ? 1 : 0 }}
                   transition={{ duration: 0.08, delay: isActive ? 0.18 : 0 }}
-                  className="shrink-0 whitespace-nowrap px-1.5 font-mono font-normal text-black text-xs sm:text-sm transition-colors duration-200 group-hover:text-[#ED2E85]"
+                  className="shrink-0 whitespace-nowrap px-1.5 font-mono font-normal text-black text-[14px] transition-colors duration-200 group-hover:text-[#ED2E85]"
                 >
                   {slide.label}
                 </motion.span>

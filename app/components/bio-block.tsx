@@ -6,12 +6,12 @@ const BIO_GROUPS: string[][][] = [
   [["cæcilie", "lidén", "bode"]],
   [
     ["digital", "product", "designer"],
-    ["&", "freetime", "artist"],
+    ["and", "freetime", "artist"],
     ["from", "copenhagen"],
   ],
   [
     ["creates", "through"],
-    ["figma", "procreate", "&", "by", "hand"],
+    ["figma", "procreate", "and", "by", "hand"],
   ],
   [
     ["currently", "exploring"],

@@ -30,7 +30,7 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
       <style>{`html, body { background-color: #FFFFFF !important; }`}</style>
       <CustomCursor />
       <div className="min-h-screen bg-white text-foreground font-plex">
-        <div className="px-4 pt-4 md:px-12 lg:p-0">
+        <div className="px-4 pt-4 sm:p-0 sm:h-[71px] lg:h-0">
           <FlowerLink href="/art" />
         </div>
 
@@ -38,10 +38,10 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
         {/* Mobile layout */}
         <div className="lg:hidden flex flex-col items-start w-full mt-16 mb-8">
           <div className="mb-4 text-start">
-            <h1 className="text-xs sm:text-sm font-mono leading-relaxed mb-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+            <h1 className="text-[16px] font-plex font-light leading-relaxed mb-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               {metadata.title}
             </h1>
-            <p className="text-xs sm:text-sm font-mono text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+            <p className="text-[14px] font-plex font-light text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               {metadata.year}
             </p>
           </div>
@@ -67,10 +67,10 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
         <div className="hidden lg:block relative w-full max-w-lg mt-28 mb-14">
           {/* Metadata - positioned absolutely to the left of the image */}
           <aside className="absolute right-full top-0 mr-8 text-right w-40">
-            <h1 className="text-xs sm:text-sm font-mono leading-relaxed mb-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+            <h1 className="text-[16px] font-plex font-light leading-relaxed mb-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               {metadata.title}
             </h1>
-            <p className="text-xs sm:text-sm font-mono text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+            <p className="text-[14px] font-plex font-light text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               {metadata.year}
             </p>
           </aside>

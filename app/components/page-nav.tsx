@@ -85,7 +85,7 @@ export default function PageNav() {
                   // One fixed size at every width: the pills are the first
                   // thing on the page, so a label that grew a step partway
                   // through a resize was the most visible thing moving.
-                  className="shrink-0 whitespace-nowrap px-1.5 font-mono text-black text-sm transition-colors duration-200 group-hover:text-[#ED2E85]"
+                  className="shrink-0 whitespace-nowrap px-1.5 font-mono text-[14px] font-normal text-black transition-colors duration-200 group-hover:text-[#ED2E85]"
                 >
                   {page.label}
                 </motion.span>

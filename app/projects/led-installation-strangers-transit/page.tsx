@@ -49,7 +49,7 @@ const FADE_ON_HOVER =
 
 function ImageCaption({ children }: { children: React.ReactNode }) {
   return (
-    <div className="pointer-events-none absolute inset-0 flex flex-col justify-center bg-black/70 p-4 text-left text-xs sm:text-sm leading-relaxed text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100 motion-reduce:transition-none">
+    <div className="pointer-events-none absolute inset-0 flex flex-col justify-center bg-black/70 p-4 text-left text-[14px] leading-relaxed text-white opacity-0 transition-opacity duration-200 group-hover:opacity-100 motion-reduce:transition-none">
       <p>{children}</p>
     </div>
   );
@@ -98,8 +98,11 @@ export default function LedInstallationPage() {
           <FlowerLink fixed={false} />
         </header>
 
-        {/* Tablet and up: flower on its own row, filter pinned near the bottom. */}
-        <div className="hidden sm:block px-4 pt-4 md:px-12 lg:p-0">
+        {/* Tablet and up the flower pins itself to the viewport, so this is just
+            the empty row it used to occupy — kept below lg so it does not
+            crowd the title, and collapsed from lg up to match the widest
+            layout, where the flower has always been out of the flow. */}
+        <div className="hidden sm:block h-[71px] lg:h-0">
           <FlowerLink />
         </div>
 
@@ -107,10 +110,10 @@ export default function LedInstallationPage() {
           {/* Fixed at the same top position on every slide, independent of
               how tall each slide's content is. */}
           <div className="w-full max-w-6xl mx-auto pt-2 sm:pt-16 lg:pt-24">
-            <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-mono [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
-              STRANGERS ON TRANSIT
+            <h1 className="text-[16px] font-plex font-light leading-relaxed mb-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+              Strangers on transit
             </h1>
-            <p className="text-xs sm:text-sm font-mono text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+            <p className="text-[14px] font-plex font-light text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               2026
             </p>
           </div>
@@ -141,7 +144,7 @@ export default function LedInstallationPage() {
                             className="object-cover"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-black/10" />
-                          <div className="absolute inset-x-0 bottom-0 p-4 text-xs sm:text-sm leading-relaxed text-white space-y-3">
+                          <div className="absolute inset-x-0 bottom-0 p-4 text-[14px] leading-relaxed text-white space-y-3">
                             <p>
                               Public transport is a space where passengers are
                               neither working nor resting, and many fill the
@@ -156,7 +159,7 @@ export default function LedInstallationPage() {
                             </p>
                           </div>
                         </div>
-                        <p className="text-left text-xs sm:text-sm leading-relaxed mt-3 px-4 shrink-0">
+                        <p className="text-left text-[14px] leading-relaxed mt-3 px-4 shrink-0">
                           I ended up designing an{" "}
                           interactive LED system, where
                           passengers can interact with each other indirectly.
@@ -185,16 +188,16 @@ export default function LedInstallationPage() {
                       className={`grid grid-cols-1 md:grid-cols-12 gap-6 ${CONTENT_HEIGHT}`}
                     >
                       <div className="md:col-span-5 flex flex-col justify-start">
-                        <p className="text-xs sm:text-sm leading-relaxed mb-3">
+                        <p className="text-[14px] leading-relaxed mb-3">
                           What motivated this project was two questions:
                         </p>
-                        <ol className="list-decimal list-inside text-xs sm:text-sm leading-relaxed space-y-2 text-[#ED2E85] marker:text-[#ED2E85]">
+                        <ol className="list-decimal list-inside text-[14px] leading-relaxed space-y-2 text-[#ED2E85] marker:text-[#ED2E85]">
                           <li>How can play be used as a design approach?</li>
                           <li>
                             How can I get even the most serious person to play?
                           </li>
                         </ol>
-                        <p className="text-xs sm:text-sm leading-relaxed mt-3">
+                        <p className="text-[14px] leading-relaxed mt-3">
                           These two questions were all I started with. It was
                           only through the design process that I came to
                           understand why play matters and why public transport
@@ -212,7 +215,7 @@ export default function LedInstallationPage() {
                           className="object-cover"
                         />
                         <div className="absolute inset-0 bg-black/50" />
-                        <div className="absolute inset-0 flex flex-col justify-end items-start p-4 sm:p-6 text-left text-xs sm:text-sm leading-relaxed text-white space-y-4">
+                        <div className="absolute inset-0 flex flex-col justify-end items-start p-4 sm:p-6 text-left text-[14px] leading-relaxed text-white space-y-4">
                           <div>
                             <p className="mb-1">Why play?</p>
                             <p>
@@ -258,7 +261,7 @@ export default function LedInstallationPage() {
                     <div
                       className={`grid grid-cols-1 md:grid-cols-[0.8fr_19.6rem_1fr] gap-6 ${CONTENT_HEIGHT}`}
                     >
-                      <div className="flex flex-col justify-start space-y-3 text-left text-xs sm:text-sm leading-relaxed">
+                      <div className="flex flex-col justify-start space-y-3 text-left text-[14px] leading-relaxed">
                         <p>
                           Rather than plan the design process upfront, I
                           approached the project through{" "}
@@ -296,7 +299,7 @@ export default function LedInstallationPage() {
                           be on public transport.
                         </ImageCaption>
                         <div
-                          className={`absolute inset-0 flex flex-col justify-center items-start p-4 sm:p-6 text-left text-xs sm:text-sm leading-relaxed text-white ${FADE_ON_HOVER}`}
+                          className={`absolute inset-0 flex flex-col justify-center items-start p-4 sm:p-6 text-left text-[14px] leading-relaxed text-white ${FADE_ON_HOVER}`}
                         >
                           <p>
                             In practice, this meant starting from what motivated
@@ -340,7 +343,7 @@ export default function LedInstallationPage() {
                             Further prototyping of the LED installation.
                           </ImageCaption>
                           <div
-                            className={`absolute inset-0 flex flex-col justify-center items-start p-4 text-left text-xs sm:text-sm leading-relaxed text-white ${FADE_ON_HOVER}`}
+                            className={`absolute inset-0 flex flex-col justify-center items-start p-4 text-left text-[14px] leading-relaxed text-white ${FADE_ON_HOVER}`}
                           >
                             <p>
                               The prototype was built with an Arduino Uno,
@@ -385,7 +388,7 @@ export default function LedInstallationPage() {
                           </ImageCaption>
                         </div>
                         <div
-                          className={`mt-3 md:mt-0 md:absolute md:inset-0 md:flex md:flex-col md:justify-start md:items-start md:p-6 md:text-white text-left text-xs sm:text-sm leading-relaxed space-y-3 ${FADE_ON_HOVER}`}
+                          className={`mt-3 md:mt-0 md:absolute md:inset-0 md:flex md:flex-col md:justify-start md:items-start md:p-6 md:text-white text-left text-[14px] leading-relaxed space-y-3 ${FADE_ON_HOVER}`}
                         >
                           <p>
                             Besides smaller and less structured testing, I did
@@ -403,7 +406,7 @@ export default function LedInstallationPage() {
                         </div>
                       </div>
 
-                      <div className="flex flex-col justify-start space-y-3 text-left text-xs sm:text-sm leading-relaxed">
+                      <div className="flex flex-col justify-start space-y-3 text-left text-[14px] leading-relaxed">
                         <div>
                           <p className="mb-1">What happened?</p>
                           <p>
@@ -440,7 +443,7 @@ export default function LedInstallationPage() {
                     // Two text columns and the photo, all starting at the top of
                     // the shared frame.
                     <div
-                      className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${CONTENT_HEIGHT} text-left text-xs sm:text-sm leading-relaxed`}
+                      className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${CONTENT_HEIGHT} text-left text-[14px] leading-relaxed`}
                     >
                       <div className="flex flex-col justify-start space-y-3">
                         <p>

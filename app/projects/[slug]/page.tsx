@@ -20,19 +20,19 @@ export async function generateStaticParams() {
 // MDX components with custom styling for dark theme
 const mdxComponents = {
   p: (props: React.HTMLAttributes<HTMLParagraphElement>) => (
-    <p className="mb-6 text-xs sm:text-sm leading-relaxed [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]" {...props} />
+    <p className="mb-6 text-[14px] leading-relaxed [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]" {...props} />
   ),
   a: (props: React.AnchorHTMLAttributes<HTMLAnchorElement>) => (
     <a className="underline hover:opacity-70 transition-opacity" {...props} />
   ),
   h1: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h1 className="text-xs sm:text-sm leading-relaxed mb-4 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]" {...props} />
+    <h1 className="text-[14px] leading-relaxed mb-4 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]" {...props} />
   ),
   h2: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h2 className="text-xs sm:text-sm leading-relaxed mb-3 mt-8 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]" {...props} />
+    <h2 className="text-[14px] leading-relaxed mb-3 mt-8 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]" {...props} />
   ),
   h3: (props: React.HTMLAttributes<HTMLHeadingElement>) => (
-    <h3 className="text-xs sm:text-sm leading-relaxed mb-2 mt-6 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]" {...props} />
+    <h3 className="text-[14px] leading-relaxed mb-2 mt-6 font-bold [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]" {...props} />
   ),
   ul: (props: React.HTMLAttributes<HTMLUListElement>) => (
     <ul className="list-disc list-inside mb-6 space-y-2" {...props} />
@@ -41,7 +41,7 @@ const mdxComponents = {
     <ol className="list-decimal list-inside mb-6 space-y-2" {...props} />
   ),
   li: (props: React.HTMLAttributes<HTMLLIElement>) => (
-    <li className="text-xs sm:text-sm leading-relaxed [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]" {...props} />
+    <li className="text-[14px] leading-relaxed [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]" {...props} />
   ),
   Image: MdxImage,
   YouTube: YouTubeEmbed,
@@ -64,7 +64,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
       <style>{`html, body { background-color: #FFFFFF !important; }`}</style>
       <CustomCursor />
       <div className="min-h-screen bg-white text-foreground">
-        <div className="px-4 pt-4 md:px-12 lg:p-0">
+        <div className="px-4 pt-4 sm:p-0 sm:h-[71px] lg:h-0">
           <FlowerLink />
         </div>
 
@@ -81,20 +81,20 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               sizes="(max-width: 768px) 100vw, 672px"
             />
             <div className="relative z-10 p-6">
-              <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-mono [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+              <h1 className="text-[16px] font-plex font-light leading-relaxed mb-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
                 {frontmatter.title}
               </h1>
-              <div className="text-xs sm:text-sm font-mono text-foreground/60 space-y-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+              <div className="text-[14px] font-plex font-light text-foreground/60 space-y-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
                 {frontmatter.year && <p>{frontmatter.year}</p>}
               </div>
             </div>
           </header>
         ) : (
           <header className="mb-12">
-            <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-mono [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+            <h1 className="text-[16px] font-plex font-light leading-relaxed mb-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               {frontmatter.title}
             </h1>
-            <div className="text-xs sm:text-sm font-mono text-foreground/60 space-y-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+            <div className="text-[14px] font-plex font-light text-foreground/60 space-y-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               {frontmatter.year && <p>{frontmatter.year}</p>}
             </div>
           </header>

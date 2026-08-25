@@ -83,8 +83,11 @@ export default function CoDesignAiAcuteHealthPage() {
           <FlowerLink fixed={false} />
         </header>
 
-        {/* Tablet and up: flower on its own row, filter pinned near the bottom. */}
-        <div className="hidden sm:block px-4 pt-4 md:px-12 lg:p-0">
+        {/* Tablet and up the flower pins itself to the viewport, so this is just
+            the empty row it used to occupy — kept below lg so it does not
+            crowd the title, and collapsed from lg up to match the widest
+            layout, where the flower has always been out of the flow. */}
+        <div className="hidden sm:block h-[71px] lg:h-0">
           <FlowerLink />
         </div>
 
@@ -92,11 +95,11 @@ export default function CoDesignAiAcuteHealthPage() {
           {/* Fixed at the same top position on every slide, independent of
               how tall each slide's content is. */}
           <div className="w-full max-w-6xl mx-auto pt-2 sm:pt-16 lg:pt-24">
-            <h1 className="text-xs sm:text-sm leading-relaxed mb-1 font-mono [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
-              CO-DESIGNING AI FOR THE DANISH EMERGENCY MEDICAL HELPLINE
-              AKUTTELEFONEN 1813
+            <h1 className="text-[16px] font-plex font-light leading-relaxed mb-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+              Co-designing AI for the Danish emergency medical helpline
+              Akuttelefonen 1813
             </h1>
-            <p className="text-xs sm:text-sm font-mono text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+            <p className="text-[14px] font-plex font-light text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
               2026
             </p>
           </div>
@@ -113,7 +116,7 @@ export default function CoDesignAiAcuteHealthPage() {
                 >
                   {activeSlide.id === "project" ? (
                     <div
-                      className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${CONTENT_HEIGHT} text-left text-xs sm:text-sm leading-relaxed`}
+                      className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${CONTENT_HEIGHT} text-left text-[14px] leading-relaxed`}
                     >
                       <div className="flex flex-col justify-start space-y-3">
                         <p>
@@ -173,7 +176,7 @@ export default function CoDesignAiAcuteHealthPage() {
                     </div>
                   ) : activeSlide.id === "process" ? (
                     <div
-                      className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${CONTENT_HEIGHT} text-left text-xs sm:text-sm leading-relaxed`}
+                      className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${CONTENT_HEIGHT} text-left text-[14px] leading-relaxed`}
                     >
                       <div className="flex flex-col justify-start space-y-3">
                         <p>
@@ -268,7 +271,7 @@ export default function CoDesignAiAcuteHealthPage() {
                     </div>
                   ) : activeSlide.id === "events" ? (
                     <div
-                      className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${CONTENT_HEIGHT} text-left text-xs sm:text-sm leading-relaxed`}
+                      className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${CONTENT_HEIGHT} text-left text-[14px] leading-relaxed`}
                     >
                       <div className="flex flex-col justify-start space-y-3">
                         <p className="font-bold">Focus group</p>
@@ -365,7 +368,7 @@ export default function CoDesignAiAcuteHealthPage() {
                     </div>
                   ) : activeSlide.id === "results" ? (
                     <div
-                      className={`grid grid-cols-1 md:grid-cols-3 gap-6 md:min-h-[30rem] text-left text-xs sm:text-sm leading-relaxed`}
+                      className={`grid grid-cols-1 md:grid-cols-3 gap-6 md:min-h-[30rem] text-left text-[14px] leading-relaxed`}
                     >
                       <div className="flex flex-col justify-start space-y-3">
                         <p>
@@ -536,7 +539,7 @@ export default function CoDesignAiAcuteHealthPage() {
                     </div>
                   ) : activeSlide.id === "learnings" ? (
                     <div
-                      className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${CONTENT_HEIGHT} text-left text-xs sm:text-sm leading-relaxed`}
+                      className={`grid grid-cols-1 md:grid-cols-3 gap-6 ${CONTENT_HEIGHT} text-left text-[14px] leading-relaxed`}
                     >
                       <div className="flex flex-col justify-start space-y-3">
                         <p>

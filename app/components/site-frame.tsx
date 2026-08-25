@@ -61,19 +61,14 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
       <CustomCursor />
       <HorizontalPageSwipe />
 
-      {/* One position at every width, out of the flow entirely, so the flower
-          never shifts as the window resizes — and so nothing below it moves
-          either. FlowerLink's own fixed variant isn't used: it only pins from
-          xl up, which is one of the jumps this removes. */}
-      <div className="fixed left-4 top-6 z-50">
-        <FlowerLink fixed={false} />
-      </div>
-
-      {/* The sidebar layout only appears from lg up. The bio is a justified
-          word grid sized for a 288px column, so in a narrower one its longest
-          rows ("figma procreate & by hand") push their last word out past the
-          edge. Below lg everything stacks instead. */}
-      <header ref={headerRef} className={`${CONTAINER} pt-12 pb-6`}>
+      {/* From sm up FlowerLink pins itself to the viewport's top-left, so this
+          header row holds only the filter and nothing below it moves as the
+          window resizes. On phone the flower is in the flow instead (it should
+          scroll away with the page), and it shares this row with the filter
+          rather than taking one of its own. The row is the flower's own 55px
+          height and both ends sit on its baseline, so the bottom of the flower
+          lines up with the bottom of the filter pills. */}
+      <header ref={headerRef} className={`${CONTAINER} pt-4 pb-6 sm:pt-12`}>
         {/* Stacked: the filter is right-aligned to the content column below it
             (the bio and cards, capped at a card's width and centred), not to
             the window, so it stays flush with their right edge as the window
@@ -81,7 +76,8 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
             instead, putting the filter directly above the projects. Its fixed
             height keeps the header identical in both, so the filter never
             moves down — only across, and only when the bio does. */}
-        <div className="mx-auto flex h-[55px] w-full max-w-[460px] flex-row items-center justify-end lg:mx-0 lg:max-w-none lg:justify-start lg:pl-[352px]">
+        <div className="mx-auto flex h-[55px] w-full max-w-[460px] flex-row items-end justify-between sm:items-center sm:justify-end lg:mx-0 lg:max-w-none lg:justify-start lg:pl-[352px]">
+          <FlowerLink />
           <PageNav />
         </div>
       </header>
