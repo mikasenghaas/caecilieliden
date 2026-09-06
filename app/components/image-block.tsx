@@ -7,9 +7,14 @@ interface ImageBlockProps {
   href?: string;
   className?: string;
   priority?: boolean;
+  /** The picture's real pixel size, so its box is the right shape before it
+   *  loads. Without it the tile is laid out at a guessed ratio and jumps to
+   *  its own once decoded, shuffling everything below it in the column. */
+  width?: number;
+  height?: number;
 }
 
-export default function ImageBlock({ src, alt, href, className = "", priority = false }: ImageBlockProps) {
+export default function ImageBlock({ src, alt, href, className = "", priority = false, width = 800, height = 600 }: ImageBlockProps) {
   const isStaticImage = typeof src !== "string";
   const hoverStyles = href ? "cursor-pointer transition-transform duration-200 ease-out hover:scale-[1.02]" : "";
   
@@ -26,8 +31,8 @@ export default function ImageBlock({ src, alt, href, className = "", priority = 
         <Image
           src={src}
           alt={alt}
-          width={800}
-          height={600}
+          width={width}
+          height={height}
           className="w-full h-auto"
           loading={priority ? "eager" : "lazy"}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"

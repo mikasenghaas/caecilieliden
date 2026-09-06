@@ -8,10 +8,67 @@ export interface GalleryMetadata {
   year: string;
 }
 
+export interface GalleryImage {
+  src: string;
+  width: number;
+  height: number;
+}
+
 export interface GalleryItem {
   slug: string;
   metadata: GalleryMetadata;
-  images: string[];
+  images: GalleryImage[];
+}
+
+// Read an image's real pixel size straight out of its header. This runs on the
+// server while the page is built, so the markup can reserve each picture's true
+// shape up front. Without it every tile is declared at one guessed ratio and
+// then snaps to its own the moment it decodes, which reflows the whole
+// masonry — most visibly the first time the art page is opened, before
+// anything is cached.
+function readImageSize(file: string): { width: number; height: number } {
+  const head = Buffer.alloc(32);
+  const fd = fs.openSync(file, "r");
+  try {
+    fs.readSync(fd, head, 0, 32, 0);
+  } finally {
+    fs.closeSync(fd);
+  }
+
+  // PNG: width and height are the first two fields of the IHDR chunk.
+  if (head.subarray(1, 4).toString("latin1") === "PNG") {
+    return { width: head.readUInt32BE(16), height: head.readUInt32BE(20) };
+  }
+  // GIF: the logical screen descriptor, little-endian, right after the header.
+  if (head.subarray(0, 3).toString("latin1") === "GIF") {
+    return { width: head.readUInt16LE(6), height: head.readUInt16LE(8) };
+  }
+  // JPEG: the size lives in a frame header, so the file has to be walked.
+  if (head[0] === 0xff && head[1] === 0xd8) {
+    const buf = fs.readFileSync(file);
+    let i = 2;
+    while (i < buf.length - 9) {
+      if (buf[i] !== 0xff) {
+        i += 1;
+        continue;
+      }
+      const marker = buf[i + 1];
+      // SOF0-SOF15, excluding the four that are not frame headers.
+      if (
+        marker >= 0xc0 &&
+        marker <= 0xcf &&
+        marker !== 0xc4 &&
+        marker !== 0xc8 &&
+        marker !== 0xcc
+      ) {
+        return { height: buf.readUInt16BE(i + 5), width: buf.readUInt16BE(i + 7) };
+      }
+      i += 2 + buf.readUInt16BE(i + 2);
+    }
+  }
+
+  // Unknown format: fall back to a square, which at least stays consistent.
+  return { width: 1000, height: 1000 };
 }
 
 export function getGallerySlugs(): string[] {
@@ -57,9 +114,12 @@ export function getGalleryItem(slug: string): GalleryItem | null {
     }
   }
   
-  const images = Array.from(imageMap.values())
+  const images: GalleryImage[] = Array.from(imageMap.values())
     .sort()
-    .map((file) => `/gallery/${slug}/${file}`); // Return URL paths for public directory
+    .map((file) => ({
+      src: `/gallery/${slug}/${file}`, // URL path into the public directory
+      ...readImageSize(path.join(itemDir, file)),
+    }));
 
   return {
     slug,

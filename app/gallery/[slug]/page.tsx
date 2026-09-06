@@ -46,16 +46,19 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
             </p>
           </div>
           <div className="flex flex-col space-y-6 max-w-3xl w-full">
-            {images.map((imagePath, index) => (
+            {images.map((image, index) => (
               <div key={index} className="relative w-full">
                 <Image
-                  src={imagePath}
+                  src={image.src}
                   alt={`${metadata.title} - Image ${index + 1}`}
-                  width={800}
-                  height={600}
+                  width={image.width}
+                  height={image.height}
                   className="w-full h-auto"
                   loading={index === 0 ? "eager" : "lazy"}
                   priority={index === 0}
+                  // The optimizer re-encodes to a still frame, which would
+                  // freeze an animated gif on its first one.
+                  unoptimized={image.src.endsWith(".gif")}
                   sizes="(max-width: 768px) 100vw, 800px"
                 />
               </div>
@@ -77,16 +80,19 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
 
           {/* Images - centered */}
           <div className="flex flex-col space-y-6">
-            {images.map((imagePath, index) => (
+            {images.map((image, index) => (
               <div key={index} className="relative w-full">
                 <Image
-                  src={imagePath}
+                  src={image.src}
                   alt={`${metadata.title} - Image ${index + 1}`}
-                  width={800}
-                  height={600}
+                  width={image.width}
+                  height={image.height}
                   className="w-full h-auto"
                   loading={index === 0 ? "eager" : "lazy"}
                   priority={index === 0}
+                  // The optimizer re-encodes to a still frame, which would
+                  // freeze an animated gif on its first one.
+                  unoptimized={image.src.endsWith(".gif")}
                   sizes="(max-width: 1024px) 100vw, 512px"
                 />
               </div>

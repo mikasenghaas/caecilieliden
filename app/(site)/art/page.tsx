@@ -29,7 +29,9 @@ export default function ArtPage() {
       {artworks.map((item) => (
         <ImageBlock
           key={item.slug}
-          src={item.images[0]}
+          src={item.images[0].src}
+          width={item.images[0].width}
+          height={item.images[0].height}
           alt={item.metadata.title}
           href={`/gallery/${item.slug}`}
         />
