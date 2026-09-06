@@ -33,9 +33,15 @@ function Line({ children }: { children: React.ReactNode }) {
   return <div className="flex justify-between gap-3.5">{children}</div>;
 }
 
-export default function ContactBlock() {
+// The note and the links are exported apart as well as together: stacked on
+// phone they read as one block, but the desktop sidebar spaces its three
+// pieces out down the column, so it places them individually.
+const COLUMN =
+  "flex w-full flex-col gap-3 font-plex text-[20px] italic leading-[22px] font-light text-black";
+
+export function InternshipNote() {
   return (
-    <div className="flex w-full flex-col gap-3 font-plex text-[20px] italic leading-[22px] font-light text-black">
+    <div className={COLUMN}>
       {NOTE_GROUPS.map((group, groupIndex) => (
         <div key={groupIndex} className="flex flex-col">
           {group.map((line, lineIndex) => (
@@ -47,7 +53,13 @@ export default function ContactBlock() {
           ))}
         </div>
       ))}
+    </div>
+  );
+}
 
+export function SocialLinks() {
+  return (
+    <div className={COLUMN}>
       <div className="flex flex-col">
         {LINK_LINES.map((line, lineIndex) => (
           <Line key={lineIndex}>
@@ -66,6 +78,15 @@ export default function ContactBlock() {
           </Line>
         ))}
       </div>
+    </div>
+  );
+}
+
+export default function ContactBlock() {
+  return (
+    <div className={COLUMN}>
+      <InternshipNote />
+      <SocialLinks />
     </div>
   );
 }

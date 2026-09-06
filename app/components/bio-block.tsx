@@ -21,8 +21,8 @@ const BIO_GROUPS: string[][][] = [
   [
     ["this", "is", "my"],
     ["project", "parking", "spot"],
-    ["welcome", "!"],
   ],
+  [["welcome", "!"]],
 ];
 
 export default function BioBlock() {

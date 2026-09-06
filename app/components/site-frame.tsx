@@ -5,7 +5,10 @@ import FlowerLink from "@/app/components/flower-link";
 import CustomCursor from "@/app/components/custom-cursor";
 import PageNav from "@/app/components/page-nav";
 import BioBlock from "@/app/components/bio-block";
-import ContactBlock from "@/app/components/contact-block";
+import ContactBlock, {
+  InternshipNote,
+  SocialLinks,
+} from "@/app/components/contact-block";
 import HorizontalPageSwipe from "@/app/components/horizontal-page-swipe";
 
 // Shared "frame" for the site's main pages (project grid, art grid, and
@@ -94,8 +97,15 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
           {/* Spacer preserving the sidebar's width in the layout on desktop */}
           <div className="hidden lg:block lg:w-72 shrink-0" />
 
-          {/* Page content */}
-          <div className="min-w-0">{children}</div>
+          {/* Page content. lg:flex-1 is load-bearing: without it this column
+              is shrink-to-fit, so its width is whatever its contents claim.
+              The art grid claims nothing until its images have laid out, which
+              collapsed the column to just its own column gaps — everything
+              inside rendered a few pixels wide and then sprang out to full
+              size once the pictures arrived. Growing into the row's leftover
+              space instead makes the width a fact of the layout, known on the
+              first frame and independent of what is inside. */}
+          <div className="min-w-0 lg:flex-1">{children}</div>
         </div>
 
         {/* Internship note + socials: part of normal page flow when stacked,
@@ -105,25 +115,20 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
         </div>
       </main>
 
-      {/* Sidebar: name, bio — fixed to the viewport on desktop, never moves on
-          scroll, starting level with the top of the main content. */}
+      {/* Sidebar: one fixed column running from the top of the main content
+          down to the bottom margin, holding its three pieces spread evenly
+          apart — bio at the top, socials at the foot, and the internship note
+          sitting midway between them rather than bunched up against the
+          socials. Pinned to the viewport, so it never moves on scroll. */}
       <div
-        className="hidden lg:block fixed inset-x-0 pointer-events-none z-30"
+        className="hidden lg:flex fixed inset-x-0 bottom-16 z-30 pointer-events-none"
         style={{ top: "var(--header-height, 5.5rem)" }}
       >
-        <div className={CONTAINER}>
-          <div className="w-72 pointer-events-auto">
+        <div className={`${CONTAINER} flex`}>
+          <div className="w-72 pointer-events-auto flex flex-col justify-between">
             <BioBlock />
-          </div>
-        </div>
-      </div>
-
-      {/* Internship note + socials — fixed to the viewport on desktop, aligned
-          to the same left margin as the bio sidebar and the main content column. */}
-      <div className="hidden lg:block fixed inset-x-0 bottom-16 z-40 pointer-events-none">
-        <div className={CONTAINER}>
-          <div className="w-72 pointer-events-auto flex flex-col gap-3">
-            <ContactBlock />
+            <InternshipNote />
+            <SocialLinks />
           </div>
         </div>
       </div>
