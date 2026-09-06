@@ -51,6 +51,23 @@
   }
 }
 
+/* The fixed bio sidebar is positioned off --header-height. That variable used
+   to be set only by JavaScript, after hydration, so the server-rendered HTML
+   painted against the fallback and everything the variable positions jumped
+   the moment the script ran — most visibly on the first client navigation.
+   The header's height is plain CSS, though: its padding plus the fixed 55px
+   flower/filter row. So it is declared here, correct from the first paint, and
+   the measurement in site-frame.tsx only ever confirms it. */
+:root {
+  --header-height: calc(1rem + 55px + 1.5rem); /* pt-4 + row + pb-6 */
+}
+
+@media (width >= 40rem) {
+  :root {
+    --header-height: calc(3rem + 55px + 1.5rem); /* sm:pt-12 + row + pb-6 */
+  }
+}
+
 /* The project cards' outline. Both shapes are the same run of cubics, so the
    browser can interpolate between them: on hover the straight edges bend into
    the wave instead of one drawing fading into the other. The `d` attribute on
