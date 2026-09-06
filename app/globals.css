@@ -50,3 +50,23 @@
     cursor: none !important;
   }
 }
+
+/* The project cards' outline. Both shapes are the same run of cubics, so the
+   browser can interpolate between them: on hover the straight edges bend into
+   the wave instead of one drawing fading into the other. The `d` attribute on
+   the element carries the resting shape too, so the outline is still drawn
+   where animating `d` is not supported. */
+.artboard-outline {
+  d: var(--outline-resting);
+  transition: d 320ms ease-out;
+}
+
+.group:hover .artboard-outline {
+  d: var(--outline-wave);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .artboard-outline {
+    transition: none;
+  }
+}
