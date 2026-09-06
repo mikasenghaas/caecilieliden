@@ -5,23 +5,24 @@
 const BIO_GROUPS: string[][][] = [
   [["cæcilie", "lidén", "bode"]],
   [
-    ["digital", "product", "designer"],
-    ["and", "freetime", "artist"],
+    ["digital", "designer", "and", "artist"],
     ["from", "copenhagen"],
-  ],
-  [
-    ["creates", "through"],
-    ["figma", "procreate", "and", "by", "hand"],
   ],
   [
     ["currently", "exploring"],
     ["play", "through", "design"],
+    ["and", "people-first", "approaches"],
+  ],
+  [
+    ["creates", "through"],
+    ["code", "figma", "procreate"],
+    ["and", "by", "hand"],
   ],
   [
     ["this", "is", "my"],
     ["project", "parking", "spot"],
+    ["welcome", "!"],
   ],
-  [["welcome", "!"]],
 ];
 
 export default function BioBlock() {

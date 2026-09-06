@@ -15,7 +15,11 @@ const SOCIALS: Record<string, string> = {
 const NOTE_GROUPS: string[][][] = [
   [
     ["looking", "for", "an", "internship"],
-    ["this", "spring"],
+    ["spring", "2027"],
+    // One line in the copy, split in two: the column is only wide enough for
+    // about five words, and this list runs to seven.
+    ["in", "product-,", "interaction-,"],
+    ["UI-,", "UX-,", "or", "AIX"],
   ],
   [["feel", "free", "to", "reach", "out"]],
 ];
