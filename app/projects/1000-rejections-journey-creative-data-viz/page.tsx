@@ -391,17 +391,11 @@ export default function RejectionsJourneyPage() {
           falls back to normal document flow, where stacking and scrolling is
           the right behaviour. */}
       <div className="min-h-screen md:h-screen md:overflow-hidden md:flex md:flex-col bg-white text-foreground">
-        {/* On phone the flower sits alone in the top-left; the filter is
-            pinned to the bottom of the screen instead (see below). */}
-        <header className="sm:hidden max-w-[1400px] mx-auto px-4 pt-4 pb-6">
-          <FlowerLink fixed={false} />
-        </header>
-
-        {/* Tablet and up the flower pins itself to the viewport, so this is just
-            the empty row it used to occupy — kept below lg so it does not
-            crowd the title, and collapsed from lg up to match the widest
-            layout, where the flower has always been out of the flow. */}
-        <div className="hidden sm:block h-[71px] lg:h-0 md:shrink-0">
+        {/* The flower pins itself to the viewport, so this is just the empty
+            row it occupies — kept below lg so it does not crowd the title, and
+            collapsed from lg up to match the widest layout, where the flower
+            has always been out of the flow. */}
+        <div className="h-[71px] mb-6 sm:mb-0 lg:h-0 md:shrink-0">
           <FlowerLink />
         </div>
 
@@ -463,7 +457,9 @@ export default function RejectionsJourneyPage() {
                         {/* Phone only — from md up these same totals sit on the
                             title's own line in the header above. */}
                         <div className="md:hidden flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1 text-[14px] leading-relaxed">
-                          <p className="text-[#ED2E85]">{totalAsks} asks made so far</p>
+                          <p className="text-[#ED2E85]">
+                            {totalAsks} asks made so far
+                          </p>
                           {lastEntryDate && (
                             <p className="text-foreground/50">
                               Last updated {lastEntryDate}

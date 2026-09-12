@@ -92,17 +92,11 @@ export default function LedInstallationPage() {
       <style>{`html, body { background-color: #FFFFFF !important; }`}</style>
       <CustomCursor />
       <div className="min-h-screen bg-white text-foreground">
-        {/* On phone the flower sits alone in the top-left; the filter is
-            pinned to the bottom of the screen instead (see below). */}
-        <header className="sm:hidden max-w-[1400px] mx-auto px-4 pt-4 pb-6">
-          <FlowerLink fixed={false} />
-        </header>
-
-        {/* Tablet and up the flower pins itself to the viewport, so this is just
-            the empty row it used to occupy — kept below lg so it does not
-            crowd the title, and collapsed from lg up to match the widest
-            layout, where the flower has always been out of the flow. */}
-        <div className="hidden sm:block h-[71px] lg:h-0">
+        {/* The flower pins itself to the viewport, so this is just the empty
+            row it occupies — kept below lg so it does not crowd the title, and
+            collapsed from lg up to match the widest layout, where the flower
+            has always been out of the flow. */}
+        <div className="h-[71px] mb-6 sm:mb-0 lg:h-0">
           <FlowerLink />
         </div>
 
@@ -153,15 +147,14 @@ export default function LedInstallationPage() {
                             <p>
                               I saw it as a site for something more meaningful
                               and playful, which is why this project explores
-                              how play can open up the liminal, in-between state of
-                              public transport, while experimenting with how
+                              how play can open up the liminal, in-between state
+                              of public transport, while experimenting with how
                               play can be used as part of design processes.
                             </p>
                           </div>
                         </div>
                         <p className="text-left text-[14px] leading-relaxed mt-3 px-4 shrink-0">
-                          I ended up designing an{" "}
-                          interactive LED system, where
+                          I ended up designing an interactive LED system, where
                           passengers can interact with each other indirectly.
                           From your seat, a joystick lets you steer a small
                           light, or &quot;character,&quot; along LED strips that
@@ -264,11 +257,11 @@ export default function LedInstallationPage() {
                       <div className="flex flex-col justify-start space-y-3 text-left text-[14px] leading-relaxed">
                         <p>
                           Rather than plan the design process upfront, I
-                          approached the project through{" "}
-                          &quot;revealing&quot;. This meant{" "}
-                          <strong>staying open to what emerged</strong>, instead of
-                          &quot;enframing,&quot; which forces the material into
-                          a predetermined shape.
+                          approached the project through &quot;revealing&quot;.
+                          This meant{" "}
+                          <strong>staying open to what emerged</strong>, instead
+                          of &quot;enframing,&quot; which forces the material
+                          into a predetermined shape.
                         </p>
                         <p>
                           From academics, I am used to working through
@@ -276,8 +269,9 @@ export default function LedInstallationPage() {
                           and often following the double diamond model. I was
                           interested in trying something different like
                           revealing, because I wanted the process to{" "}
-                          <strong>feel like I was playing</strong>, making my own rules and following my
-                          intuition of what the next step was.
+                          <strong>feel like I was playing</strong>, making my
+                          own rules and following my intuition of what the next
+                          step was.
                         </p>
                       </div>
 

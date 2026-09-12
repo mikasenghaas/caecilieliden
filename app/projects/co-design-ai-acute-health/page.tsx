@@ -77,17 +77,11 @@ export default function CoDesignAiAcuteHealthPage() {
       <style>{`html, body { background-color: #FFFFFF !important; }`}</style>
       <CustomCursor />
       <div className="min-h-screen bg-white text-foreground">
-        {/* On phone the flower sits alone in the top-left; the filter is
-            pinned to the bottom of the screen instead (see below). */}
-        <header className="sm:hidden max-w-[1400px] mx-auto px-4 pt-4 pb-6">
-          <FlowerLink fixed={false} />
-        </header>
-
-        {/* Tablet and up the flower pins itself to the viewport, so this is just
-            the empty row it used to occupy — kept below lg so it does not
-            crowd the title, and collapsed from lg up to match the widest
-            layout, where the flower has always been out of the flow. */}
-        <div className="hidden sm:block h-[71px] lg:h-0">
+        {/* The flower pins itself to the viewport, so this is just the empty
+            row it occupies — kept below lg so it does not crowd the title, and
+            collapsed from lg up to match the widest layout, where the flower
+            has always been out of the flow. */}
+        <div className="h-[71px] mb-6 sm:mb-0 lg:h-0">
           <FlowerLink />
         </div>
 

@@ -36,11 +36,9 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
     if (!headerEl) return;
 
     const updateHeight = () => {
-      // The header's own height isn't enough: below xl the flower sits in the
-      // flow above it, so the content's real "roof" is the header's bottom
-      // edge in page coordinates, not its height.
-      const bottom =
-        headerEl.getBoundingClientRect().bottom + window.scrollY;
+      // The bottom edge in page coordinates rather than the height, so
+      // anything sitting above the header is counted in too.
+      const bottom = headerEl.getBoundingClientRect().bottom + window.scrollY;
       document.documentElement.style.setProperty(
         "--header-height",
         `${bottom}px`,
@@ -64,23 +62,24 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
       <CustomCursor />
       <HorizontalPageSwipe />
 
-      {/* From sm up FlowerLink pins itself to the viewport's top-left, so this
-          header row holds only the filter and nothing below it moves as the
-          window resizes. On phone the flower is in the flow instead (it should
-          scroll away with the page), and it shares this row with the filter
-          rather than taking one of its own. The row is the flower's own 55px
-          height and both ends sit on its baseline, so the bottom of the flower
-          lines up with the bottom of the filter pills. */}
+      {/* FlowerLink pins itself to the viewport's top-left, so it is not part
+          of this row and nothing here can move it. The header itself holds
+          only the filter. */}
+      <FlowerLink />
+
       <header ref={headerRef} className={`${CONTAINER} pt-4 pb-6 sm:pt-12`}>
         {/* Stacked: the filter is right-aligned to the content column below it
             (the bio and cards, capped at a card's width and centred), not to
             the window, so it stays flush with their right edge as the window
             widens. From lg the column is offset by the sidebar + its gap
-            instead, putting the filter directly above the projects. Its fixed
-            height keeps the header identical in both, so the filter never
-            moves down — only across, and only when the bio does. */}
-        <div className="mx-auto flex h-[55px] w-full max-w-[460px] flex-row items-end justify-between sm:items-center sm:justify-end lg:mx-0 lg:max-w-none lg:justify-start lg:pl-[352px]">
-          <FlowerLink />
+            instead, putting the filter directly above the projects. The row
+            keeps the flower's 55px as a minimum so the header is identical in
+            both, but may grow if the pills wrap on a narrow window. */}
+        <div className="mx-auto flex min-h-[55px] w-full max-w-[460px] flex-row items-end justify-between gap-3 sm:items-center sm:justify-end lg:mx-0 lg:max-w-none lg:justify-start lg:pl-[352px]">
+          {/* Below sm the flower overlaps this row, so the filter is held
+              clear of it. Above sm the row is right-aligned and the two never
+              meet. */}
+          <div aria-hidden className="size-[55px] shrink-0 sm:hidden" />
           <PageNav />
         </div>
       </header>

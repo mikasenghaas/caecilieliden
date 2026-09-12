@@ -7,34 +7,32 @@ import flowerLightSvg from "@/app/assets/flower-light.svg";
 
 interface FlowerLinkProps {
   theme?: "light" | "dark";
-  fixed?: boolean;
   href?: string;
 }
 
-export default function FlowerLink({ theme = "light", fixed = true, href = "/" }: FlowerLinkProps) {
+export default function FlowerLink({
+  theme = "light",
+  href = "/",
+}: FlowerLinkProps) {
   const flowerIcon = theme === "dark" ? flowerLightSvg : flowerSvg;
 
-  // In the page flow on phone (so it scrolls away with everything else) and
-  // pinned to the viewport from sm up. Both modes land the flower on exactly
-  // the same 16px/16px corner — every caller pads its in-flow wrapper by
-  // px-4 pt-4 — so crossing the breakpoint doesn't move it, and it sits in
-  // the same place on the front page as it does inside an article.
-  const positionClasses = fixed
-    ? "relative sm:fixed sm:top-4 sm:left-4"
-    : "relative";
-
+  // The same 16px/16px corner at every width; only what that corner belongs to
+  // changes. Below lg it is the top of the page, so the flower scrolls away
+  // with everything else; from lg up it is the viewport, so it stays put.
+  //
+  // Out of the flow in both cases, which is the point. It used to be a normal
+  // in-flow item of the header row on narrow windows, so its position was
+  // whatever that row gave it — and the row centres on a 460px cap and
+  // bottom-aligns its items, so the flower slid sideways as the window crossed
+  // 492px and dropped down again whenever the filter pills wrapped. Placed
+  // against the page instead, nothing in the header can reach it. Callers
+  // reserve its 16 + 55 = 71px so nothing tucks underneath.
   return (
     <Link
       href={href}
-      className={`block w-fit shrink-0 ${positionClasses} z-50 sm:transition-transform sm:duration-300 sm:rotate-0 sm:hover:rotate-12`}
+      className="absolute top-4 left-4 z-50 block w-fit shrink-0 rotate-0 lg:fixed sm:transition-transform sm:duration-300 sm:hover:rotate-12"
     >
-      <Image
-        src={flowerIcon}
-        alt="Home"
-        width={55}
-        height={55}
-        priority
-      />
+      <Image src={flowerIcon} alt="Home" width={55} height={55} priority />
     </Link>
   );
 }

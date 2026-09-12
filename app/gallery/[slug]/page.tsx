@@ -16,9 +16,9 @@ export async function generateStaticParams() {
 
 export default async function GalleryPage({ params }: GalleryPageProps) {
   const { slug } = await params;
-  
+
   const item = getGalleryItem(slug);
-  
+
   if (!item) {
     notFound();
   }
@@ -30,78 +30,77 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
       <style>{`html, body { background-color: #FFFFFF !important; }`}</style>
       <CustomCursor />
       <div className="min-h-screen bg-white text-foreground font-plex">
-        <div className="px-4 pt-4 sm:p-0 sm:h-[71px] lg:h-0">
+        <div className="h-[71px] lg:h-0">
           <FlowerLink href="/art" />
         </div>
 
-      <main className="min-h-screen flex items-center justify-center px-6 py-12">
-        {/* Mobile layout */}
-        <div className="lg:hidden flex flex-col items-start w-full mt-16 mb-8">
-          <div className="mb-4 text-start">
-            <h1 className="text-[16px] font-plex font-light leading-relaxed mb-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
-              {metadata.title}
-            </h1>
-            <p className="text-[14px] font-plex font-light text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
-              {metadata.year}
-            </p>
+        <main className="min-h-screen flex items-center justify-center px-6 py-12">
+          {/* Mobile layout */}
+          <div className="lg:hidden flex flex-col items-start w-full mt-16 mb-8">
+            <div className="mb-4 text-start">
+              <h1 className="text-[16px] font-plex font-light leading-relaxed mb-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+                {metadata.title}
+              </h1>
+              <p className="text-[14px] font-plex font-light text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+                {metadata.year}
+              </p>
+            </div>
+            <div className="flex flex-col space-y-6 max-w-3xl w-full">
+              {images.map((image, index) => (
+                <div key={index} className="relative w-full">
+                  <Image
+                    src={image.src}
+                    alt={`${metadata.title} - Image ${index + 1}`}
+                    width={image.width}
+                    height={image.height}
+                    className="w-full h-auto"
+                    loading={index === 0 ? "eager" : "lazy"}
+                    priority={index === 0}
+                    // The optimizer re-encodes to a still frame, which would
+                    // freeze an animated gif on its first one.
+                    unoptimized={image.src.endsWith(".gif")}
+                    sizes="(max-width: 768px) 100vw, 800px"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-col space-y-6 max-w-3xl w-full">
-            {images.map((image, index) => (
-              <div key={index} className="relative w-full">
-                <Image
-                  src={image.src}
-                  alt={`${metadata.title} - Image ${index + 1}`}
-                  width={image.width}
-                  height={image.height}
-                  className="w-full h-auto"
-                  loading={index === 0 ? "eager" : "lazy"}
-                  priority={index === 0}
-                  // The optimizer re-encodes to a still frame, which would
-                  // freeze an animated gif on its first one.
-                  unoptimized={image.src.endsWith(".gif")}
-                  sizes="(max-width: 768px) 100vw, 800px"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
 
-        {/* Desktop layout: image centered, metadata to the left */}
-        <div className="hidden lg:block relative w-full max-w-lg mt-28 mb-14">
-          {/* Metadata - positioned absolutely to the left of the image */}
-          <aside className="absolute right-full top-0 mr-8 text-right w-40">
-            <h1 className="text-[16px] font-plex font-light leading-relaxed mb-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
-              {metadata.title}
-            </h1>
-            <p className="text-[14px] font-plex font-light text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
-              {metadata.year}
-            </p>
-          </aside>
+          {/* Desktop layout: image centered, metadata to the left */}
+          <div className="hidden lg:block relative w-full max-w-lg mt-28 mb-14">
+            {/* Metadata - positioned absolutely to the left of the image */}
+            <aside className="absolute right-full top-0 mr-8 text-right w-40">
+              <h1 className="text-[16px] font-plex font-light leading-relaxed mb-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+                {metadata.title}
+              </h1>
+              <p className="text-[14px] font-plex font-light text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+                {metadata.year}
+              </p>
+            </aside>
 
-          {/* Images - centered */}
-          <div className="flex flex-col space-y-6">
-            {images.map((image, index) => (
-              <div key={index} className="relative w-full">
-                <Image
-                  src={image.src}
-                  alt={`${metadata.title} - Image ${index + 1}`}
-                  width={image.width}
-                  height={image.height}
-                  className="w-full h-auto"
-                  loading={index === 0 ? "eager" : "lazy"}
-                  priority={index === 0}
-                  // The optimizer re-encodes to a still frame, which would
-                  // freeze an animated gif on its first one.
-                  unoptimized={image.src.endsWith(".gif")}
-                  sizes="(max-width: 1024px) 100vw, 512px"
-                />
-              </div>
-            ))}
+            {/* Images - centered */}
+            <div className="flex flex-col space-y-6">
+              {images.map((image, index) => (
+                <div key={index} className="relative w-full">
+                  <Image
+                    src={image.src}
+                    alt={`${metadata.title} - Image ${index + 1}`}
+                    width={image.width}
+                    height={image.height}
+                    className="w-full h-auto"
+                    loading={index === 0 ? "eager" : "lazy"}
+                    priority={index === 0}
+                    // The optimizer re-encodes to a still frame, which would
+                    // freeze an animated gif on its first one.
+                    unoptimized={image.src.endsWith(".gif")}
+                    sizes="(max-width: 1024px) 100vw, 512px"
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
-      </main>
+        </main>
       </div>
     </>
   );
 }
-
