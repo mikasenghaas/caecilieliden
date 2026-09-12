@@ -4,7 +4,7 @@
 
 Before you start, make sure you have these installed on your computer:
 
-1. **Bun** - Download from [Bun](https://bun.sh/) (choose the LTS version)
+1. **Node.js** - Download from [nodejs.org](https://nodejs.org) (choose the LTS version). This includes `npm`, which installs the website's building blocks for you.
 2. **Git** - Download from [git-scm.com](https://git-scm.com)
 3. **A code editor** - I recommend [VS Code](https://code.visualstudio.com)
 
@@ -43,13 +43,13 @@ git pull
 ### 5. Install dependencies (only needed once, or after updates)
 
 ```bash
-bun i
+npm install
 ```
 
 ### 6. Start the development server
 
 ```bash
-bun dev
+npm run dev
 ```
 
 Now open your browser and go to [http://localhost:3000](http://localhost:3000) to see your website!
@@ -98,47 +98,88 @@ public/gallery/
    }
    ```
 
-4. Add the gallery item to the homepage grid in `app/page.tsx`
+4. Add the gallery item to the homepage grid in `app/(site)/page.tsx`
 
 **To edit an existing gallery item:**
 
 - Change the title/year: Edit the `metadata.json` file
 - Change images: Replace the image files (keep the same names)
 
-- To see image: rm -rf .next + bun dev
+- If a replaced image still shows the old version, stop the server and run
+  `rm -rf .next`, then `npm run dev` again. That clears the saved copies the
+  site makes of your pictures.
 
 ### Editing Projects
 
-Projects are stored in `app/content/projects/` as `.mdx` files (Markdown with extras).
+Each project is a page at `app/projects/your-project-name/page.tsx`. The folder
+name is the web address, so `app/projects/codesign-project/` is at
+`/projects/codesign-project`.
+
+Every project page is a list of **chapters**. A chapter is one section of the
+article: a heading, a column of text, and the pictures that go beside it. The
+page hands that list to `ArticleColumn`, which lays them out — alternating the
+text left, right, left down the page — so you never have to think about the
+layout, only about what goes in each chapter.
 
 **To edit a project:**
 
-Open the `.mdx` file (e.g., `codesign-project.mdx`) and edit the content.
+Open the project's `page.tsx` and find the `CHAPTERS` list near the top. Each
+chapter looks like this:
 
-The file has two parts:
+```tsx
+{
+  id: "results",              // used in the web address, lowercase, no spaces
+  label: "results",           // the heading shown above the chapter
+  content: (
+    <>
+      <p>Your first paragraph.</p>
+      <p>Your second paragraph.</p>
+    </>
+  ),
+  media: (
+    <ArticleFigure
+      src={`${IMAGES}/sketches.png`}
+      ratio="aspect-[1190/562]"
+      alt="Sketches and wireframes made at the workshops"
+    />
+  ),
+},
+```
 
-1. **Frontmatter** (at the top, between `---` lines):
+Things worth knowing:
 
-   ```
-   ---
-   title: "Project Title"
-   year: "2025"
-   ---
-   ```
+- Each paragraph goes in its own `<p>...</p>`.
+- `<strong>...</strong>` marks a sentence worth catching on a skim. It is not
+  shown any differently — it stays the same weight and colour as the text
+  around it.
+- Write `&apos;` instead of a straight apostrophe and `&quot;` instead of a
+  straight quote mark.
+- `media` is what sits in the narrower column beside the text. Leave it out and
+  the chapter is simply text.
+- `ratio` should be the picture's real width and height, e.g. a 1190x562 file
+  gets `aspect-[1190/562]`. That way the page does not jump about as pictures
+  load.
+- `alt` describes the picture for anyone using a screen reader. It is never
+  shown on the page.
 
-2. **Content** (below the frontmatter):
-   Write your text using Markdown. You can use:
-   - `**bold text**` for **bold**
-   - `*italic text*` for _italic_
-   - `## Heading` for headings
-   - `[link text](url)` for links
-   - `<Image src="/projects/folder/image.png" caption="Description" />` for images
+Two optional settings on a chapter:
+
+- `full: true` runs the chapter across the whole width of the page and hides its
+  heading. Use it for one thing that deserves the full measure — a video, or a
+  set of pictures that belong under the chapter above rather than beside it.
+- `centerMedia: true` centres the pictures against the text instead of hanging
+  them from the top. Useful when the text column is one tall thing.
 
 **To add a new project:**
 
-1. Create a new `.mdx` file in `app/content/projects/`
-2. Add your images to `public/projects/your-project-name/`
-3. Add the project link to the homepage in `app/page.tsx`
+1. Create a folder in `app/projects/` named for the web address you want
+2. Copy an existing `page.tsx` into it as a starting point, then edit the
+   chapters and the title at the bottom
+3. Add your images to `public/projects/your-project-name/`
+4. Add the project card to the homepage in `app/(site)/page.tsx`
+5. Add the new address to `PROJECT_ORDER` in
+   `app/components/article-column.tsx`, so the arrow keys and the "next project"
+   button include it
 
 ## Saving Your Changes (Git)
 
@@ -186,7 +227,7 @@ git push
 
 | What you want to do  | Command                        |
 | -------------------- | ------------------------------ |
-| Go to project folder | `cd ~/web/caecilieliden`       |
+| Go to project folder | `cd ~/Documents/Website`       |
 | Get latest changes   | `git pull`                     |
 | Start dev server     | `npm run dev`                  |
 | Stop dev server      | `Ctrl + C`                     |
@@ -201,7 +242,7 @@ Every time you want to make changes:
 
 ```bash
 # 1. Open terminal and go to project
-cd ~/web/caecilieliden
+cd ~/Documents/Website
 
 # 2. Get latest changes
 git pull
