@@ -38,10 +38,10 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
           {/* Mobile layout */}
           <div className="lg:hidden flex flex-col items-start w-full mt-16 mb-8">
             <div className="mb-4 text-start">
-              <h1 className="text-[16px] font-plex font-light leading-relaxed mb-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+              <h1 className="text-[16px] font-plex font-light leading-relaxed mb-1">
                 {metadata.title}
               </h1>
-              <p className="text-[14px] font-plex font-light text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+              <p className="text-[14px] font-plex font-light text-foreground/60">
                 {metadata.year}
               </p>
             </div>
@@ -70,10 +70,10 @@ export default async function GalleryPage({ params }: GalleryPageProps) {
           <div className="hidden lg:block relative w-full max-w-lg mt-28 mb-14">
             {/* Metadata - positioned absolutely to the left of the image */}
             <aside className="absolute right-full top-0 mr-8 text-right w-40">
-              <h1 className="text-[16px] font-plex font-light leading-relaxed mb-1 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+              <h1 className="text-[16px] font-plex font-light leading-relaxed mb-1">
                 {metadata.title}
               </h1>
-              <p className="text-[14px] font-plex font-light text-foreground/60 [paint-order:stroke_fill] [-webkit-text-stroke:7px_white]">
+              <p className="text-[14px] font-plex font-light text-foreground/60">
                 {metadata.year}
               </p>
             </aside>

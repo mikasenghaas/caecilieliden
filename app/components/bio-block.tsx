@@ -14,11 +14,6 @@ const BIO_GROUPS: string[][][] = [
     ["and", "people-first", "approaches"],
   ],
   [
-    ["creates", "through"],
-    ["code", "figma", "procreate"],
-    ["and", "by", "hand"],
-  ],
-  [
     ["this", "is", "my"],
     ["project", "parking", "spot"],
   ],

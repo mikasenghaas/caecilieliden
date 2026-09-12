@@ -33,12 +33,13 @@
     color: #ed2e85;
   }
 
-  /* Inline bold is drawn in the accent pink, with no highlight behind it, so
-     it reads the same on white and on top of images. Headings are bolded with
-     font-bold rather than <strong>, so they keep their normal styling. */
+  /* <strong> marks the sentences worth catching on a skim, but it is not set
+     apart on the page: it reads at the same weight and colour as the text
+     around it. Headings are bolded with font-bold rather than <strong>, so
+     they are unaffected. */
   strong {
-    font-weight: 700;
-    color: #ed2e85;
+    font-weight: inherit;
+    color: inherit;
   }
 }
 

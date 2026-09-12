@@ -16,15 +16,26 @@ import HorizontalPageSwipe from "@/app/components/horizontal-page-swipe";
 // column, a fixed name/bio sidebar, and socials pinned to the bottom-left
 // corner. Only the right-hand content (passed as children) differs per page.
 // The page container shrink-wraps its content rather than filling the window:
-// its two widths are exactly the sidebar + gap + one card, and the same + two
-// cards. Because it is mx-auto and exactly that wide, the bio and the projects
-// centre on screen as one block and the gap between them is always the same
-// 64px — no column ever absorbs the leftover width. Every fixed element uses
-// this same container, so they stay aligned with the content column.
-// 844 = 32 padding + 288 sidebar + 64 gap + 460 card.
-// 1328 = the same with two cards (944).
+// its two widths are exactly the sidebar + gap + one card, and the same + a
+// wide card. Because it is mx-auto and exactly that wide, the bio and the
+// projects centre on screen as one block and the gap between them is fixed —
+// no column ever absorbs the leftover width. Every fixed element uses this
+// same container, so they stay aligned with the content column.
+//
+// The side padding is 87px from lg up, which is where the flower stops
+// scrolling with the page and pins itself to the viewport's corner. 87 is
+// 16 + 55 + 16: the flower's own offset, the flower, and the same offset
+// again, so it sits in the margin with equal white space on either side
+// instead of the content starting flush against it. Below lg the flower is
+// in the flow at the top of the page and needs no room beside it, so the
+// padding stays 16 and small windows keep their width.
+//
+// 986  = 174 padding + 288 sidebar + 64 gap + 460 card.
+// 1440 = 174 padding + 288 sidebar + 34 gap + 944 wide card. The gap is the
+// narrower of the two there because that is what buys the wide card its 944
+// back out of the width the bigger margins take.
 const CONTAINER =
-  "mx-auto w-full max-w-[844px] min-[1328px]:max-w-[1328px] px-4";
+  "mx-auto w-full max-w-[844px] px-4 min-[1024px]:max-w-[986px] min-[1024px]:px-[87px] min-[1328px]:max-w-[1440px]";
 
 export default function SiteFrame({ children }: { children: ReactNode }) {
   const headerRef = useRef<HTMLElement>(null);
@@ -75,7 +86,12 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
             instead, putting the filter directly above the projects. The row
             keeps the flower's 55px as a minimum so the header is identical in
             both, but may grow if the pills wrap on a narrow window. */}
-        <div className="mx-auto flex min-h-[55px] w-full max-w-[460px] flex-row items-end justify-between gap-3 sm:items-center sm:justify-end lg:mx-0 lg:max-w-none lg:justify-start lg:pl-[352px]">
+        {/* The left padding is the sidebar plus the gap beside it, so the
+            filter starts exactly above the projects. Both are written as
+            arbitrary min-widths rather than one named and one arbitrary, so
+            Tailwind sorts them by number and the wider one really does land
+            last — the gap narrows at 1328 and this has to follow it. */}
+        <div className="mx-auto flex min-h-[55px] w-full max-w-[460px] flex-row items-end justify-between gap-3 sm:items-center sm:justify-end lg:mx-0 lg:max-w-none lg:justify-start min-[1024px]:pl-[352px] min-[1328px]:pl-[322px]">
           {/* Below sm the flower overlaps this row, so the filter is held
               clear of it. Above sm the row is right-aligned and the two never
               meet. */}
@@ -85,7 +101,7 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
       </header>
 
       <main className={`${CONTAINER} pb-16`}>
-        <div className="flex flex-col lg:flex-row gap-10 lg:gap-16">
+        <div className="flex flex-col lg:flex-row gap-10 min-[1024px]:gap-16 min-[1328px]:gap-[34px]">
           {/* Bio in the stacked layout — the lg version is rendered fixed
               below. Capped to a card's width so the justified word rows never
               stretch wider than the projects sitting underneath them. */}
