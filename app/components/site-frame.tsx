@@ -103,8 +103,17 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
               inside rendered a few pixels wide and then sprang out to full
               size once the pictures arrived. Growing into the row's leftover
               space instead makes the width a fact of the layout, known on the
-              first frame and independent of what is inside. */}
-          <div className="min-w-0 lg:flex-1">{children}</div>
+              first frame and independent of what is inside.
+
+              A query container, so the project cards can switch shape on how
+              much room they have actually been given rather than on the window
+              width. The two are not the same number: a classic scrollbar is
+              part of the window but not of the page, so at a window of 1328 to
+              1342 the media query said "wide" while the column was still a few
+              pixels short of the 944 a wide card needs. The card took the
+              leftover width instead, and since its text does not scale with
+              it, words dropped between lines for that whole stretch. */}
+          <div className="@container min-w-0 lg:flex-1">{children}</div>
         </div>
 
         {/* Internship note + socials: part of normal page flow when stacked,
