@@ -16,6 +16,34 @@ export const PAGES = [
 // (36px) height, which makes those caps true half-circles.
 const CAP_WIDTH = 18;
 
+// The CV lives in public/ so it is served as a plain file and opens in the
+// browser's own PDF viewer rather than being routed through the app.
+const RESUME_HREF = "/caecilie-bode-resume.pdf";
+
+// The capsule itself, shared by the page filters and the resumé link so the
+// two can never drift apart.
+function Pill({ active, children }: { active: boolean; children: string }) {
+  return (
+    <span
+      style={{ borderRadius: CAP_WIDTH, paddingInline: CAP_WIDTH }}
+      className={`group flex h-9 items-center border bg-white transition-colors duration-200 hover:border-[#ED2E85] ${
+        active ? "border-[#ED2E85]" : "border-black"
+      }`}
+    >
+      <span
+        // One fixed size at every width: the pills are the first thing
+        // on the page, so a label that grew a step partway through a
+        // resize was the most visible thing moving.
+        className={`whitespace-nowrap font-mono text-[14px] font-normal transition-colors duration-200 group-hover:text-[#ED2E85] ${
+          active ? "text-[#ED2E85]" : "text-black"
+        }`}
+      >
+        {children}
+      </span>
+    </span>
+  );
+}
+
 export default function PageNav() {
   const pathname = usePathname();
   const router = useRouter();
@@ -31,7 +59,9 @@ export default function PageNav() {
   };
 
   return (
-    <nav className="flex flex-wrap items-center justify-start gap-[10px]">
+    // w-full so the resumé link's ml-auto has room to push it to the far edge
+    // of the content column, rather than the nav shrink-wrapping its pills.
+    <nav className="flex w-full flex-wrap items-center justify-start gap-[10px]">
       {PAGES.map((page) => {
         const isActive = pathname === page.href;
 
@@ -43,26 +73,20 @@ export default function PageNav() {
             onClick={isActive ? handleActiveClick : undefined}
             className="block h-9"
           >
-            <span
-              style={{ borderRadius: CAP_WIDTH, paddingInline: CAP_WIDTH }}
-              className={`group flex h-9 items-center border bg-white transition-colors duration-200 hover:border-[#ED2E85] ${
-                isActive ? "border-[#ED2E85]" : "border-black"
-              }`}
-            >
-              <span
-                // One fixed size at every width: the pills are the first thing
-                // on the page, so a label that grew a step partway through a
-                // resize was the most visible thing moving.
-                className={`whitespace-nowrap font-mono text-[14px] font-normal transition-colors duration-200 group-hover:text-[#ED2E85] ${
-                  isActive ? "text-[#ED2E85]" : "text-black"
-                }`}
-              >
-                {page.label}
-              </span>
-            </span>
+            <Pill active={isActive}>{page.label}</Pill>
           </Link>
         );
       })}
+
+      <a
+        href={RESUME_HREF}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label="resumé (PDF, opens in a new tab)"
+        className="ml-auto block h-9"
+      >
+        <Pill active={false}>resumé</Pill>
+      </a>
     </nav>
   );
 }
