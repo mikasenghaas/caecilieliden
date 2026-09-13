@@ -18,15 +18,11 @@ const projects: {
         "Co-designing AI for the Danish emergency medical helpline",
         "Akuttelefonen 1813",
       ],
-      footer: "2026 bachelor thesis project",
+      footer: "2026",
+      tag: { label: "Bachelor Thesis Project" },
       description:
         'Denmark\'s emergency helpline Akuttelefonen 1813 answers ~900,000 calls a year. A third of the calls are non-acute, with wait times of hours on the busiest days. We found uncertainty to be the main cause. People cannot tell whether their own situation counts as "acute." Through co-design with former callers, we developed a set of interaction design policies for an AI self-triage system that helps people assess their own situation with confidence.',
-      keywords: [
-        "Healthcare",
-        "Participatory AI",
-        "Co-design",
-        "Interaction Design",
-      ],
+      keywords: ["Healthcare", "AI", "Co-design", "Design Research", "IxD"],
       artwork: [{ src: "/projects/co-design-ai-acute-health/aico.png" }],
     },
   },
@@ -35,10 +31,10 @@ const projects: {
     title: "Strangers on Transit LED Installation",
     design: {
       lines: ["Strangers on transit"],
-      footer: "2026 led installation",
+      footer: "2026",
       description:
         "On transport we sit together but disappear into our phones. I built a playful LED system that lets strangers connect through low stakes interaction.",
-      keywords: ["Play", "Interaction Design", "Arduino", "Public Space"],
+      keywords: ["Play", "Public Spaces", "Design Research", "Arduino", "IxD"],
       artwork: [
         { src: "/projects/led-installation-strangers-transit/artwork.png" },
       ],
@@ -49,11 +45,15 @@ const projects: {
     title: "1000 Rejections, a Live Experiment and Creative Data Visualization",
     design: {
       lines: ["1000 rejections"],
-      footer: "2026-2027 creative data visualization",
-      tag: { label: "live experiment", color: "#EE2427" },
+      footer: "2026-2027",
+      tag: { label: "Live Experiment", color: "#EE2427" },
       description:
         "A live data visualization of 1000 asks/rejections over a year. Every ask I make adds a node to a spiral that grows and flowers outward as I grow.",
-      keywords: ["Creative Coding", "Data Visualization", "Personal Data"],
+      keywords: [
+        "Creative Coding",
+        "Creative Data Visualization",
+        "Personal Data",
+      ],
       artwork: [
         { src: "/projects/1000-rejections-journey-creative-data-viz/dots.png" },
       ],
@@ -67,7 +67,7 @@ const projects: {
       footer: "2025",
       description:
         "Long check in queues at events were wearing the volunteers down. With them we co-designed a QR-code check in that cuts the manual work.",
-      keywords: ["Participatory Design", "Co-design", "Mutual Learning"],
+      keywords: ["Participatory Design", "Co-design", "Community", "Play"],
       artwork: [{ src: "/projects/codesign-project/photo.png" }],
     },
   },

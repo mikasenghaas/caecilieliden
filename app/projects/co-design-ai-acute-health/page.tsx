@@ -408,7 +408,7 @@ export default function CoDesignAiAcuteHealthPage() {
           }
         </span>
       }
-      year="2026 bachelor thesis project"
+      year="2026"
       chapters={CHAPTERS}
     />
   );

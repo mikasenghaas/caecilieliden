@@ -255,7 +255,7 @@ export default function LedInstallationPage() {
   return (
     <ArticleColumn
       title="Strangers on transit"
-      year="2026 led installation"
+      year="2026"
       chapters={CHAPTERS}
     />
   );

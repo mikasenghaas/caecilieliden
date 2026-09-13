@@ -191,8 +191,8 @@ export interface CardDesign {
   lines: string[];
   footer: string;
   artwork: Artwork[];
-  /** Optional status label above the intro, marked with a coloured dot. */
-  tag?: { label: string; color: string };
+  /** Optional label above the intro. A colour marks it with a dot as a status. */
+  tag?: { label: string; color?: string };
   /** The short intro, set down the right-hand column. */
   description?: string;
   /** Fields the project sits under, listed along the bottom right. */
@@ -265,10 +265,12 @@ export default function ArtboardCard({
       >
         {tag && (
           <span className="flex items-center gap-[8px] self-end whitespace-nowrap">
-            <span
-              className="size-1 shrink-0 rounded-full"
-              style={{ backgroundColor: tag.color }}
-            />
+            {tag.color && (
+              <span
+                className="size-1 shrink-0 rounded-full"
+                style={{ backgroundColor: tag.color }}
+              />
+            )}
             {tag.label}
           </span>
         )}
