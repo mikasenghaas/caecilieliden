@@ -14,11 +14,6 @@ export interface ArticleChapter {
   // What sits in the narrower column beside the text — pictures, nearly
   // always. A chapter without any is simply text against white.
   media?: ReactNode;
-  // Centres the picture column against the text instead of hanging it from the
-  // top. For a chapter whose text column is one tall thing rather than prose —
-  // a full-height visualization, say — where a short column beside it reads as
-  // stranded at the top rather than as the start of a run.
-  centerMedia?: boolean;
   // Runs the chapter across the full width of the page instead of splitting it
   // into a text column and a picture column. For a chapter that is one thing
   // rather than prose with pictures beside it — a video, say, which is worth
@@ -27,6 +22,10 @@ export interface ArticleChapter {
   // the one thing in it speaks for itself. `label` is still required, and is
   // what a screen reader announces for the section.
   full?: boolean;
+  // Puts the heading back on a full-width chapter. For one that is a section of
+  // the article in its own right rather than something belonging to the section
+  // above it.
+  showLabel?: boolean;
 }
 
 // The same side margins as the front page, so a project opens into the same
@@ -143,15 +142,18 @@ export default function ArticleColumn({
   const nextProject = PROJECT_ORDER[(currentProject + 1) % total];
   const previousProject = PROJECT_ORDER[(currentProject - 1 + total) % total];
 
-  // Which side each chapter's text falls on. Counted over the chapters that
-  // actually have two columns, so a full-width one in the middle does not turn
-  // the alternation over — without this the chapters either side of it would
-  // both land left, and the turn-taking that carries the eye down the page
-  // would break exactly where the page is widest.
+  // Which side each chapter's text falls on. A full-width chapter has no side,
+  // but it still takes its turn if it is a section of its own — one that only
+  // carries the pictures for the section above it does not, so the chapters
+  // either side of it keep alternating across it rather than both landing on
+  // the same side, which would break the turn-taking exactly where the page is
+  // widest.
   let column = 0;
-  const textOnLeft = chapters.map((chapter) =>
-    chapter.full ? null : column++ % 2 === 0,
-  );
+  const textOnLeft = chapters.map((chapter) => {
+    if (!chapter.full) return column++ % 2 === 0;
+    if (chapter.showLabel) column += 1;
+    return null;
+  });
 
   const goTo = useCallback(
     (index: number) => {
@@ -281,10 +283,10 @@ export default function ArticleColumn({
                     left === null ? "" : left ? TEXT_LEFT : TEXT_RIGHT
                   }`}
                 >
-                  {left !== null && (
+                  {(left !== null || chapter.showLabel) && (
                     <h2
                       className={`text-[15px] font-bold uppercase tracking-[0.08em] ${
-                        left ? "" : "min-[768px]:col-start-2"
+                        left === false ? "min-[768px]:col-start-2" : ""
                       }`}
                     >
                       {chapter.label}
@@ -318,9 +320,7 @@ export default function ArticleColumn({
                       height. */}
                   {left !== null && (
                     <div
-                      className={`mt-4 space-y-8 min-[768px]:mt-0 min-[768px]:row-start-2 ${
-                        chapter.centerMedia ? "self-center" : "self-start"
-                      } ${
+                      className={`mt-4 space-y-8 self-start min-[768px]:mt-0 min-[768px]:row-start-2 ${
                         left
                           ? "min-[768px]:col-start-2"
                           : "min-[768px]:col-start-1"

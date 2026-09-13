@@ -140,6 +140,14 @@ const FIELD_NOTES: FieldNote[] = [
     date: "2026-08-13",
     text: "It is kind of hard coming up with things to be rejected for.",
   },
+  {
+    date: "2026-09-13",
+    text: "1000/12 = around 83. I have to make 83 asks a month! I am so behind...",
+  },
+  {
+    date: "2026-09-13",
+    text: "Very rewarding being accepted from asks I did not expect anything from.",
+  },
 ];
 
 // "2026-08-11" becomes "11-8-2026" — day first, no leading zero on the month.
@@ -373,249 +381,263 @@ export default function RejectionsJourneyPage() {
     {
       id: "viz",
       label: "live data visualization",
-      centerMedia: true,
+      // The spiral is the one thing on the page worth the full 1266, so it gets
+      // the whole width to itself with the key in the margin beside it. Full-
+      // width chapters hide their heading by default; this one keeps it, since
+      // it is a section of the article and not a picture belonging to the
+      // section above.
+      full: true,
+      showLabel: true,
       content: (
         <>
-          <div className="flex flex-wrap items-baseline justify-between gap-x-6 gap-y-1">
-            <p className="text-[#ED2E85]">{totalAsks} asks made so far</p>
-            {lastEntryDate && (
-              <p className="text-foreground/50">Last updated {lastEntryDate}</p>
-            )}
-          </div>
+          {/* Two separate children, not a stacked pair, so the chapter's own
+              paragraph spacing sets them a line apart. */}
+          <p className="text-[#ED2E85]">{totalAsks} asks made so far</p>
+          {lastEntryDate && (
+            <p className="text-foreground/50">Last updated {lastEntryDate}</p>
+          )}
 
           {errorMessage && rows.length > 0 && (
             <p className="text-[#D6473C]">{errorMessage}</p>
           )}
 
-          {/* Kept square: the SVG's own viewBox keeps the spiral circular and
-              centred whatever the column's width, so it scales to fit rather
-              than forcing the page sideways. */}
-          <div className="relative aspect-square w-full">
-            {status === "loading" && (
-              <div className="flex h-full w-full items-center justify-center border-2 border-black/10">
-                <p className="font-mono text-foreground/60">
-                  Loading rejections…
-                </p>
-              </div>
-            )}
+          {/* The spiral held to the right of the chapter with the key in the
+              space left beside it. Only from 1328, where the page is at its
+              full 1266 and there is room for both; below that the two stack and
+              the key falls under the spiral. */}
+          <div className="grid gap-8 min-[1328px]:grid-cols-[minmax(0,1fr)_700px]">
+            {/* Kept square: the SVG's own viewBox keeps the spiral circular and
+                centred whatever the column's width, so it scales to fit rather
+                than forcing the page sideways. Capped rather than filling the
+                chapter — a square drawn at the page's whole 1266 is taller than
+                the window, so the spiral could never be seen whole. */}
+            <div className="relative mx-auto aspect-square w-full max-w-[700px] min-[1328px]:col-start-2 min-[1328px]:row-start-1">
+              {status === "loading" && (
+                <div className="flex h-full w-full items-center justify-center border-2 border-black/10">
+                  <p className="font-mono text-foreground/60">
+                    Loading rejections…
+                  </p>
+                </div>
+              )}
 
-            {status === "error" && (
-              <div className="flex h-full w-full flex-col items-center justify-center gap-4 border-2 border-black/10 px-6 text-center">
-                <p className="font-mono text-foreground/70">
-                  Couldn&apos;t load the sheet. {errorMessage}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => fetchData()}
-                  className="border-2 border-black px-3 py-1.5 text-black transition-colors duration-200 hover:border-[#ED2E85] hover:text-[#ED2E85]"
-                >
-                  Try again
-                </button>
-              </div>
-            )}
+              {status === "error" && (
+                <div className="flex h-full w-full flex-col items-center justify-center gap-4 border-2 border-black/10 px-6 text-center">
+                  <p className="font-mono text-foreground/70">
+                    Couldn&apos;t load the sheet. {errorMessage}
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => fetchData()}
+                    className="border-2 border-black px-3 py-1.5 text-black transition-colors duration-200 hover:border-[#ED2E85] hover:text-[#ED2E85]"
+                  >
+                    Try again
+                  </button>
+                </div>
+              )}
 
-            {status === "ready" && rows.length === 0 && (
-              <div className="flex h-full w-full items-center justify-center border-2 border-black/10">
-                <p className="font-mono text-foreground/60">
-                  No asks logged yet — check back soon.
-                </p>
-              </div>
-            )}
+              {status === "ready" && rows.length === 0 && (
+                <div className="flex h-full w-full items-center justify-center border-2 border-black/10">
+                  <p className="font-mono text-foreground/60">
+                    No asks logged yet — check back soon.
+                  </p>
+                </div>
+              )}
 
-            {status === "ready" && rows.length > 0 && (
-              <div className="h-full w-full select-none">
-                <svg
-                  viewBox={`-${VIEW_HALF} -${VIEW_HALF} ${VIEW_HALF * 2} ${VIEW_HALF * 2}`}
-                  className="h-full w-full"
-                  role="img"
-                  aria-label="Spiral visualization of rejection tracking data"
-                >
-                  <defs>
-                    {/* Divide by view.scale so the blur stays a flat
+              {status === "ready" && rows.length > 0 && (
+                <div className="h-full w-full select-none">
+                  <svg
+                    viewBox={`-${VIEW_HALF} -${VIEW_HALF} ${VIEW_HALF * 2} ${VIEW_HALF * 2}`}
+                    className="h-full w-full"
+                    role="img"
+                    aria-label="Spiral visualization of rejection tracking data"
+                  >
+                    <defs>
+                      {/* Divide by view.scale so the blur stays a flat
                         FIGURE_BLUR_PX on screen regardless of node size or how
                         far autoFitScale has zoomed out for a bigger dataset. */}
-                    <filter
-                      id="figure-blur"
-                      x="-80%"
-                      y="-80%"
-                      width="260%"
-                      height="260%"
-                    >
-                      <feGaussianBlur
-                        stdDeviation={FIGURE_BLUR_PX / view.scale}
-                      />
-                    </filter>
-                  </defs>
-                  <g
-                    transform={`translate(${view.x} ${view.y}) scale(${view.scale})`}
-                  >
+                      <filter
+                        id="figure-blur"
+                        x="-80%"
+                        y="-80%"
+                        width="260%"
+                        height="260%"
+                      >
+                        <feGaussianBlur
+                          stdDeviation={FIGURE_BLUR_PX / view.scale}
+                        />
+                      </filter>
+                    </defs>
                     <g
-                      fill="none"
-                      stroke="#1B1B1B"
-                      strokeOpacity={0.15}
-                      strokeWidth={1.5 / view.scale}
-                      strokeDasharray={`${4 / view.scale} ${3 / view.scale}`}
+                      transform={`translate(${view.x} ${view.y}) scale(${view.scale})`}
                     >
-                      {curves.map((d, i) => (
-                        <path key={i} d={d} />
-                      ))}
-                    </g>
-                    <g filter="url(#figure-blur)">
-                      {nodes.map((node, i) => {
-                        const offset = nodeOffsets[i];
-                        const animStyle = nodeAnimStyle(
-                          offset,
-                          floatSeed(node.row.count),
-                        );
+                      <g
+                        fill="none"
+                        stroke="#1B1B1B"
+                        strokeOpacity={0.15}
+                        strokeWidth={1.5 / view.scale}
+                        strokeDasharray={`${4 / view.scale} ${3 / view.scale}`}
+                      >
+                        {curves.map((d, i) => (
+                          <path key={i} d={d} />
+                        ))}
+                      </g>
+                      <g filter="url(#figure-blur)">
+                        {nodes.map((node, i) => {
+                          const offset = nodeOffsets[i];
+                          const animStyle = nodeAnimStyle(
+                            offset,
+                            floatSeed(node.row.count),
+                          );
 
-                        if (node.shape === "plus") {
-                          const s = shapeScale("plus", node.size);
+                          if (node.shape === "plus") {
+                            const s = shapeScale("plus", node.size);
+                            return (
+                              <g
+                                key={node.row.count}
+                                transform={`translate(${node.x} ${node.y})`}
+                              >
+                                <g style={animStyle}>
+                                  <path
+                                    d={PLUS_PATH}
+                                    fill={node.color}
+                                    transform={`scale(${s}) translate(${-PLUS_VIEWBOX.w / 2} ${-PLUS_VIEWBOX.h / 2})`}
+                                  />
+                                </g>
+                              </g>
+                            );
+                          }
+                          if (node.shape === "flower") {
+                            const s = shapeScale("flower", node.size);
+                            return (
+                              <g
+                                key={node.row.count}
+                                transform={`translate(${node.x} ${node.y})`}
+                              >
+                                <g style={animStyle}>
+                                  <path
+                                    d={FLOWER_PATH}
+                                    fill={node.color}
+                                    transform={`scale(${s}) translate(${-FLOWER_VIEWBOX.w / 2} ${-FLOWER_VIEWBOX.h / 2})`}
+                                  />
+                                </g>
+                              </g>
+                            );
+                          }
                           return (
                             <g
                               key={node.row.count}
                               transform={`translate(${node.x} ${node.y})`}
                             >
                               <g style={animStyle}>
-                                <path
-                                  d={PLUS_PATH}
+                                <circle
+                                  cx={0}
+                                  cy={0}
+                                  r={node.size / 2}
                                   fill={node.color}
-                                  transform={`scale(${s}) translate(${-PLUS_VIEWBOX.w / 2} ${-PLUS_VIEWBOX.h / 2})`}
                                 />
                               </g>
                             </g>
                           );
-                        }
-                        if (node.shape === "flower") {
-                          const s = shapeScale("flower", node.size);
+                        })}
+                      </g>
+                      {/* Small unblurred black core dot, like a normal node's center. */}
+                      <g fill="#1B1B1B">
+                        {nodes.map((node, i) => {
+                          const offset = nodeOffsets[i];
+                          const dotStyle = nodeAnimStyle(
+                            offset,
+                            floatSeed(node.row.count),
+                          );
                           return (
                             <g
                               key={node.row.count}
                               transform={`translate(${node.x} ${node.y})`}
                             >
-                              <g style={animStyle}>
-                                <path
-                                  d={FLOWER_PATH}
-                                  fill={node.color}
-                                  transform={`scale(${s}) translate(${-FLOWER_VIEWBOX.w / 2} ${-FLOWER_VIEWBOX.h / 2})`}
+                              <g style={dotStyle}>
+                                <circle
+                                  cx={0}
+                                  cy={0}
+                                  r={Math.max(0.5, node.size * 0.08)}
                                 />
                               </g>
                             </g>
                           );
-                        }
-                        return (
-                          <g
-                            key={node.row.count}
-                            transform={`translate(${node.x} ${node.y})`}
-                          >
-                            <g style={animStyle}>
-                              <circle
-                                cx={0}
-                                cy={0}
-                                r={node.size / 2}
-                                fill={node.color}
-                              />
-                            </g>
-                          </g>
-                        );
-                      })}
+                        })}
+                      </g>
                     </g>
-                    {/* Small unblurred black core dot, like a normal node's center. */}
-                    <g fill="#1B1B1B">
-                      {nodes.map((node, i) => {
-                        const offset = nodeOffsets[i];
-                        const dotStyle = nodeAnimStyle(
-                          offset,
-                          floatSeed(node.row.count),
-                        );
-                        return (
-                          <g
-                            key={node.row.count}
-                            transform={`translate(${node.x} ${node.y})`}
-                          >
-                            <g style={dotStyle}>
-                              <circle
-                                cx={0}
-                                cy={0}
-                                r={Math.max(0.5, node.size * 0.08)}
-                              />
-                            </g>
-                          </g>
-                        );
-                      })}
-                    </g>
-                  </g>
-                </svg>
+                  </svg>
+                </div>
+              )}
+            </div>
+
+            {/* The key, set in the margin beside the spiral so it can be read
+                against the thing it describes. Ranged left — the chapter
+                justifies its prose, which would tear holes in lines this
+                short. Centred against the drawing rather than hung from the
+                top, which against a circle reads as stranded. */}
+            <div className="space-y-4 text-left min-[1328px]:col-start-1 min-[1328px]:row-start-1 min-[1328px]:self-center">
+              <div>
+                <p className="mb-2">Shape = category</p>
+                <div className="flex flex-col gap-1.5">
+                  <LegendRow>
+                    <LegendShapeIcon shape="plus" />
+                    professional
+                  </LegendRow>
+                  <LegendRow>
+                    <LegendShapeIcon shape="flower" />
+                    personal
+                  </LegendRow>
+                  <LegendRow>
+                    <LegendShapeIcon shape="circle" />
+                    random
+                  </LegendRow>
+                </div>
               </div>
-            )}
+
+              <div>
+                <p className="mb-2">Color = outcome</p>
+                <div className="flex flex-col gap-1.5">
+                  <LegendRow>
+                    <span
+                      className="inline-block h-3.5 w-3.5 rounded-full"
+                      style={{ backgroundColor: OUTCOME_COLOR.accepted }}
+                    />
+                    accepted
+                  </LegendRow>
+                  <LegendRow>
+                    <span
+                      className="inline-block h-3.5 w-3.5 rounded-full"
+                      style={{ backgroundColor: OUTCOME_COLOR.rejected }}
+                    />
+                    rejected
+                  </LegendRow>
+                  <LegendRow>
+                    <span
+                      className="inline-block h-3.5 w-3.5 rounded-full"
+                      style={{ backgroundColor: OUTCOME_COLOR.pending }}
+                    />
+                    pending
+                  </LegendRow>
+                </div>
+              </div>
+
+              <div>
+                <p className="mb-2">Size = fear level</p>
+                <p className="text-foreground/60">
+                  Bigger nodes are asks that felt scarier to make (1&ndash;3).
+                </p>
+              </div>
+
+              <div>
+                <p className="mb-2">Position = sequence of asks</p>
+                <p className="text-foreground/60">
+                  Each ask spirals outward from the center. #1 sits at the
+                  middle, and the spiral grows as the count goes up.
+                </p>
+              </div>
+            </div>
           </div>
         </>
-      ),
-      // The key sits in the narrow column beside the spiral rather than under
-      // it, so it can be read against the thing it describes instead of after
-      // scrolling past it. One entry per row — two across this width leaves the
-      // longer ones a measure of about four words.
-      media: (
-        <div className="space-y-4">
-          <div>
-            <p className="mb-2">Shape = category</p>
-            <div className="flex flex-col gap-1.5">
-              <LegendRow>
-                <LegendShapeIcon shape="plus" />
-                professional
-              </LegendRow>
-              <LegendRow>
-                <LegendShapeIcon shape="flower" />
-                personal
-              </LegendRow>
-              <LegendRow>
-                <LegendShapeIcon shape="circle" />
-                random
-              </LegendRow>
-            </div>
-          </div>
-
-          <div>
-            <p className="mb-2">Color = outcome</p>
-            <div className="flex flex-col gap-1.5">
-              <LegendRow>
-                <span
-                  className="inline-block h-3.5 w-3.5 rounded-full"
-                  style={{ backgroundColor: OUTCOME_COLOR.accepted }}
-                />
-                accepted
-              </LegendRow>
-              <LegendRow>
-                <span
-                  className="inline-block h-3.5 w-3.5 rounded-full"
-                  style={{ backgroundColor: OUTCOME_COLOR.rejected }}
-                />
-                rejected
-              </LegendRow>
-              <LegendRow>
-                <span
-                  className="inline-block h-3.5 w-3.5 rounded-full"
-                  style={{ backgroundColor: OUTCOME_COLOR.pending }}
-                />
-                pending
-              </LegendRow>
-            </div>
-          </div>
-
-          <div>
-            <p className="mb-2">Size = fear level</p>
-            <p className="text-foreground/60">
-              Bigger nodes are asks that felt scarier to make (1&ndash;3).
-            </p>
-          </div>
-
-          <div>
-            <p className="mb-2">Position = sequence of asks</p>
-            <p className="text-foreground/60">
-              Each ask spirals outward from the center. #1 sits at the middle,
-              and the spiral grows as the count goes up.
-            </p>
-          </div>
-        </div>
       ),
     },
     {
@@ -629,8 +651,7 @@ export default function RejectionsJourneyPage() {
             from the experiment.
           </p>
 
-          <div className="flex items-center justify-between">
-            <p className="text-[#ED2E85]">Field notes</p>
+          <div className="flex items-center justify-end">
             <button
               type="button"
               onClick={() => setNotesNewestFirst((prev) => !prev)}
@@ -646,7 +667,11 @@ export default function RejectionsJourneyPage() {
             </button>
           </div>
 
-          <div className="flex flex-col gap-3">
+          {/* Four notes deep, then it scrolls, so the list stays a panel beside
+              the article instead of growing without end as notes are added.
+              The height is four short cards and the gaps between them; a long
+              note naturally shows fewer. */}
+          <div className="flex max-h-[380px] flex-col gap-3 overflow-y-auto pr-2">
             {sortedFieldNotes.map((note, i) => (
               <div
                 key={`${note.date}-${i}`}
@@ -677,18 +702,39 @@ export default function RejectionsJourneyPage() {
           </p>
         </>
       ),
-      media: (
-        <>
-          {/* The sketch is the point of the chapter, so it runs the column's
-              full width; the two references it was drawn against share a row
-              underneath it. */}
-          <Image
-            src={h1Image}
-            alt="Sketches working out what each element of the visualization should represent"
-            className="h-auto w-full"
-          />
+    },
+    {
+      // The sketches are what the process came out as, so they follow it at the
+      // page's full width instead of shrinking into the picture column beside
+      // the paragraph that describes them.
+      id: "process-artefacts",
+      label: "sketches and visual references",
+      full: true,
+      content: (
+        // The sketch in one column and the two references stacked flush in the
+        // other, so the pair reads as one picture with one caption.
+        //
+        // The column widths are not a choice: they are what makes the stack
+        // come out exactly as tall as the sketch beside it. The sketch is 1.130
+        // wide to 1 tall and the two references 1:1 and 0.728:1, so at column
+        // widths a and b the two heights are a/1.130 and b(1/1 + 1/0.728) =
+        // 2.374b. Setting those equal gives a = 2.68b, which is the ratio the
+        // two fr units are in. items-start, so the shorter column is not
+        // stretched to the taller if the caption lengths differ.
+        <div className="grid items-start gap-8 min-[768px]:grid-cols-[2.68fr_1fr]">
+          <figure>
+            <Image
+              src={h1Image}
+              alt="Sketches working out what each element of the visualization should represent"
+              className="block h-auto w-full"
+            />
+            <ImageCaption>
+              My sketching, working out what time, fear and outcome should look
+              like.
+            </ImageCaption>
+          </figure>
 
-          <div className="grid grid-cols-2 gap-4">
+          <figure>
             <a
               href="https://dk.pinterest.com/pin/787918897354920626/"
               target="_blank"
@@ -701,7 +747,6 @@ export default function RejectionsJourneyPage() {
                 className="block h-auto w-full"
               />
             </a>
-
             <a
               href="https://dk.pinterest.com/pin/787918897354920072/"
               target="_blank"
@@ -714,8 +759,19 @@ export default function RejectionsJourneyPage() {
                 className="block h-auto w-full"
               />
             </a>
-          </div>
-        </>
+            <ImageCaption>
+              The references I drew it against, found{" "}
+              <CaptionLink href="https://dk.pinterest.com/pin/787918897354920626/">
+                here
+              </CaptionLink>{" "}
+              and{" "}
+              <CaptionLink href="https://dk.pinterest.com/pin/787918897354920072/">
+                here
+              </CaptionLink>
+              .
+            </ImageCaption>
+          </figure>
+        </div>
       ),
     },
   ];
@@ -725,7 +781,7 @@ export default function RejectionsJourneyPage() {
   return (
     <ArticleColumn
       title="1000 rejections"
-      year="2026-2027 creative data visualization"
+      year="2026-2027"
       chapters={chapters}
     />
   );
@@ -733,6 +789,37 @@ export default function RejectionsJourneyPage() {
 
 function LegendRow({ children }: { children: React.ReactNode }) {
   return <div className="flex items-center gap-2">{children}</div>;
+}
+
+// What a picture is, set under it. Greyed and ranged left, so it reads as a
+// note on the picture rather than as another line of the article.
+function ImageCaption({ children }: { children: React.ReactNode }) {
+  return (
+    <figcaption className="mt-3 text-left text-foreground/50">
+      {children}
+    </figcaption>
+  );
+}
+
+// A source credited inside a caption. Underlined, since a caption is already
+// grey and a colour change alone would not read as a link there.
+function CaptionLink({
+  href,
+  children,
+}: {
+  href: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <a
+      href={href}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="underline underline-offset-2 transition-colors duration-200 hover:text-[#ED2E85]"
+    >
+      {children}
+    </a>
+  );
 }
 
 // Two small arrows (one up, one down) indicating the notes list can be

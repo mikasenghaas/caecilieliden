@@ -167,8 +167,9 @@ Two optional settings on a chapter:
 - `full: true` runs the chapter across the whole width of the page and hides its
   heading. Use it for one thing that deserves the full measure — a video, or a
   set of pictures that belong under the chapter above rather than beside it.
-- `centerMedia: true` centres the pictures against the text instead of hanging
-  them from the top. Useful when the text column is one tall thing.
+- `showLabel: true` puts the heading back on a full-width chapter, for one that
+  is a section of the article in its own right rather than pictures belonging to
+  the section above it.
 
 **To add a new project:**
 
