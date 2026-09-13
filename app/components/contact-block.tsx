@@ -70,7 +70,7 @@ export function SocialLinks() {
                 {...(SOCIALS[name].startsWith("http")
                   ? { target: "_blank", rel: "noopener noreferrer" }
                   : {})}
-                className="transition-colors duration-200 ease-out hover:text-[#ED2E85]"
+                className="text-[#ED2E85] transition-colors duration-200 ease-out hover:text-black"
               >
                 {name}
               </Link>
