@@ -31,11 +31,27 @@ import HorizontalPageSwipe from "@/app/components/horizontal-page-swipe";
 // padding stays 16 and small windows keep their width.
 //
 // 986  = 174 padding + 288 sidebar + 64 gap + 460 card.
-// 1440 = 174 padding + 288 sidebar + 34 gap + 944 wide card. The gap is the
-// narrower of the two there because that is what buys the wide card its 944
-// back out of the width the bigger margins take.
+// 1382 = 174 padding + 240 sidebar + 24 gap + 944 wide card.
+//
+// The wide card needs 944, and those three numbers are what the window has to
+// give it before it can be drawn. At 288 and 34 the sum came to 1440, which is
+// also where the frame stops growing — so the wide card appeared at exactly one
+// window width and the cards were square on anything smaller. Taking the
+// sidebar to 240 and the gap to 24 buys it 58px sooner.
+//
+// Both of those only change from 1328 up. Below that the square card is exactly
+// 460 because of the 288 and the 64, so the narrower pair would widen it.
+//
+// The cap moves with the sum rather than staying at 1440: the content column is
+// meant to be exactly a card wide at the top end, and any width past the sum
+// would be leftover that only that column could absorb, which is what would
+// stop the bio and the projects centring on screen as one block.
 const CONTAINER =
-  "mx-auto w-full max-w-[844px] px-4 min-[1024px]:max-w-[986px] min-[1024px]:px-[87px] min-[1328px]:max-w-[1440px]";
+  "mx-auto w-full max-w-[844px] px-4 min-[1024px]:max-w-[986px] min-[1024px]:px-[87px] min-[1328px]:max-w-[1382px]";
+
+// The sidebar, and the spacer that keeps its width in the flow. The two are
+// the same column and must not drift apart.
+const SIDEBAR = "w-72 min-[1328px]:w-60";
 
 export default function SiteFrame({ children }: { children: ReactNode }) {
   const headerRef = useRef<HTMLElement>(null);
@@ -101,7 +117,7 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
       </header>
 
       <main className={`${CONTAINER} pb-16`}>
-        <div className="flex flex-col lg:flex-row gap-10 min-[1024px]:gap-16 min-[1328px]:gap-[34px]">
+        <div className="flex flex-col lg:flex-row gap-10 min-[1024px]:gap-16 min-[1328px]:gap-6">
           {/* Bio in the stacked layout — the lg version is rendered fixed
               below. Capped to a card's width so the justified word rows never
               stretch wider than the projects sitting underneath them. */}
@@ -110,7 +126,7 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
           </div>
 
           {/* Spacer preserving the sidebar's width in the layout on desktop */}
-          <div className="hidden lg:block lg:w-72 shrink-0" />
+          <div className={`hidden lg:block shrink-0 ${SIDEBAR}`} />
 
           {/* Page content. lg:flex-1 is load-bearing: without it this column
               is shrink-to-fit, so its width is whatever its contents claim.
@@ -149,7 +165,9 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
         style={{ top: "var(--header-height, 5.5rem)" }}
       >
         <div className={`${CONTAINER} flex`}>
-          <div className="w-72 pointer-events-auto flex flex-col justify-between">
+          <div
+            className={`pointer-events-auto flex flex-col justify-between ${SIDEBAR}`}
+          >
             <BioBlock />
             <InternshipNote />
             <SocialLinks />
