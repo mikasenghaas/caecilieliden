@@ -272,12 +272,12 @@ export default function ArticleColumn({
                 className="scroll-mt-16 [&:not(:last-child)]:mb-20"
               >
                 {/* Two rows, not one: the heading has the first to itself and
-                    both columns start in the second. That is what puts the top
-                    of the first picture level with the first line of prose
-                    rather than with the heading above it, and it holds however
-                    tall the heading turns out to be — a wrapped one pushes both
-                    columns down together. A full-width chapter keeps the single
-                    column it already has at every width. */}
+                    the text starts in the second, so a wrapped heading pushes
+                    the prose down rather than overlapping it. The pictures span
+                    both rows, which is what puts the top of the first one level
+                    with the heading rather than with the first line of prose.
+                    A full-width chapter keeps the single column it already has
+                    at every width. */}
                 <div
                   className={`grid grid-cols-1 gap-x-12 gap-y-4 ${
                     left === null ? "" : left ? TEXT_LEFT : TEXT_RIGHT
@@ -312,15 +312,14 @@ export default function ArticleColumn({
                     {chapter.content}
                   </div>
 
-                  {/* Second row, like the text: the pictures start level with
-                      the chapter's first line of prose, not with the heading
-                      above it. Held to the top of that row rather than
-                      stretched down it, so a short run of pictures sits beside
-                      the start of the text instead of spreading to match its
-                      height. */}
+                  {/* Spanning both rows, so the pictures start level with the
+                      chapter's heading rather than with its first line of
+                      prose. Held to the top of that span rather than stretched
+                      down it, so a short run of pictures sits beside the start
+                      of the chapter instead of spreading to match its height. */}
                   {left !== null && (
                     <div
-                      className={`mt-4 space-y-8 self-start min-[768px]:mt-0 min-[768px]:row-start-2 ${
+                      className={`mt-4 space-y-8 self-start min-[768px]:mt-0 min-[768px]:row-start-1 min-[768px]:row-span-2 ${
                         left
                           ? "min-[768px]:col-start-2"
                           : "min-[768px]:col-start-1"
