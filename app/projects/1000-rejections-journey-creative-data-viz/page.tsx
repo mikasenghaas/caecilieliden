@@ -390,22 +390,18 @@ export default function RejectionsJourneyPage() {
       showLabel: true,
       content: (
         <>
-          {/* Two separate children, not a stacked pair, so the chapter's own
-              paragraph spacing sets them a line apart. */}
-          <p className="text-[#ED2E85]">{totalAsks} asks made so far</p>
-          {lastEntryDate && (
-            <p className="text-foreground/50">Last updated {lastEntryDate}</p>
-          )}
+          {/* The spiral held to the right of the chapter with the reading and
+              the key in the space left beside it. Only from 1328, where the
+              page is at its full 1266 and there is room for both; below that
+              the two stack and the key falls under the spiral.
 
-          {errorMessage && rows.length > 0 && (
-            <p className="text-[#D6473C]">{errorMessage}</p>
-          )}
-
-          {/* The spiral held to the right of the chapter with the key in the
-              space left beside it. Only from 1328, where the page is at its
-              full 1266 and there is room for both; below that the two stack and
-              the key falls under the spiral. */}
-          <div className="grid gap-8 min-[1328px]:grid-cols-[minmax(0,1fr)_700px]">
+              Pulled up a heading's worth so the top of the spiral lands level
+              with "live data visualization", the way a picture does against
+              its chapter heading. 38 is that heading's 22px line and the 16px
+              gap-y-4 the chapter's rows sit apart. The left-hand column pads
+              the same amount back on, so only the spiral rises and the reading
+              still starts below the heading rather than beside it. */}
+          <div className="grid gap-8 min-[1328px]:-mt-[38px] min-[1328px]:grid-cols-[minmax(0,1fr)_700px]">
             {/* Kept square: the SVG's own viewBox keeps the spiral circular and
                 centred whatever the column's width, so it scales to fit rather
                 than forcing the page sideways. Capped rather than filling the
@@ -575,7 +571,20 @@ export default function RejectionsJourneyPage() {
                 justifies its prose, which would tear holes in lines this
                 short. Centred against the drawing rather than hung from the
                 top, which against a circle reads as stranded. */}
-            <div className="space-y-4 text-left min-[1328px]:col-start-1 min-[1328px]:row-start-1 min-[1328px]:self-center">
+            <div className="space-y-4 text-left min-[1328px]:col-start-1 min-[1328px]:row-start-1 min-[1328px]:self-start min-[1328px]:pt-[38px]">
+              {/* Two separate children, not a stacked pair, so the column's
+                  own spacing sets them a line apart. */}
+              <p className="text-[#ED2E85]">{totalAsks} asks made so far</p>
+              {lastEntryDate && (
+                <p className="text-foreground/50">
+                  Last updated {lastEntryDate}
+                </p>
+              )}
+
+              {errorMessage && rows.length > 0 && (
+                <p className="text-[#D6473C]">{errorMessage}</p>
+              )}
+
               <div>
                 <p className="mb-2">Shape = category</p>
                 <div className="flex flex-col gap-1.5">
