@@ -10,8 +10,8 @@ const BIO_GROUPS: string[][][] = [
   ],
   [
     ["currently", "exploring"],
-    ["play", "through", "design"],
-    ["and", "people-first", "approaches"],
+    ["design", "through", "play"],
+    ["&", "people-first", "approaches"],
   ],
   [
     ["this", "is", "my"],
@@ -28,7 +28,11 @@ export default function BioBlock() {
           {group.map((line, lineIndex) => (
             <div key={lineIndex} className="flex justify-between gap-3.5">
               {line.map((word, wordIndex) => (
-                <span key={wordIndex}>{word}</span>
+                // nowrap so a hyphenated word like "people-first" stays one
+                // word instead of breaking at the hyphen onto its own line.
+                <span key={wordIndex} className="whitespace-nowrap">
+                  {word}
+                </span>
               ))}
             </div>
           ))}
