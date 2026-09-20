@@ -176,10 +176,19 @@ const SQUARE_OUTLINE = outlineFor(SQUARE_W, 10, 10);
 //   sides, square board   26/470 = 5.5319%
 //   sides, wide board     26/964 = 2.6971%
 //   top and bottom        31/470 = 6.5957%   (both boards are 470 tall)
-//   left column ends at 470   (964-470)/964 = 51.2448%
+//   left column ends at 444   (964-444)/964 = 53.9419%
 //   right column starts at 488     488/964 = 50.6224%
+//
+// The left column is the same 26..444 on both boards, because the wide board's
+// left half *is* the square board: the same 470 with the same inset each side.
+// It used to run on to 470 there, 26 further than on the square, and those 26
+// were the whole of the awkwardness in the switch — they widened the artwork,
+// and by widening the column they also pulled the title up a line, which moved
+// the artwork as well as resized it. Held to the square's inset, the left
+// column is identical in both and nothing in it moves; the card simply grows a
+// second column to the right of it.
 const COLUMN_BAND = "top-[6.5957%] bottom-[6.5957%]";
-const LEFT_COLUMN = `left-[5.5319%] right-[5.5319%] @min-[944px]:left-[2.6971%] @min-[944px]:right-[51.2448%]`;
+const LEFT_COLUMN = `left-[5.5319%] right-[5.5319%] @min-[944px]:left-[2.6971%] @min-[944px]:right-[53.9419%]`;
 const RIGHT_COLUMN = `left-[50.6224%] right-[2.6971%]`;
 
 export interface Artwork {
@@ -187,8 +196,8 @@ export interface Artwork {
 }
 
 export interface CardDesign {
-  /** Title, pre-broken into the lines the artboard uses. */
-  lines: string[];
+  /** The short title as set on the card. */
+  heading: string;
   footer: string;
   artwork: Artwork[];
   /** Optional label above the intro. A colour marks it with a dot as a status. */
@@ -208,7 +217,7 @@ export default function ArtboardCard({
   title: string;
   design: CardDesign;
 }) {
-  const { lines, footer, artwork, tag, description, keywords } = design;
+  const { heading, footer, artwork, tag, description, keywords } = design;
 
   return (
     <Link
@@ -232,7 +241,12 @@ export default function ArtboardCard({
           absorbs the whole difference between a one-line and a three-line
           title and the year stays pinned to the bottom either way. */}
       <div className={`absolute flex flex-col ${COLUMN_BAND} ${LEFT_COLUMN}`}>
-        <span className="whitespace-pre-line">{lines.join("\n")}</span>
+        {/* One running sentence, broken wherever the column runs out. The
+            artboard sets a subtitle like "Akuttelefonen 1813" on a line of its
+            own, but a break held there is a break that has to be right in both
+            boards, and it read as a gap in the middle of a title that was not
+            otherwise full. */}
+        <span>{heading}</span>
 
         {/* min-h-0 lets this shrink below the image's own height, which is what
             stops a tall picture from pushing the year off the bottom. The

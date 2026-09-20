@@ -14,10 +14,8 @@ const projects: {
     title:
       "Co-designing AI for the Danish emergency medical helpline Akuttelefonen 1813 (Bachelor Thesis Project)",
     design: {
-      lines: [
-        "Co-designing AI for the Danish emergency medical helpline",
-        "Akuttelefonen 1813",
-      ],
+      heading:
+        "Co-designing AI for the Danish emergency medical helpline Akuttelefonen 1813",
       footer: "2026",
       tag: { label: "Bachelor Thesis Project" },
       description:
@@ -30,7 +28,7 @@ const projects: {
     href: "/projects/led-installation-strangers-transit",
     title: "Strangers on Transit LED Installation",
     design: {
-      lines: ["Strangers on transit"],
+      heading: "Strangers on transit",
       footer: "2026",
       description:
         "On transport we sit together but disappear into our phones. I built a playful LED system that lets strangers connect through low stakes interaction.",
@@ -44,7 +42,7 @@ const projects: {
     href: "/projects/1000-rejections-journey-creative-data-viz",
     title: "1000 Rejections, a Live Experiment and Creative Data Visualization",
     design: {
-      lines: ["1000 rejections"],
+      heading: "1000 rejections",
       footer: "2026-2027",
       tag: { label: "Live Experiment", color: "#EE2427" },
       description:
@@ -63,7 +61,7 @@ const projects: {
     href: "/projects/codesign-project",
     title: "Co-designing with a Live-Action Roleplay Community",
     design: {
-      lines: ["Co-design with a", "live-action roleplay community"],
+      heading: "Co-design with a live-action roleplay community",
       footer: "2025",
       description:
         "Long check in queues at events were wearing the volunteers down. With them we co-designed a QR-code check in that cuts the manual work.",
@@ -80,7 +78,12 @@ export default function Home() {
     // is going. The switch is a container query on the content column, so it
     // happens the moment that column really can hold a 944px card and not a
     // pixel before — see the note on the container in SiteFrame.
-    <div className="mx-auto flex max-w-[460px] flex-wrap content-start justify-center gap-6 @min-[944px]:max-w-[944px]">
+    // mx-auto only while the page is stacked, where the cards centre under the
+    // bio. Once the bio is a sidebar the cards start at the left edge of their
+    // column: the column can be wider than a square card (any window from 1328
+    // up to the 1382 the wide card needs), and centring in it opened a gap
+    // beside the bio that was not the layout's gap.
+    <div className="mx-auto lg:mx-0 flex max-w-[460px] flex-wrap content-start justify-center gap-6 @min-[944px]:max-w-[944px]">
       {projects.map((project) => (
         <ArtboardCard key={project.href} {...project} />
       ))}
