@@ -30,28 +30,38 @@ import HorizontalPageSwipe from "@/app/components/horizontal-page-swipe";
 // in the flow at the top of the page and needs no room beside it, so the
 // padding stays 16 and small windows keep their width.
 //
-// 986  = 174 padding + 288 sidebar + 64 gap + 460 card.
+// 946  = 174 padding + 288 sidebar + 24 gap + 460 card.
 // 1382 = 174 padding + 240 sidebar + 24 gap + 944 wide card.
 //
-// The wide card needs 944, and those three numbers are what the window has to
-// give it before it can be drawn. At 288 and 34 the sum came to 1440, which is
-// also where the frame stops growing — so the wide card appeared at exactly one
-// window width and the cards were square on anything smaller. Taking the
-// sidebar to 240 and the gap to 24 buys it 58px sooner.
+// The gap is 24 at every width. It is the distance between the bio and the
+// projects, and that distance should not change just because the cards have
+// changed shape — only the sidebar does, from 288 to 240 at the width below.
 //
-// Both of those only change from 1328 up. Below that the square card is exactly
-// 460 because of the 288 and the 64, so the narrower pair would widen it.
+// The wide card needs 944, and 1382 is the narrowest page that can hold one,
+// which is why the sidebar goes to 240 there rather than staying at 288.
 //
-// The cap moves with the sum rather than staying at 1440: the content column is
-// meant to be exactly a card wide at the top end, and any width past the sum
-// would be leftover that only that column could absorb, which is what would
-// stop the bio and the projects centring on screen as one block.
+// The switch is written at 1400 rather than 1382 because a media query is asked
+// about the window and the frame is drawn on the page, and a classic scrollbar
+// is part of the window but not of the page. At 1382 exactly, a window with a
+// scrollbar answered "wide" while the page behind it was still short of 944, so
+// the frame grew but the cards stayed square. 1400 is 1382 plus room for the
+// widest of those bars, so the frame only grows once the page can really hold
+// the wide card.
+//
+// Everything changes at that one width, and nothing before it. The frame, the
+// sidebar and the filter's padding all move together, so on any window under it
+// the frame is 946 and holds a 288 sidebar, a 24 gap and a 460 card with
+// nothing over — the block stays centred on screen with the leftover width
+// split evenly either side of it. Growing the frame ahead of the wide card
+// would hand all of that leftover to the content column, which is the one
+// column that can absorb it, and the cards would sit alone in the middle of the
+// window with the white space piled up to their right.
 const CONTAINER =
-  "mx-auto w-full max-w-[844px] px-4 min-[1024px]:max-w-[986px] min-[1024px]:px-[87px] min-[1328px]:max-w-[1382px]";
+  "mx-auto w-full max-w-[844px] px-4 min-[1024px]:max-w-[946px] min-[1024px]:px-[87px] min-[1400px]:max-w-[1382px]";
 
 // The sidebar, and the spacer that keeps its width in the flow. The two are
 // the same column and must not drift apart.
-const SIDEBAR = "w-72 min-[1328px]:w-60";
+const SIDEBAR = "w-72 min-[1400px]:w-60";
 
 export default function SiteFrame({ children }: { children: ReactNode }) {
   const headerRef = useRef<HTMLElement>(null);
@@ -94,30 +104,33 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
           only the filter. */}
       <FlowerLink />
 
-      <header ref={headerRef} className={`${CONTAINER} pt-4 pb-6 sm:pt-12`}>
+      {/* The filter always starts under the flower, never beside it. 87 is the
+          flower's 16px corner, its 55px, and the same 16 again, so the filter
+          is held off the flower by the distance the flower is held off the
+          corner — the same 87 the content is inset from the left. One number at
+          every width, so the filter never moves up or down as the window is
+          resized. */}
+      <header ref={headerRef} className={`${CONTAINER} pt-[87px] pb-6`}>
         {/* Stacked: the filter is right-aligned to the content column below it
             (the bio and cards, capped at a card's width and centred), not to
             the window, so it stays flush with their right edge as the window
             widens. From lg the column is offset by the sidebar + its gap
             instead, putting the filter directly above the projects. The row
-            keeps the flower's 55px as a minimum so the header is identical in
-            both, but may grow if the pills wrap on a narrow window. */}
+            keeps the flower's 55px as a minimum so the header is the same
+            height in both, but may grow if the pills wrap on a narrow
+            window. */}
         {/* The left padding is the sidebar plus the gap beside it, so the
             filter starts exactly above the projects. Both are written as
             arbitrary min-widths rather than one named and one arbitrary, so
             Tailwind sorts them by number and the wider one really does land
-            last — the gap narrows at 1328 and this has to follow it. */}
-        <div className="mx-auto flex min-h-[55px] w-full max-w-[460px] flex-row items-end justify-between gap-3 sm:items-center sm:justify-end lg:mx-0 lg:max-w-none lg:justify-start min-[1024px]:pl-[352px] min-[1328px]:pl-[264px]">
-          {/* Below sm the flower overlaps this row, so the filter is held
-              clear of it. Above sm the row is right-aligned and the two never
-              meet. */}
-          <div aria-hidden className="size-[55px] shrink-0 sm:hidden" />
+            last — the sidebar narrows at 1400 and this has to follow it. */}
+        <div className="mx-auto flex min-h-[55px] w-full max-w-[460px] flex-row items-center justify-end gap-3 lg:mx-0 lg:max-w-none lg:justify-start min-[1024px]:pl-[312px] min-[1400px]:pl-[264px]">
           <PageNav />
         </div>
       </header>
 
       <main className={`${CONTAINER} pb-16`}>
-        <div className="flex flex-col lg:flex-row gap-10 min-[1024px]:gap-16 min-[1328px]:gap-6">
+        <div className="flex flex-col lg:flex-row gap-10 min-[1024px]:gap-6">
           {/* Bio in the stacked layout — the lg version is rendered fixed
               below. Capped to a card's width so the justified word rows never
               stretch wider than the projects sitting underneath them. */}
