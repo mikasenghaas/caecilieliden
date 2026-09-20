@@ -16,12 +16,7 @@ export const PAGES = [
 // (36px) height, which makes those caps true half-circles.
 const CAP_WIDTH = 18;
 
-// The CV lives in public/ so it is served as a plain file and opens in the
-// browser's own PDF viewer rather than being routed through the app.
-const RESUME_HREF = "/caecilie-bode-resume.pdf";
-
-// The capsule itself, shared by the page filters and the resumé link so the
-// two can never drift apart.
+// The capsule shared by every page filter, so they can never drift apart.
 function Pill({ active, children }: { active: boolean; children: string }) {
   return (
     <span
@@ -59,8 +54,6 @@ export default function PageNav() {
   };
 
   return (
-    // w-full so the resumé link's ml-auto has room to push it to the far edge
-    // of the content column, rather than the nav shrink-wrapping its pills.
     <nav className="flex w-full flex-wrap items-center justify-start gap-[10px]">
       {PAGES.map((page) => {
         const isActive = pathname === page.href;
@@ -77,16 +70,6 @@ export default function PageNav() {
           </Link>
         );
       })}
-
-      <a
-        href={RESUME_HREF}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="resumé (PDF, opens in a new tab)"
-        className="ml-auto block h-9"
-      >
-        <Pill active={false}>resumé</Pill>
-      </a>
     </nav>
   );
 }
