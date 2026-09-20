@@ -107,7 +107,7 @@ export default function SiteFrame({ children }: { children: ReactNode }) {
             arbitrary min-widths rather than one named and one arbitrary, so
             Tailwind sorts them by number and the wider one really does land
             last — the gap narrows at 1328 and this has to follow it. */}
-        <div className="mx-auto flex min-h-[55px] w-full max-w-[460px] flex-row items-end justify-between gap-3 sm:items-center sm:justify-end lg:mx-0 lg:max-w-none lg:justify-start min-[1024px]:pl-[352px] min-[1328px]:pl-[322px]">
+        <div className="mx-auto flex min-h-[55px] w-full max-w-[460px] flex-row items-end justify-between gap-3 sm:items-center sm:justify-end lg:mx-0 lg:max-w-none lg:justify-start min-[1024px]:pl-[352px] min-[1328px]:pl-[264px]">
           {/* Below sm the flower overlaps this row, so the filter is held
               clear of it. Above sm the row is right-aligned and the two never
               meet. */}
